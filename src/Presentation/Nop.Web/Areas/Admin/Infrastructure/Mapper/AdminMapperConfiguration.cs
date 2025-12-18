@@ -365,7 +365,6 @@ public partial class AdminMapperConfiguration : Profile, IOrderedMapperProfile
     protected virtual void CreateLocalizationMaps()
     {
         CreateMap<Language, LanguageModel>()
-            .ForMember(model => model.AvailableCurrencies, options => options.Ignore())
             .ForMember(model => model.LocaleResourceSearchModel, options => options.Ignore())
             .ForMember(model => model.AvailableFlagImages, options => options.Ignore());
         CreateMap<LanguageModel, Language>();

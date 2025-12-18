@@ -144,7 +144,6 @@ public partial class CommonModelFactory : ICommonModelFactory
         _eventPublisher = eventPublisher;
         _dataProvider = dataProvider;
         _dateTimeHelper = dateTimeHelper;
-        _exchangeRatePluginManager = exchangeRatePluginManager;
         _httpContextAccessor = httpContextAccessor;
         _languageService = languageService;
         _localizationService = localizationService;
