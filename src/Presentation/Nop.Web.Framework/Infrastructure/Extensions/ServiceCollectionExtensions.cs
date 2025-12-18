@@ -18,9 +18,7 @@ using Nop.Core.Http;
 using Nop.Core.Infrastructure;
 using Nop.Core.Security;
 using Nop.Data;
-using Nop.Services.ArtificialIntelligence;
 using Nop.Services.Authentication;
-using Nop.Services.Authentication.External;
 using Nop.Services.Common;
 using Nop.Web.Framework.Mvc.ModelBinding;
 using Nop.Web.Framework.Mvc.ModelBinding.Binders;
@@ -107,7 +105,8 @@ public static class ServiceCollectionExtensions
         var mvcCoreBuilder = services.AddMvcCore();
         var pluginConfig = new PluginConfig();
         builder.Configuration.GetSection(nameof(PluginConfig)).Bind(pluginConfig, options => options.BindNonPublicProperties = true);
-        mvcCoreBuilder.PartManager.InitializePlugins(pluginConfig);
+        // Plugin functionality removed - InitializePlugins call removed
+        // mvcCoreBuilder.PartManager.InitializePlugins(pluginConfig);
 
         //bind plugins configurations
         services.BindApplicationSettings(builder);
@@ -285,12 +284,6 @@ public static class ServiceCollectionExtensions
 
         //register and configure external authentication plugins now
         var typeFinder = Singleton<ITypeFinder>.Instance;
-        var externalAuthConfigurations = typeFinder.FindClassesOfType<IExternalAuthenticationRegistrar>();
-        var externalAuthInstances = externalAuthConfigurations
-            .Select(x => (IExternalAuthenticationRegistrar)Activator.CreateInstance(x));
-
-        foreach (var instance in externalAuthInstances)
-            instance.Configure(authenticationBuilder);
     }
 
     /// <summary>
@@ -448,8 +441,5 @@ public static class ServiceCollectionExtensions
 
         //client to request reCAPTCHA service
         services.AddHttpClient<CaptchaHttpClient>().WithProxy();
-
-        //client to request artificial intelligence service
-        services.AddHttpClient<ArtificialIntelligenceHttpClient>().WithProxy();
     }
 }

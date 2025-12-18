@@ -1,6 +1,4 @@
-﻿using Nop.Core.Domain.FilterLevels;
-using Nop.Core.Domain.Gdpr;
-using Nop.Web.Areas.Admin.Models.Settings;
+﻿using Nop.Web.Areas.Admin.Models.Settings;
 
 namespace Nop.Web.Areas.Admin.Factories;
 
@@ -19,147 +17,22 @@ public partial interface ISettingModelFactory
     /// </returns>
     Task<AppSettingsModel> PrepareAppSettingsModel(AppSettingsModel model = null);
 
-    /// <summary>
-    /// Prepare blog settings model
-    /// </summary>
-    /// <param name="model">Blog settings model</param>
-    /// <returns>
-    /// A task that represents the asynchronous operation
-    /// The task result contains the blog settings model
-    /// </returns>
-    Task<BlogSettingsModel> PrepareBlogSettingsModelAsync(BlogSettingsModel model = null);
+    //COMMERCE FEATURES REMOVED - Phase C
+    //Removed: PrepareBlogSettingsModelAsync (blog feature)
+    //Removed: PrepareVendorSettingsModelAsync (vendor feature)
+    //Removed: PrepareForumSettingsModelAsync (forum feature)
+    //Removed: PrepareNewsSettingsModelAsync (news feature)
+    //Removed: PrepareShippingSettingsModelAsync (shipping feature)
+    //Removed: PrepareTaxSettingsModelAsync (tax feature)
+    //Removed: PrepareCatalogSettingsModelAsync (catalog feature)
+    //Removed: PrepareFilterLevelSettingsModelAsync (filter level feature)
+    //Removed: PrepareFilterLevelListModelAsync (filter level feature)
+    //Removed: PrepareFilterLevelModelAsync (filter level feature)
 
-    /// <summary>
-    /// Prepare vendor settings model
-    /// </summary>
-    /// <param name="model">Vendor settings model</param>
-    /// <returns>
-    /// A task that represents the asynchronous operation
-    /// The task result contains the vendor settings model
-    /// </returns>
-    Task<VendorSettingsModel> PrepareVendorSettingsModelAsync(VendorSettingsModel model = null);
-
-    /// <summary>
-    /// Prepare forum settings model
-    /// </summary>
-    /// <param name="model">Forum settings model</param>
-    /// <returns>
-    /// A task that represents the asynchronous operation
-    /// The task result contains the forum settings model
-    /// </returns>
-    Task<ForumSettingsModel> PrepareForumSettingsModelAsync(ForumSettingsModel model = null);
-
-    /// <summary>
-    /// Prepare news settings model
-    /// </summary>
-    /// <param name="model">News settings model</param>
-    /// <returns>
-    /// A task that represents the asynchronous operation
-    /// The task result contains the news settings model
-    /// </returns>
-    Task<NewsSettingsModel> PrepareNewsSettingsModelAsync(NewsSettingsModel model = null);
-
-    /// <summary>
-    /// Prepare shipping settings model
-    /// </summary>
-    /// <param name="model">Shipping settings model</param>
-    /// <returns>
-    /// A task that represents the asynchronous operation
-    /// The task result contains the shipping settings model
-    /// </returns>
-    Task<ShippingSettingsModel> PrepareShippingSettingsModelAsync(ShippingSettingsModel model = null);
-
-    /// <summary>
-    /// Prepare tax settings model
-    /// </summary>
-    /// <param name="model">Tax settings model</param>
-    /// <returns>
-    /// A task that represents the asynchronous operation
-    /// The task result contains the ax settings model
-    /// </returns>
-    Task<TaxSettingsModel> PrepareTaxSettingsModelAsync(TaxSettingsModel model = null);
-
-    /// <summary>
-    /// Prepare catalog settings model
-    /// </summary>
-    /// <param name="model">Catalog settings model</param>
-    /// <returns>
-    /// A task that represents the asynchronous operation
-    /// The task result contains the catalog settings model
-    /// </returns>
-    Task<CatalogSettingsModel> PrepareCatalogSettingsModelAsync(CatalogSettingsModel model = null);
-
-    /// <summary>
-    /// Prepare filter level settings model
-    /// </summary>
-    /// <param name="model">Filter level settings model</param>
-    /// <returns>
-    /// A task that represents the asynchronous operation
-    /// The task result contains the filter level settings model
-    /// </returns>
-    Task<FilterLevelSettingsModel> PrepareFilterLevelSettingsModelAsync(FilterLevelSettingsModel model = null);
-
-    /// <summary>
-    /// Prepare paged filter level list model
-    /// </summary>
-    /// <param name="searchModel">Filter level search model</param>
-    /// <returns>
-    /// A task that represents the asynchronous operation
-    /// The task result contains the filter level list model
-    /// </returns>
-    Task<FilterLevelListModel> PrepareFilterLevelListModelAsync(FilterLevelSearchModel searchModel);
-
-    /// <summary>
-    /// Prepare filter level model
-    /// </summary>
-    /// <param name="model">Filter level model</param>
-    /// <param name="filterLevel">Filter level</param>
-    /// <param name="excludeProperties">Whether to exclude populating of some properties of model</param>
-    /// <returns>
-    /// A task that represents the asynchronous operation
-    /// The task result contains the filter level model
-    /// </returns>
-    Task<FilterLevelModel> PrepareFilterLevelModelAsync(FilterLevelModel model, FilterLevelEnum filterLevel, bool excludeProperties = false);
-
-    /// <summary>
-    /// Prepare paged sort option list model
-    /// </summary>
-    /// <param name="searchModel">Sort option search model</param>
-    /// <returns>
-    /// A task that represents the asynchronous operation
-    /// The task result contains the sort option list model
-    /// </returns>
-    Task<SortOptionListModel> PrepareSortOptionListModelAsync(SortOptionSearchModel searchModel);
-
-    /// <summary>
-    /// Prepare reward points settings model
-    /// </summary>
-    ///<param name="model">Reward points settings model</param>
-    /// <returns>
-    /// A task that represents the asynchronous operation
-    /// The task result contains the reward points settings model
-    /// </returns>
-    Task<RewardPointsSettingsModel> PrepareRewardPointsSettingsModelAsync(RewardPointsSettingsModel model = null);
-
-    /// <summary>
-    /// Prepare order settings model
-    /// </summary>
-    /// <param name="model">Order settings model</param>
-    /// <returns>
-    /// A task that represents the asynchronous operation
-    /// The task result contains the order settings model
-    /// </returns>
-    Task<OrderSettingsModel> PrepareOrderSettingsModelAsync(OrderSettingsModel model = null);
-
-    /// <summary>
-    /// Prepare shopping cart settings model
-    /// </summary>
-    /// <param name="model">Shopping cart settings model</param>
-    /// <returns>
-    /// A task that represents the asynchronous operation
-    /// The task result contains the shopping cart settings model
-    /// </returns>
-    Task<ShoppingCartSettingsModel> PrepareShoppingCartSettingsModelAsync(ShoppingCartSettingsModel model = null);
+    //COMMERCE FEATURES REMOVED - Phase C
+    //Removed: PrepareRewardPointsSettingsModelAsync (reward points feature)
+    //Removed: PrepareOrderSettingsModelAsync (order feature)
+    //Removed: PrepareShoppingCartSettingsModelAsync (shopping cart feature)
 
     /// <summary>
     /// Prepare media settings model
@@ -181,37 +54,10 @@ public partial interface ISettingModelFactory
     /// </returns>
     Task<CustomerUserSettingsModel> PrepareCustomerUserSettingsModelAsync(CustomerUserSettingsModel model = null);
 
-    /// <summary>
-    /// Prepare GDPR settings model
-    /// </summary>
-    /// <param name="model">Gdpr settings model</param>
-    /// <returns>
-    /// A task that represents the asynchronous operation
-    /// The task result contains the gDPR settings model
-    /// </returns>
-    Task<GdprSettingsModel> PrepareGdprSettingsModelAsync(GdprSettingsModel model = null);
-
-    /// <summary>
-    /// Prepare paged GDPR consent list model
-    /// </summary>
-    /// <param name="searchModel">GDPR search model</param>
-    /// <returns>
-    /// A task that represents the asynchronous operation
-    /// The task result contains the gDPR consent list model
-    /// </returns>
-    Task<GdprConsentListModel> PrepareGdprConsentListModelAsync(GdprConsentSearchModel searchModel);
-
-    /// <summary>
-    /// Prepare GDPR consent model
-    /// </summary>
-    /// <param name="model">GDPR consent model</param>
-    /// <param name="gdprConsent">GDPR consent</param>
-    /// <param name="excludeProperties">Whether to exclude populating of some properties of model</param>
-    /// <returns>
-    /// A task that represents the asynchronous operation
-    /// The task result contains the gDPR consent model
-    /// </returns>
-    Task<GdprConsentModel> PrepareGdprConsentModelAsync(GdprConsentModel model, GdprConsent gdprConsent, bool excludeProperties = false);
+    //COMMERCE/ADDITIONAL FEATURES REMOVED - Phase C
+    //Removed: PrepareGdprSettingsModelAsync (GDPR feature)
+    //Removed: PrepareGdprConsentListModelAsync (GDPR feature)
+    //Removed: PrepareGdprConsentModelAsync (GDPR feature)
 
     /// <summary>
     /// Prepare general and common settings model
@@ -223,14 +69,8 @@ public partial interface ISettingModelFactory
     /// </returns>
     Task<GeneralCommonSettingsModel> PrepareGeneralCommonSettingsModelAsync(GeneralCommonSettingsModel model = null);
 
-    /// <summary>
-    /// Prepare product editor settings model
-    /// </summary>
-    /// <returns>
-    /// A task that represents the asynchronous operation
-    /// The task result contains the product editor settings model
-    /// </returns>
-    Task<ProductEditorSettingsModel> PrepareProductEditorSettingsModelAsync();
+    //COMMERCE FEATURES REMOVED - Phase C
+    //Removed: PrepareProductEditorSettingsModelAsync (product editor feature)
 
     /// <summary>
     /// Prepare setting search model

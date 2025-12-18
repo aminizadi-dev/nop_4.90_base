@@ -1,5 +1,4 @@
 ﻿using Nop.Core.Caching;
-using Nop.Core.Domain.Orders;
 using Nop.Core.Domain.Stores;
 using Nop.Services.Caching;
 using Nop.Services.Localization;
@@ -18,7 +17,6 @@ public partial class StoreCacheEventConsumer : CacheEventConsumer<Store>
     /// <returns>A task that represents the asynchronous operation</returns>
     protected override async Task ClearCacheAsync(Store entity)
     {
-        await RemoveByPrefixAsync(NopEntityCacheDefaults<ShoppingCartItem>.AllPrefix);
         await RemoveByPrefixAsync(NopLocalizationDefaults.LanguagesByStorePrefix, entity);
     }
 }

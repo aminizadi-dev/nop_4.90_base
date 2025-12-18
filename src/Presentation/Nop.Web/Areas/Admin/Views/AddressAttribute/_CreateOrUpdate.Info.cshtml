@@ -1,5 +1,4 @@
-﻿@using Nop.Core.Domain.Catalog
-@using Nop.Services
+﻿@using Nop.Services
 @model AddressAttributeModel
 
 <div class="card-body">
@@ -43,16 +42,6 @@
         <div class="col-md-3">
             <nop-label asp-for="AttributeControlTypeId" />
         </div>
-        <div class="col-md-9">
-            @{
-                IEnumerable<SelectListItem> attributeControlTypes = await ((AttributeControlType)Model.AttributeControlTypeId)
-                    .ToSelectListAsync(valuesToExclude:
-                        //these attributes don't support some control types
-                        new[] { (int)AttributeControlType.FileUpload, (int)AttributeControlType.Datepicker, (int)AttributeControlType.ColorSquares, (int)AttributeControlType.ImageSquares });
-            }
-            <nop-select asp-for="AttributeControlTypeId" asp-items="@attributeControlTypes" />
-            <span asp-validation-for="AttributeControlTypeId"></span>
-        </div>
     </div>
     <div class="form-group row">
         <div class="col-md-3">
@@ -70,20 +59,5 @@
     $(function() {
         $("#@Html.IdFor(model => model.AttributeControlTypeId)").change(toggleAttributeControlType);
         toggleAttributeControlType();
-    });
-    function toggleAttributeControlType() {
-        var selectedAttributeControlTypeId = $("#@Html.IdFor(model => model.AttributeControlTypeId)").val();
-
-        //values
-        if (selectedAttributeControlTypeId == @(((int) AttributeControlType.DropdownList).ToString()) ||
-            selectedAttributeControlTypeId == @(((int) AttributeControlType.RadioList).ToString()) ||
-            selectedAttributeControlTypeId == @(((int) AttributeControlType.Checkboxes).ToString()) ||
-            selectedAttributeControlTypeId == @(((int) AttributeControlType.ColorSquares).ToString()) ||
-            selectedAttributeControlTypeId == @(((int) AttributeControlType.ImageSquares).ToString()) ||
-            selectedAttributeControlTypeId == @(((int) AttributeControlType.ReadonlyCheckboxes).ToString())) {
-            $('[data-card-name=address-values]').showElement();
-        } else {
-            $('[data-card-name=address-values]').hideElement();
-        }
-    }
+    })
 </script> 

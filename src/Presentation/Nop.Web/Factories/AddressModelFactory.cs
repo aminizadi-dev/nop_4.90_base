@@ -1,10 +1,12 @@
 ﻿using Microsoft.AspNetCore.Mvc.Rendering;
 using Nop.Core;
-using Nop.Core.Domain.Catalog;
+//COMMERCE DOMAIN REMOVED - Phase C
+//Removed: using Nop.Core.Domain.Catalog;
 using Nop.Core.Domain.Common;
 using Nop.Core.Domain.Customers;
 using Nop.Core.Domain.Directory;
-using Nop.Services.Attributes;
+//COMMERCE/ADDITIONAL FEATURES REMOVED - Phase C
+//Removed: using Nop.Services.Attributes;
 using Nop.Services.Common;
 using Nop.Services.Directory;
 using Nop.Services.Localization;
@@ -21,9 +23,6 @@ public partial class AddressModelFactory : IAddressModelFactory
 
     protected readonly AddressSettings _addressSettings;
     protected readonly IAddressService _addressService;
-    protected readonly IAttributeFormatter<AddressAttribute, AddressAttributeValue> _addressAttributeFormatter;
-    protected readonly IAttributeParser<AddressAttribute, AddressAttributeValue> _addressAttributeParser;
-    protected readonly IAttributeService<AddressAttribute, AddressAttributeValue> _addressAttributeService;
     protected readonly ICountryService _countryService;
     protected readonly ILocalizationService _localizationService;
     protected readonly IStateProvinceService _stateProvinceService;
@@ -35,9 +34,6 @@ public partial class AddressModelFactory : IAddressModelFactory
 
     public AddressModelFactory(AddressSettings addressSettings,
         IAddressService addressService,
-        IAttributeFormatter<AddressAttribute, AddressAttributeValue> addressAttributeFormatter,
-        IAttributeParser<AddressAttribute, AddressAttributeValue> addressAttributeParser,
-        IAttributeService<AddressAttribute, AddressAttributeValue> addressAttributeService,
         ICountryService countryService,
         ILocalizationService localizationService,
         IStateProvinceService stateProvinceService,
@@ -45,9 +41,6 @@ public partial class AddressModelFactory : IAddressModelFactory
     {
         _addressSettings = addressSettings;
         _addressService = addressService;
-        _addressAttributeFormatter = addressAttributeFormatter;
-        _addressAttributeParser = addressAttributeParser;
-        _addressAttributeService = addressAttributeService;
         _countryService = countryService;
         _localizationService = localizationService;
         _stateProvinceService = stateProvinceService;
@@ -57,99 +50,6 @@ public partial class AddressModelFactory : IAddressModelFactory
     #endregion
 
     #region Utilities
-
-    /// <summary>
-    /// Prepare address attributes
-    /// </summary>
-    /// <param name="model">Address model</param>
-    /// <param name="address">Address entity</param>
-    /// <param name="overrideAttributesXml">Overridden address attributes in XML format; pass null to use CustomAttributes of address entity</param>
-    /// <returns>A task that represents the asynchronous operation</returns>
-    protected virtual async Task PrepareCustomAddressAttributesAsync(AddressModel model,
-        Address address, string overrideAttributesXml = "")
-    {
-        var attributes = await _addressAttributeService.GetAllAttributesAsync();
-        foreach (var attribute in attributes)
-        {
-            var attributeModel = new AddressAttributeModel
-            {
-                Id = attribute.Id,
-                ControlId = string.Format(NopCommonDefaults.AddressAttributeControlName, attribute.Id),
-                Name = await _localizationService.GetLocalizedAsync(attribute, x => x.Name),
-                IsRequired = attribute.IsRequired,
-                AttributeControlType = attribute.AttributeControlType,
-            };
-
-            if (attribute.ShouldHaveValues)
-            {
-                //values
-                var attributeValues = await _addressAttributeService.GetAttributeValuesAsync(attribute.Id);
-                foreach (var attributeValue in attributeValues)
-                {
-                    var attributeValueModel = new AddressAttributeValueModel
-                    {
-                        Id = attributeValue.Id,
-                        Name = await _localizationService.GetLocalizedAsync(attributeValue, x => x.Name),
-                        IsPreSelected = attributeValue.IsPreSelected
-                    };
-                    attributeModel.Values.Add(attributeValueModel);
-                }
-            }
-
-            //set already selected attributes
-            var selectedAddressAttributes = !string.IsNullOrEmpty(overrideAttributesXml) ?
-                overrideAttributesXml :
-                address?.CustomAttributes;
-            switch (attribute.AttributeControlType)
-            {
-                case AttributeControlType.DropdownList:
-                case AttributeControlType.RadioList:
-                case AttributeControlType.Checkboxes:
-                {
-                    if (!string.IsNullOrEmpty(selectedAddressAttributes))
-                    {
-                        //clear default selection
-                        foreach (var item in attributeModel.Values)
-                            item.IsPreSelected = false;
-
-                        //select new values
-                        var selectedValues = await _addressAttributeParser.ParseAttributeValuesAsync(selectedAddressAttributes);
-                        foreach (var attributeValue in selectedValues)
-                        foreach (var item in attributeModel.Values)
-                            if (attributeValue.Id == item.Id)
-                                item.IsPreSelected = true;
-                    }
-                }
-                    break;
-                case AttributeControlType.ReadonlyCheckboxes:
-                {
-                    //do nothing
-                    //values are already pre-set
-                }
-                    break;
-                case AttributeControlType.TextBox:
-                case AttributeControlType.MultilineTextbox:
-                {
-                    if (!string.IsNullOrEmpty(selectedAddressAttributes))
-                    {
-                        var enteredText = _addressAttributeParser.ParseValues(selectedAddressAttributes, attribute.Id);
-                        if (enteredText.Any())
-                            attributeModel.DefaultValue = enteredText[0];
-                    }
-                }
-                    break;
-                case AttributeControlType.ColorSquares:
-                case AttributeControlType.ImageSquares:
-                case AttributeControlType.Datepicker:
-                case AttributeControlType.FileUpload:
-                default:
-                    //not supported attribute control types
-                    break;
-            }
-
-            model.CustomAddressAttributes.Add(attributeModel);
-        }
-    }
 
     #endregion
 
@@ -303,16 +203,6 @@ public partial class AddressModelFactory : IAddressModelFactory
         model.FaxEnabled = addressSettings.FaxEnabled;
         model.FaxRequired = addressSettings.FaxRequired;
         model.DefaultCountryId = addressSettings.DefaultCountryId;
-
-        //customer attribute services
-        if (_addressAttributeService != null && _addressAttributeParser != null)
-        {
-            await PrepareCustomAddressAttributesAsync(model, address, overrideAttributesXml);
-        }
-        if (_addressAttributeFormatter != null && address != null)
-        {
-            model.FormattedCustomAddressAttributes = await _addressAttributeFormatter.FormatAttributesAsync(address.CustomAttributes);
-        }
 
         (model.AddressLine, model.AddressFields) = await _addressService.FormatAddressAsync(address, languageId);
     }

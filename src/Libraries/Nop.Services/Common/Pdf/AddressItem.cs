@@ -1,5 +1,4 @@
 ﻿using System.ComponentModel;
-using Nop.Services.Orders;
 
 namespace Nop.Services.Common.Pdf;
 
@@ -99,11 +98,6 @@ public partial record AddressItem
     /// Gets or sets the custom attributes (see "AddressAttribute" entity for more info)
     /// </summary>
     public List<string> AddressAttributes { get; set; } = new();
-
-    /// <summary>
-    /// Gets or sets the deserialized CustomValues (values from ProcessPaymentRequest)
-    /// </summary>
-    public CustomValues CustomValues { get; } = new();
 
     #endregion
 }

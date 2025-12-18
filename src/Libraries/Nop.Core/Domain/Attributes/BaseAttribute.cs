@@ -1,5 +1,4 @@
-﻿using Nop.Core.Domain.Catalog;
-using Nop.Core.Domain.Localization;
+﻿using Nop.Core.Domain.Localization;
 
 namespace Nop.Core.Domain.Attributes;
 

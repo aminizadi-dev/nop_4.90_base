@@ -155,10 +155,8 @@ public static partial class NopCustomerDefaults
     /// </summary>
     public static string WorkingThemeNameAttribute => "WorkingThemeName";
 
-    /// <summary>
-    /// Gets a name of generic attribute to store the value of 'UseRewardPointsDuringCheckout'
-    /// </summary>
-    public static string UseRewardPointsDuringCheckoutAttribute => "UseRewardPointsDuringCheckout";
+    //COMMERCE FEATURE REMOVED - Phase C
+    //Removed: UseRewardPointsDuringCheckoutAttribute (commerce feature)
 
     /// <summary>
     /// Gets a name of generic attribute to store the value of 'EuCookieLawAccepted'

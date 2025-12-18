@@ -1,8 +1,8 @@
 ﻿using Nop.Core.Domain.Customers;
 using Nop.Core.Domain.Directory;
 using Nop.Core.Domain.Localization;
-using Nop.Core.Domain.Tax;
-using Nop.Core.Domain.Vendors;
+//COMMERCE DOMAIN REMOVED - Phase C
+//Removed: using Nop.Core.Domain.Tax; using Nop.Core.Domain.Vendors;
 
 namespace Nop.Core;
 
@@ -29,11 +29,8 @@ public partial interface IWorkContext
     /// </summary>
     Customer OriginalCustomerIfImpersonated { get; }
 
-    /// <summary>
-    /// Gets the current vendor (logged-in manager)
-    /// </summary>
-    /// <returns>A task that represents the asynchronous operation</returns>
-    Task<Vendor> GetCurrentVendorAsync();
+    //COMMERCE FEATURES REMOVED - Phase C
+    //Removed: GetCurrentVendorAsync, GetTaxDisplayTypeAsync, SetTaxDisplayTypeAsync (commerce features)
 
     /// <summary>
     /// Gets current user working language
@@ -60,16 +57,4 @@ public partial interface IWorkContext
     /// <param name="currency">Currency</param>
     /// <returns>A task that represents the asynchronous operation</returns>
     Task SetWorkingCurrencyAsync(Currency currency);
-
-    /// <summary>
-    /// Gets or sets current tax display type
-    /// </summary>
-    /// <returns>A task that represents the asynchronous operation</returns>
-    Task<TaxDisplayType> GetTaxDisplayTypeAsync();
-
-    /// <summary>
-    /// Sets current tax display type
-    /// </summary>
-    /// <returns>A task that represents the asynchronous operation</returns>
-    Task SetTaxDisplayTypeAsync(TaxDisplayType taxDisplayType);
 }

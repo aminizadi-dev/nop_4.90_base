@@ -9,9 +9,7 @@ using Nop.Core.Domain.Localization;
 using Nop.Core.Domain.Security;
 using Nop.Data;
 using Nop.Services.Configuration;
-using Nop.Services.ExportImport;
 using Nop.Services.Logging;
-using Nop.Services.Plugins;
 
 namespace Nop.Services.Localization;
 
@@ -469,16 +467,16 @@ public partial class LocalizationService : ILocalizationService
         await using var xmlWriter = XmlWriter.Create(stream, settings);
 
         await xmlWriter.WriteStartDocumentAsync();
-        await xmlWriter.WriteStartElementAsync("Language");
-        await xmlWriter.WriteAttributeStringAsync("Name", language.Name);
-        await xmlWriter.WriteAttributeStringAsync("SupportedVersion", NopVersion.CURRENT_VERSION);
+        //await xmlWriter.WriteStartElementAsync("Language");
+        //await xmlWriter.WriteAttributeStringAsync("Name", language.Name);
+        //await xmlWriter.WriteAttributeStringAsync("SupportedVersion", NopVersion.CURRENT_VERSION);
 
         var resources = await GetAllResourcesAsync(language.Id);
         foreach (var resource in resources)
         {
-            await xmlWriter.WriteStartElementAsync("LocaleResource");
-            await xmlWriter.WriteAttributeStringAsync("Name", resource.ResourceName);
-            await xmlWriter.WriteElementStringAsync("Value", null, resource.ResourceValue);
+            //await xmlWriter.WriteStartElementAsync("LocaleResource");
+            //await xmlWriter.WriteAttributeStringAsync("Name", resource.ResourceName);
+            //await xmlWriter.WriteElementStringAsync("Value", null, resource.ResourceValue);
             await xmlWriter.WriteEndElementAsync();
         }
 
@@ -920,90 +918,7 @@ public partial class LocalizationService : ILocalizationService
         await _staticCacheManager.RemoveByPrefixAsync(NopEntityCacheDefaults<LocaleStringResource>.Prefix);
     }
 
-    /// <summary>
-    /// Get localized friendly name of a plugin
-    /// </summary>
-    /// <typeparam name="TPlugin">Plugin type</typeparam>
-    /// <param name="plugin">Plugin</param>
-    /// <param name="languageId">Language identifier</param>
-    /// <param name="returnDefaultValue">A value indicating whether to return default value (if localized is not found)</param>
-    /// <returns>
-    /// A task that represents the asynchronous operation
-    /// The task result contains the localized value
-    /// </returns>
-    public virtual async Task<string> GetLocalizedFriendlyNameAsync<TPlugin>(TPlugin plugin, int languageId, bool returnDefaultValue = true)
-        where TPlugin : IPlugin
-    {
-        ArgumentNullException.ThrowIfNull(plugin);
-
-        if (plugin.PluginDescriptor == null)
-            throw new ArgumentException("Plugin descriptor cannot be loaded");
-
-        var systemName = plugin.PluginDescriptor.SystemName;
-        //localized value
-        var resourceName = $"{NopLocalizationDefaults.PluginNameLocaleStringResourcesPrefix}{systemName}";
-        var result = await GetResourceAsync(resourceName, languageId, false, string.Empty, true);
-
-        //set default value if required
-        if (string.IsNullOrEmpty(result) && returnDefaultValue)
-            result = plugin.PluginDescriptor.FriendlyName;
-
-        return result;
-    }
-
-    /// <summary>
-    /// Save localized friendly name of a plugin
-    /// </summary>
-    /// <typeparam name="TPlugin">Plugin</typeparam>
-    /// <param name="plugin">Plugin</param>
-    /// <param name="languageId">Language identifier</param>
-    /// <param name="localizedFriendlyName">Localized friendly name</param>
-    /// <returns>A task that represents the asynchronous operation</returns>
-    public virtual async Task SaveLocalizedFriendlyNameAsync<TPlugin>(TPlugin plugin, int languageId, string localizedFriendlyName)
-        where TPlugin : IPlugin
-    {
-        if (languageId == 0)
-            throw new ArgumentOutOfRangeException(nameof(languageId), "Language ID should not be 0");
-
-        ArgumentNullException.ThrowIfNull(plugin);
-
-        if (plugin.PluginDescriptor == null)
-            throw new ArgumentException("Plugin descriptor cannot be loaded");
-
-        var systemName = plugin.PluginDescriptor.SystemName;
-        //localized value
-        var resourceName = $"{NopLocalizationDefaults.PluginNameLocaleStringResourcesPrefix}{systemName}";
-        var resource = await GetLocaleStringResourceByNameAsync(resourceName, languageId, false);
-
-        if (resource != null)
-        {
-            if (string.IsNullOrWhiteSpace(localizedFriendlyName))
-            {
-                //delete
-                await DeleteLocaleStringResourceAsync(resource);
-            }
-            else
-            {
-                //update
-                resource.ResourceValue = localizedFriendlyName;
-                await UpdateLocaleStringResourceAsync(resource);
-            }
-        }
-        else
-        {
-            if (string.IsNullOrWhiteSpace(localizedFriendlyName))
-                return;
-
-            //insert
-            resource = new LocaleStringResource
-            {
-                LanguageId = languageId,
-                ResourceName = resourceName,
-                ResourceValue = localizedFriendlyName
-            };
-            await InsertLocaleStringResourceAsync(resource);
-        }
-    }
+    // Plugin-related methods removed - IPlugin interface no longer exists
 
     #endregion
 }

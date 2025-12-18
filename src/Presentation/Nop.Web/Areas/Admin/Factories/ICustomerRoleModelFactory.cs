@@ -40,23 +40,7 @@ public partial interface ICustomerRoleModelFactory
     /// </returns>
     Task<CustomerRoleModel> PrepareCustomerRoleModelAsync(CustomerRoleModel model, CustomerRole customerRole, bool excludeProperties = false);
 
-    /// <summary>
-    /// Prepare customer role product search model
-    /// </summary>
-    /// <param name="searchModel">Customer role product search model</param>
-    /// <returns>
-    /// A task that represents the asynchronous operation
-    /// The task result contains the customer role product search model
-    /// </returns>
-    Task<CustomerRoleProductSearchModel> PrepareCustomerRoleProductSearchModelAsync(CustomerRoleProductSearchModel searchModel);
-
-    /// <summary>
-    /// Prepare paged customer role product list model
-    /// </summary>
-    /// <param name="searchModel">Customer role product search model</param>
-    /// <returns>
-    /// A task that represents the asynchronous operation
-    /// The task result contains the customer role product list model
-    /// </returns>
-    Task<CustomerRoleProductListModel> PrepareCustomerRoleProductListModelAsync(CustomerRoleProductSearchModel searchModel);
+    //COMMERCE METHODS REMOVED - Phase C
+    //Removed: PrepareCustomerRoleProductSearchModelAsync (commerce feature)
+    //Removed: PrepareCustomerRoleProductListModelAsync (commerce feature)
 }

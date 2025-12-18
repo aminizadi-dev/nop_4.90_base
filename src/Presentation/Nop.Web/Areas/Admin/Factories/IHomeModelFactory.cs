@@ -29,36 +29,6 @@ public partial interface IHomeModelFactory
     Task<DataTablesModel> PreparePopularSearchTermReportModelAsync(DataTablesModel model);
 
     /// <summary>
-    /// Prepare bestsellers brief by amount report model
-    /// </summary>
-    /// <param name="model">DataTables model</param>
-    /// <returns>
-    /// A task that represents the asynchronous operation
-    /// The task result contains the dashboard model
-    /// </returns>
-    Task<DataTablesModel> PrepareBestsellersBriefReportByAmountModelAsync(DataTablesModel model);
-
-    /// <summary>
-    /// Prepare bestsellers brief by quantity report model
-    /// </summary>
-    /// <param name="model">DataTables model</param>
-    /// <returns>
-    /// A task that represents the asynchronous operation
-    /// The task result contains the dashboard model
-    /// </returns>
-    Task<DataTablesModel> PrepareBestsellersBriefReportByQuantityModelAsync(DataTablesModel model);
-
-    /// <summary>
-    /// Prepare latest orders model
-    /// </summary>
-    /// <param name="model">DataTables model</param>
-    /// <returns>
-    /// A task that represents the asynchronous operation
-    /// The task result contains the dashboard model
-    /// </returns>
-    Task<DataTablesModel> PrepareLatestOrdersModelAsync(DataTablesModel model);
-
-    /// <summary>
     /// Prepare nopCommerce news model
     /// </summary>
     /// <returns>
@@ -66,24 +36,4 @@ public partial interface IHomeModelFactory
     /// The task result contains the nopCommerce news model
     /// </returns>
     Task<NopCommerceNewsModel> PrepareNopCommerceNewsModelAsync();
-
-    /// <summary>
-    /// Prepare incomplete orders report model
-    /// </summary>
-    /// <param name="model">DataTables model</param>
-    /// <returns>
-    /// A task that represents the asynchronous operation
-    /// The task result contains the dashboard model
-    /// </returns>
-    Task<DataTablesModel> PrepareOrderIncompleteModelAsync(DataTablesModel model);
-
-    /// <summary>
-    /// Prepare order average report model
-    /// </summary>
-    /// <param name="model">DataTables model</param>
-    /// <returns>
-    /// A task that represents the asynchronous operation
-    /// The task result contains the dashboard model
-    /// </returns>
-    Task<DataTablesModel> PrepareOrderAverageModelAsync(DataTablesModel model);
 }

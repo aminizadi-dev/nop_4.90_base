@@ -1,10 +1,11 @@
 ﻿using Nop.Core;
 using Nop.Core.Caching;
-using Nop.Core.Domain.Catalog;
 using Nop.Core.Domain.Customers;
 using Nop.Core.Domain.Security;
 using Nop.Data;
 using Nop.Services.Customers;
+//COMMERCE DOMAIN REMOVED - Phase B
+//Removed: using Nop.Core.Domain.Catalog;
 
 namespace Nop.Services.Security;
 
@@ -15,7 +16,8 @@ public partial class AclService : IAclService
 {
     #region Fields
 
-    protected readonly CatalogSettings _catalogSettings;
+    //COMMERCE DEPENDENCY REMOVED - Phase B
+    //Removed: protected readonly CatalogSettings _catalogSettings;
     protected readonly ICustomerService _customerService;
     protected readonly INopDataProvider _dataProvider;
     protected readonly IRepository<AclRecord> _aclRecordRepository;
@@ -26,14 +28,17 @@ public partial class AclService : IAclService
 
     #region Ctor
 
-    public AclService(CatalogSettings catalogSettings,
+    public AclService(
+        //COMMERCE DEPENDENCY REMOVED - Phase B
+        //Removed: CatalogSettings catalogSettings,
         ICustomerService customerService,
         INopDataProvider dataProvider,
         IRepository<AclRecord> aclRecordRepository,
         IStaticCacheManager staticCacheManager,
         Lazy<IWorkContext> workContext)
     {
-        _catalogSettings = catalogSettings;
+        //COMMERCE DEPENDENCY REMOVED - Phase B
+        //Removed: _catalogSettings = catalogSettings;
         _customerService = customerService;
         _dataProvider = dataProvider;
         _aclRecordRepository = aclRecordRepository;
@@ -117,7 +122,9 @@ public partial class AclService : IAclService
 
         ArgumentNullException.ThrowIfNull(customerRoleIds);
 
-        if (!customerRoleIds.Any() || _catalogSettings.IgnoreAcl || !await IsEntityAclMappingExistAsync<TEntity>())
+        //COMMERCE DEPENDENCY REMOVED - Phase B
+        //Removed: _catalogSettings.IgnoreAcl check (ACL will always be enforced for infrastructure)
+        if (!customerRoleIds.Any() || !await IsEntityAclMappingExistAsync<TEntity>())
             return query;
 
         return from entity in query
@@ -268,8 +275,8 @@ public partial class AclService : IAclService
         if (customer == null)
             return false;
 
-        if (_catalogSettings.IgnoreAcl)
-            return true;
+        //COMMERCE DEPENDENCY REMOVED - Phase B
+        //Removed: _catalogSettings.IgnoreAcl check (ACL will always be enforced for infrastructure)
 
         foreach (var role1 in await _customerService.GetCustomerRolesAsync(customer))
             foreach (var role2Id in await GetCustomerRoleIdsWithAccessAsync(entityId, entityTypeName))
@@ -292,7 +299,9 @@ public partial class AclService : IAclService
     /// </returns>
     public virtual async Task<bool> AuthorizeAsync(Customer customer, IList<int> allowedCustomerRoleIds)
     {
-        return _catalogSettings.IgnoreAcl || allowedCustomerRoleIds.Intersect(await _customerService.GetCustomerRoleIdsAsync(customer)).Any();
+        //COMMERCE DEPENDENCY REMOVED - Phase B
+        //Removed: _catalogSettings.IgnoreAcl check (ACL will always be enforced for infrastructure)
+        return allowedCustomerRoleIds.Intersect(await _customerService.GetCustomerRoleIdsAsync(customer)).Any();
     }
 
     /// <summary>

@@ -1,6 +1,7 @@
-﻿using Nop.Core.Domain.Catalog;
+﻿//COMMERCE DOMAIN REMOVED - Phase C
+//Removed: using Nop.Core.Domain.Catalog;
 using Nop.Core.Domain.Customers;
-using Nop.Core.Domain.Orders;
+//Removed: using Nop.Core.Domain.Orders;
 using Nop.Web.Models.Customer;
 
 namespace Nop.Web.Factories;
@@ -16,27 +17,25 @@ public partial interface ICustomerModelFactory
     /// <param name="model">Customer info model</param>
     /// <param name="customer">Customer</param>
     /// <param name="excludeProperties">Whether to exclude populating of model properties from the entity</param>
-    /// <param name="overrideCustomCustomerAttributesXml">Overridden customer attributes in XML format; pass null to use CustomCustomerAttributes of customer</param>
     /// <returns>
     /// A task that represents the asynchronous operation
     /// The task result contains the customer info model
     /// </returns>
     Task<CustomerInfoModel> PrepareCustomerInfoModelAsync(CustomerInfoModel model, Customer customer,
-        bool excludeProperties, string overrideCustomCustomerAttributesXml = "");
+        bool excludeProperties);
 
     /// <summary>
     /// Prepare the customer register model
     /// </summary>
     /// <param name="model">Customer register model</param>
     /// <param name="excludeProperties">Whether to exclude populating of model properties from the entity</param>
-    /// <param name="overrideCustomCustomerAttributesXml">Overridden customer attributes in XML format; pass null to use CustomCustomerAttributes of customer</param>
     /// <param name="setDefaultValues">Whether to populate model properties by default values</param>
     /// <returns>
     /// A task that represents the asynchronous operation
     /// The task result contains the customer register model
     /// </returns>
     Task<RegisterModel> PrepareRegisterModelAsync(RegisterModel model, bool excludeProperties,
-        string overrideCustomCustomerAttributesXml = "", bool setDefaultValues = false);
+        bool setDefaultValues = false);
 
     /// <summary>
     /// Prepare the login model
@@ -88,25 +87,9 @@ public partial interface ICustomerModelFactory
     /// </returns>
     Task<CustomerAddressListModel> PrepareCustomerAddressListModelAsync();
 
-    /// <summary>
-    /// Prepare the customer downloadable products model
-    /// </summary>
-    /// <returns>
-    /// A task that represents the asynchronous operation
-    /// The task result contains the customer downloadable products model
-    /// </returns>
-    Task<CustomerDownloadableProductsModel> PrepareCustomerDownloadableProductsModelAsync();
-
-    /// <summary>
-    /// Prepare the user agreement model
-    /// </summary>
-    /// <param name="orderItem">Order item</param>
-    /// <param name="product">Product</param>
-    /// <returns>
-    /// A task that represents the asynchronous operation
-    /// The task result contains the user agreement model
-    /// </returns>
-    Task<UserAgreementModel> PrepareUserAgreementModelAsync(OrderItem orderItem, Product product);
+    //COMMERCE METHODS REMOVED - Phase C
+    //Removed: PrepareCustomerDownloadableProductsModelAsync (downloadable products - commerce feature)
+    //Removed: PrepareUserAgreementModelAsync (user agreement - commerce feature)
 
     /// <summary>
     /// Prepare the change password model
@@ -128,23 +111,9 @@ public partial interface ICustomerModelFactory
     /// </returns>
     Task<CustomerAvatarModel> PrepareCustomerAvatarModelAsync(CustomerAvatarModel model);
 
-    /// <summary>
-    /// Prepare the GDPR tools model
-    /// </summary>
-    /// <returns>
-    /// A task that represents the asynchronous operation
-    /// The task result contains the gDPR tools model
-    /// </returns>
-    Task<GdprToolsModel> PrepareGdprToolsModelAsync();
-
-    /// <summary>
-    /// Prepare the check gift card balance model
-    /// </summary>
-    /// <returns>
-    /// A task that represents the asynchronous operation
-    /// The task result contains the check gift card balance model
-    /// </returns>
-    Task<CheckGiftCardBalanceModel> PrepareCheckGiftCardBalanceModelAsync();
+    //COMMERCE METHODS REMOVED - Phase C
+    //Removed: PrepareGdprToolsModelAsync (GDPR tools - commerce-driven)
+    //Removed: PrepareCheckGiftCardBalanceModelAsync (gift card balance - commerce feature)
 
     /// <summary>
     /// Prepare the multi-factor authentication model
@@ -168,14 +137,6 @@ public partial interface ICustomerModelFactory
     /// </returns>
     Task<MultiFactorAuthenticationProviderModel> PrepareMultiFactorAuthenticationProviderModelAsync(MultiFactorAuthenticationProviderModel providerModel, string sysName, bool isLogin = false);
 
-    /// <summary>
-    /// Prepare the custom customer attribute models
-    /// </summary>
-    /// <param name="customer">Customer</param>
-    /// <param name="overrideAttributesXml">Overridden customer attributes in XML format; pass null to use CustomCustomerAttributes of customer</param>
-    /// <returns>
-    /// A task that represents the asynchronous operation
-    /// The task result contains the list of the customer attribute model
-    /// </returns>
-    Task<IList<CustomerAttributeModel>> PrepareCustomCustomerAttributesAsync(Customer customer, string overrideAttributesXml = "");
+    //COMMERCE/ADDITIONAL FEATURES REMOVED - Phase C
+    //Removed: PrepareCustomCustomerAttributesAsync (customer attributes feature)
 }

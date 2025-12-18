@@ -1,8 +1,8 @@
 ﻿using Nop.Core;
 using Nop.Core.Domain.Common;
 using Nop.Core.Domain.Customers;
-using Nop.Core.Domain.Orders;
-using Nop.Core.Domain.Tax;
+//COMMERCE DOMAIN REMOVED - Phase C
+//Removed: using Nop.Core.Domain.Orders; using Nop.Core.Domain.Tax;
 
 namespace Nop.Services.Customers;
 
@@ -20,8 +20,8 @@ public partial interface ICustomerService
     /// <param name="createdToUtc">Created date to (UTC); null to load all records</param>
     /// <param name="lastActivityFromUtc">Last activity date from (UTC); null to load all records</param>
     /// <param name="lastActivityToUtc">Last activity date to (UTC); null to load all records</param>
-    /// <param name="affiliateId">Affiliate identifier</param>
-    /// <param name="vendorId">Vendor identifier</param>
+    //COMMERCE PARAMETERS REMOVED - Phase C
+    //Removed: affiliateId, vendorId (commerce features)
     /// <param name="customerRoleIds">A list of customer role identifiers to filter by (at least one match); pass null or empty list in order to load all customers; </param>
     /// <param name="email">Email; null to load all customers</param>
     /// <param name="username">Username; null to load all customers</param>
@@ -43,7 +43,9 @@ public partial interface ICustomerService
     /// </returns>
     Task<IPagedList<Customer>> GetAllCustomersAsync(DateTime? createdFromUtc = null, DateTime? createdToUtc = null,
         DateTime? lastActivityFromUtc = null, DateTime? lastActivityToUtc = null,
-        int affiliateId = 0, int vendorId = 0, int[] customerRoleIds = null,
+        //COMMERCE PARAMETERS REMOVED - Phase C
+        //Removed: int affiliateId = 0, int vendorId = 0
+        int[] customerRoleIds = null,
         string email = null, string username = null, string firstName = null, string lastName = null,
         int dayOfBirth = 0, int monthOfBirth = 0,
         string company = null, string phone = null, string zipPostalCode = null, string ipAddress = null,
@@ -63,35 +65,8 @@ public partial interface ICustomerService
     Task<IPagedList<Customer>> GetOnlineCustomersAsync(DateTime lastActivityFromUtc,
         int[] customerRoleIds, int pageIndex = 0, int pageSize = int.MaxValue);
 
-    /// <summary>
-    /// Gets customers with shopping carts
-    /// </summary>
-    /// <param name="shoppingCartType">Shopping cart type; pass null to load all records</param>
-    /// <param name="storeId">Store identifier; pass 0 to load all records</param>
-    /// <param name="productId">Product identifier; pass null to load all records</param>
-    /// <param name="createdFromUtc">Created date from (UTC); pass null to load all records</param>
-    /// <param name="createdToUtc">Created date to (UTC); pass null to load all records</param>
-    /// <param name="countryId">Billing country identifier; pass null to load all records</param>
-    /// <param name="pageIndex">Page index</param>
-    /// <param name="pageSize">Page size</param>
-    /// <returns>
-    /// A task that represents the asynchronous operation
-    /// The task result contains the customers
-    /// </returns>
-    Task<IPagedList<Customer>> GetCustomersWithShoppingCartsAsync(ShoppingCartType? shoppingCartType = null,
-        int storeId = 0, int? productId = null,
-        DateTime? createdFromUtc = null, DateTime? createdToUtc = null, int? countryId = null,
-        int pageIndex = 0, int pageSize = int.MaxValue);
-
-    /// <summary>
-    /// Gets customer for shopping cart
-    /// </summary>
-    /// <param name="shoppingCart">Shopping cart</param>
-    /// <returns>
-    /// A task that represents the asynchronous operation
-    /// The task result contains the result
-    /// </returns>
-    Task<Customer> GetShoppingCartCustomerAsync(IList<ShoppingCartItem> shoppingCart);
+    //COMMERCE FEATURES REMOVED - Phase C
+    //Removed: GetCustomersWithShoppingCartsAsync, GetShoppingCartCustomerAsync (commerce features)
 
     /// <summary>
     /// Delete a customer
@@ -211,53 +186,8 @@ public partial interface ICustomerService
     /// <returns>A task that represents the asynchronous operation</returns>
     Task UpdateCustomerAsync(Customer customer);
 
-    /// <summary>
-    /// Reset data required for checkout
-    /// </summary>
-    /// <param name="customer">Customer</param>
-    /// <param name="storeId">Store identifier</param>
-    /// <param name="clearCouponCodes">A value indicating whether to clear coupon code</param>
-    /// <param name="clearCheckoutAttributes">A value indicating whether to clear selected checkout attributes</param>
-    /// <param name="clearRewardPoints">A value indicating whether to clear "Use reward points" flag</param>
-    /// <param name="clearShippingMethod">A value indicating whether to clear selected shipping method</param>
-    /// <param name="clearPaymentMethod">A value indicating whether to clear selected payment method</param>
-    /// <returns>A task that represents the asynchronous operation</returns>
-    Task ResetCheckoutDataAsync(Customer customer, int storeId,
-        bool clearCouponCodes = false, bool clearCheckoutAttributes = false,
-        bool clearRewardPoints = true, bool clearShippingMethod = true,
-        bool clearPaymentMethod = true);
-
-    /// <summary>
-    /// Delete guest customer records
-    /// </summary>
-    /// <param name="createdFromUtc">Created date from (UTC); null to load all records</param>
-    /// <param name="createdToUtc">Created date to (UTC); null to load all records</param>
-    /// <param name="onlyWithoutShoppingCart">A value indicating whether to delete customers only without shopping cart</param>
-    /// <returns>
-    /// A task that represents the asynchronous operation
-    /// The task result contains the number of deleted customers
-    /// </returns>
-    Task<int> DeleteGuestCustomersAsync(DateTime? createdFromUtc, DateTime? createdToUtc, bool onlyWithoutShoppingCart);
-
-    /// <summary>
-    /// Gets a tax display type for the customer
-    /// </summary>
-    /// <param name="customer">Customer</param>
-    /// <returns>
-    /// A task that represents the asynchronous operation
-    /// The task result contains the tax display type
-    /// </returns>
-    Task<TaxDisplayType> GetCustomerTaxDisplayTypeAsync(Customer customer);
-
-    /// <summary>
-    /// Gets a default tax display type (if configured)
-    /// </summary>
-    /// <param name="customer">Customer</param>
-    /// <returns>
-    /// A task that represents the asynchronous operation
-    /// The task result contains the result
-    /// </returns>
-    Task<TaxDisplayType?> GetCustomerDefaultTaxDisplayTypeAsync(Customer customer);
+    //COMMERCE FEATURES REMOVED - Phase C
+    //Removed: ResetCheckoutDataAsync, DeleteGuestCustomersAsync, GetCustomerTaxDisplayTypeAsync, GetCustomerDefaultTaxDisplayTypeAsync (commerce features)
 
     /// <summary>
     /// Get full name
@@ -496,16 +426,8 @@ public partial interface ICustomerService
     /// </returns>
     Task<bool> IsGuestAsync(Customer customer, bool onlyActiveCustomerRoles = true);
 
-    /// <summary>
-    /// Gets a value indicating whether customer is vendor
-    /// </summary>
-    /// <param name="customer">Customer</param>
-    /// <param name="onlyActiveCustomerRoles">A value indicating whether we should look only in active customer roles</param>
-    /// <returns>
-    /// A task that represents the asynchronous operation
-    /// The task result contains the result
-    /// </returns>
-    Task<bool> IsVendorAsync(Customer customer, bool onlyActiveCustomerRoles = true);
+    //COMMERCE FEATURE REMOVED - Phase C
+    //Removed: IsVendorAsync (commerce feature)
 
     /// <summary>
     /// Updates the customer role

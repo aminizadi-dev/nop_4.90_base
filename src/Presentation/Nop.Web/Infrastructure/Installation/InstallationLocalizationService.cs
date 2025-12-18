@@ -6,7 +6,6 @@ using Nop.Core.Http;
 using Nop.Core.Infrastructure;
 using Nop.Data;
 using Nop.Services.Common;
-using Nop.Services.Installation;
 
 namespace Nop.Web.Infrastructure.Installation;
 
@@ -144,7 +143,7 @@ public partial class InstallationLocalizationService : IInstallationLocalization
             return _availableLanguages;
 
         _availableLanguages = new List<InstallationLanguage>();
-        foreach (var filePath in _fileProvider.EnumerateFiles(_fileProvider.MapPath($"{NopInstallationDefaults.LocalizationResourcesPath}/Installation/"), "*.xml"))
+        foreach (var filePath in _fileProvider.EnumerateFiles(_fileProvider.MapPath($"?????????/Installation/"), "*.xml"))
         {
             var xmlDocument = new XmlDocument();
             xmlDocument.Load(filePath);

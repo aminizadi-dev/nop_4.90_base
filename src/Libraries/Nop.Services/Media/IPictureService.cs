@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Nop.Core;
-using Nop.Core.Domain.Catalog;
 using Nop.Core.Domain.Media;
 
 namespace Nop.Services.Media;
@@ -120,17 +119,6 @@ public partial interface IPictureService
     Task<IPagedList<Picture>> GetPicturesAsync(string virtualPath = "", int pageIndex = 0, int pageSize = int.MaxValue);
 
     /// <summary>
-    /// Gets pictures by product identifier
-    /// </summary>
-    /// <param name="productId">Product identifier</param>
-    /// <param name="recordsToReturn">Number of records to return. 0 if you want to get all items</param>
-    /// <returns>
-    /// A task that represents the asynchronous operation
-    /// The task result contains the pictures
-    /// </returns>
-    Task<IList<Picture>> GetPicturesByProductIdAsync(int productId, int recordsToReturn = 0);
-
-    /// <summary>
     /// Inserts a picture
     /// </summary>
     /// <param name="pictureBinary">The picture binary</param>
@@ -231,17 +219,6 @@ public partial interface IPictureService
     /// <param name="path">New path</param>
     /// <returns>A task that represents the asynchronous operation</returns>
     Task ChangePicturesPathAsync(string path);
-
-    /// <summary>
-    /// Get product picture (for shopping cart and order details pages)
-    /// </summary>
-    /// <param name="product">Product</param>
-    /// <param name="attributesXml">Attributes (in XML format)</param>
-    /// <returns>
-    /// A task that represents the asynchronous operation
-    /// The task result contains the picture
-    /// </returns>
-    Task<Picture> GetProductPictureAsync(Product product, string attributesXml);
 
     /// <summary>
     /// Get product picture binary by picture identifier

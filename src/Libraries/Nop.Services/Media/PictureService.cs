@@ -1,11 +1,9 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.StaticFiles;
 using Nop.Core;
-using Nop.Core.Domain.Catalog;
 using Nop.Core.Domain.Media;
 using Nop.Core.Infrastructure;
 using Nop.Data;
-using Nop.Services.Catalog;
 using Nop.Services.Configuration;
 using Nop.Services.Logging;
 using Nop.Services.Seo;
@@ -26,11 +24,8 @@ public partial class PictureService : IPictureService
     protected readonly IHttpContextAccessor _httpContextAccessor;
     protected readonly ILogger _logger;
     protected readonly INopFileProvider _fileProvider;
-    protected readonly IProductAttributeParser _productAttributeParser;
-    protected readonly IProductAttributeService _productAttributeService;
     protected readonly IRepository<Picture> _pictureRepository;
     protected readonly IRepository<PictureBinary> _pictureBinaryRepository;
-    protected readonly IRepository<ProductPicture> _productPictureRepository;
     protected readonly ISettingService _settingService;
     protected readonly IThumbService _thumbService;
     protected readonly IUrlRecordService _urlRecordService;
@@ -45,11 +40,8 @@ public partial class PictureService : IPictureService
         IHttpContextAccessor httpContextAccessor,
         ILogger logger,
         INopFileProvider fileProvider,
-        IProductAttributeParser productAttributeParser,
-        IProductAttributeService productAttributeService,
         IRepository<Picture> pictureRepository,
         IRepository<PictureBinary> pictureBinaryRepository,
-        IRepository<ProductPicture> productPictureRepository,
         ISettingService settingService,
         IThumbService thumbService,
         IUrlRecordService urlRecordService,
@@ -60,11 +52,8 @@ public partial class PictureService : IPictureService
         _httpContextAccessor = httpContextAccessor;
         _logger = logger;
         _fileProvider = fileProvider;
-        _productAttributeParser = productAttributeParser;
-        _productAttributeService = productAttributeService;
         _pictureRepository = pictureRepository;
         _pictureBinaryRepository = pictureBinaryRepository;
-        _productPictureRepository = productPictureRepository;
         _settingService = settingService;
         _thumbService = thumbService;
         _urlRecordService = urlRecordService;
@@ -730,34 +719,6 @@ public partial class PictureService : IPictureService
     }
 
     /// <summary>
-    /// Gets pictures by product identifier
-    /// </summary>
-    /// <param name="productId">Product identifier</param>
-    /// <param name="recordsToReturn">Number of records to return. 0 if you want to get all items</param>
-    /// <returns>
-    /// A task that represents the asynchronous operation
-    /// The task result contains the pictures
-    /// </returns>
-    public virtual async Task<IList<Picture>> GetPicturesByProductIdAsync(int productId, int recordsToReturn = 0)
-    {
-        if (productId == 0)
-            return new List<Picture>();
-
-        var query = from p in _pictureRepository.Table
-                    join pp in _productPictureRepository.Table on p.Id equals pp.PictureId
-                    orderby pp.DisplayOrder, pp.Id
-                    where pp.ProductId == productId
-                    select p;
-
-        if (recordsToReturn > 0)
-            query = query.Take(recordsToReturn);
-
-        var pics = await query.ToListAsync();
-
-        return pics;
-    }
-
-    /// <summary>
     /// Inserts a picture
     /// </summary>
     /// <param name="pictureBinary">The picture binary</param>
@@ -1030,52 +991,6 @@ public partial class PictureService : IPictureService
             await _logger.ErrorAsync($"Cannot decode picture binary (file name: {fileName})", exc);
             return pictureBinary;
         }
-    }
-
-    /// <summary>
-    /// Get product picture (for shopping cart and order details pages)
-    /// </summary>
-    /// <param name="product">Product</param>
-    /// <param name="attributesXml">Attributes (in XML format)</param>
-    /// <returns>
-    /// A task that represents the asynchronous operation
-    /// The task result contains the picture
-    /// </returns>
-    public virtual async Task<Picture> GetProductPictureAsync(Product product, string attributesXml)
-    {
-        ArgumentNullException.ThrowIfNull(product);
-
-        //first, try to get product attribute combination picture
-        var combination = await _productAttributeParser.FindProductAttributeCombinationAsync(product, attributesXml);
-        if (combination != null)
-        {
-            var combinationPicture = (await _productAttributeService.GetProductAttributeCombinationPicturesAsync(combination.Id)).FirstOrDefault();
-            if (await GetPictureByIdAsync(combinationPicture?.PictureId ?? 0) is Picture picture)
-                return picture;
-        }
-
-        //then, let's see whether we have attribute values with pictures
-        var values = await _productAttributeParser.ParseProductAttributeValuesAsync(attributesXml);
-        foreach (var attributeValue in values)
-        {
-            var valuePictures = await _productAttributeService.GetProductAttributeValuePicturesAsync(attributeValue.Id);
-            var attributePicture = (await GetPicturesByIdsAsync(valuePictures.Select(vp => vp.PictureId).ToArray())).FirstOrDefault();
-
-            if (attributePicture != null)
-                return attributePicture;
-        }
-
-        //now let's load the default product picture
-        var productPicture = (await GetPicturesByProductIdAsync(product.Id, 1)).FirstOrDefault();
-        if (productPicture != null)
-            return productPicture;
-
-        //finally, let's check whether this product has some parent "grouped" product
-        if (product.VisibleIndividually || product.ParentGroupedProductId <= 0)
-            return null;
-
-        var parentGroupedProductPicture = (await GetPicturesByProductIdAsync(product.ParentGroupedProductId, 1)).FirstOrDefault();
-        return parentGroupedProductPicture;
     }
 
     /// <summary>

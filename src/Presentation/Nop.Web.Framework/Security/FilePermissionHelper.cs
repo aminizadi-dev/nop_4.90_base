@@ -5,7 +5,6 @@ using System.Security.AccessControl;
 using System.Security.Principal;
 using Nop.Core.Configuration;
 using Nop.Core.Infrastructure;
-using Nop.Services.Plugins;
 
 namespace Nop.Web.Framework.Security;
 
@@ -283,7 +282,6 @@ public static class FilePermissionHelper
     {
         return new List<string>
         {
-            fileProvider.MapPath(NopPluginDefaults.PluginsInfoFilePath),
             fileProvider.MapPath(NopConfigurationDefaults.AppSettingsFilePath)
         };
     }

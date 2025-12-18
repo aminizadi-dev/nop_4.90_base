@@ -1,14 +1,14 @@
 ﻿using Nop.Core.Domain.Customers;
 using Nop.Core.Domain.Directory;
 using Nop.Services.Customers;
-using Nop.Services.Plugins;
 
 namespace Nop.Services.Directory;
 
 /// <summary>
 /// Represents an exchange rate plugin manager implementation
+/// NOTE: Plugin infrastructure removed - this class is kept for compatibility but plugin functionality is disabled
 /// </summary>
-public partial class ExchangeRatePluginManager : PluginManager<IExchangeRateProvider>, IExchangeRatePluginManager
+public partial class ExchangeRatePluginManager : IExchangeRatePluginManager
 {
     #region Fields
 
@@ -19,8 +19,7 @@ public partial class ExchangeRatePluginManager : PluginManager<IExchangeRateProv
     #region Ctor
 
     public ExchangeRatePluginManager(CurrencySettings currencySettings,
-        ICustomerService customerService,
-        IPluginService pluginService) : base(customerService, pluginService)
+        ICustomerService customerService)
     {
         _currencySettings = currencySettings;
     }
@@ -40,7 +39,8 @@ public partial class ExchangeRatePluginManager : PluginManager<IExchangeRateProv
     /// </returns>
     public virtual async Task<IExchangeRateProvider> LoadPrimaryPluginAsync(Customer customer = null, int storeId = 0)
     {
-        return await LoadPrimaryPluginAsync(_currencySettings.ActiveExchangeRateProviderSystemName, customer, storeId);
+        // Plugin infrastructure removed - return null
+        return await Task.FromResult<IExchangeRateProvider>(null);
     }
 
     /// <summary>
@@ -50,7 +50,8 @@ public partial class ExchangeRatePluginManager : PluginManager<IExchangeRateProv
     /// <returns>Result</returns>
     public virtual bool IsPluginActive(IExchangeRateProvider exchangeRateProvider)
     {
-        return IsPluginActive(exchangeRateProvider, [_currencySettings.ActiveExchangeRateProviderSystemName]);
+        // Plugin infrastructure removed - return false
+        return false;
     }
 
     #endregion

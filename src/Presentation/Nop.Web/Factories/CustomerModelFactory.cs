@@ -1,30 +1,32 @@
 ﻿using System.Globalization;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Nop.Core;
-using Nop.Core.Domain.Catalog;
+//COMMERCE DOMAIN REMOVED - Phase C
+//Removed: using Nop.Core.Domain.Catalog;
 using Nop.Core.Domain.Common;
 using Nop.Core.Domain.Customers;
-using Nop.Core.Domain.Forums;
-using Nop.Core.Domain.Gdpr;
+//Removed: using Nop.Core.Domain.Forums;
+//Removed: using Nop.Core.Domain.Gdpr;
 using Nop.Core.Domain.Media;
-using Nop.Core.Domain.Orders;
+//Removed: using Nop.Core.Domain.Orders;
 using Nop.Core.Domain.Security;
-using Nop.Core.Domain.Tax;
-using Nop.Core.Domain.Vendors;
+//Removed: using Nop.Core.Domain.Tax;
+//Removed: using Nop.Core.Domain.Vendors;
 using Nop.Core.Http;
-using Nop.Services.Attributes;
-using Nop.Services.Authentication.External;
-using Nop.Services.Authentication.MultiFactor;
-using Nop.Services.Catalog;
+//COMMERCE/ADDITIONAL FEATURES REMOVED - Phase C
+//Removed: using Nop.Services.Attributes;
+//Removed: using Nop.Services.Authentication.External;
+//COMMERCE SERVICES REMOVED - Phase C
+//Removed: using Nop.Services.Catalog;
 using Nop.Services.Common;
 using Nop.Services.Customers;
 using Nop.Services.Directory;
-using Nop.Services.Gdpr;
+//Removed: using Nop.Services.Gdpr;
 using Nop.Services.Helpers;
 using Nop.Services.Localization;
 using Nop.Services.Media;
 using Nop.Services.Messages;
-using Nop.Services.Orders;
+//Removed: using Nop.Services.Orders;
 using Nop.Services.Security;
 using Nop.Services.Seo;
 using Nop.Services.Stores;
@@ -42,44 +44,47 @@ public partial class CustomerModelFactory : ICustomerModelFactory
 
     protected readonly AddressSettings _addressSettings;
     protected readonly CaptchaSettings _captchaSettings;
-    protected readonly CatalogSettings _catalogSettings;
+    //COMMERCE SETTINGS REMOVED - Phase C
+    //Removed: protected readonly CatalogSettings _catalogSettings;
     protected readonly CommonSettings _commonSettings;
     protected readonly CustomerSettings _customerSettings;
     protected readonly DateTimeSettings _dateTimeSettings;
-    protected readonly ExternalAuthenticationSettings _externalAuthenticationSettings;
-    protected readonly ForumSettings _forumSettings;
-    protected readonly GdprSettings _gdprSettings;
+    //COMMERCE/ADDITIONAL FEATURES REMOVED - Phase C
+    //Removed: protected readonly ExternalAuthenticationSettings _externalAuthenticationSettings;
+    //Removed: protected readonly ForumSettings _forumSettings;
+    //Removed: protected readonly GdprSettings _gdprSettings;
     protected readonly IAddressModelFactory _addressModelFactory;
-    protected readonly IAttributeParser<CustomerAttribute, CustomerAttributeValue> _customerAttributeParser;
-    protected readonly IAttributeService<CustomerAttribute, CustomerAttributeValue> _customerAttributeService;
-    protected readonly IAuthenticationPluginManager _authenticationPluginManager;
+    //Removed: protected readonly IAttributeParser<CustomerAttribute, CustomerAttributeValue> _customerAttributeParser;
+    //Removed: protected readonly IAttributeService<CustomerAttribute, CustomerAttributeValue> _customerAttributeService;
+    //Removed: protected readonly IAuthenticationPluginManager _authenticationPluginManager;
     protected readonly ICountryService _countryService;
     protected readonly ICustomerService _customerService;
     protected readonly IDateTimeHelper _dateTimeHelper;
-    protected readonly IExternalAuthenticationModelFactory _externalAuthenticationModelFactory;
-    protected readonly IExternalAuthenticationService _externalAuthenticationService;
-    protected readonly IGdprService _gdprService;
+    //COMMERCE/ADDITIONAL FEATURES REMOVED - Phase C
+    //Removed: protected readonly IExternalAuthenticationModelFactory _externalAuthenticationModelFactory;
+    //Removed: protected readonly IExternalAuthenticationService _externalAuthenticationService;
+    //Removed: protected readonly IGdprService _gdprService;
     protected readonly IGenericAttributeService _genericAttributeService;
     protected readonly ILocalizationService _localizationService;
-    protected readonly IMultiFactorAuthenticationPluginManager _multiFactorAuthenticationPluginManager;
     protected readonly INewsLetterSubscriptionService _newsLetterSubscriptionService;
     protected readonly INewsLetterSubscriptionTypeService _newsLetterSubscriptionTypeService;
-    protected readonly IOrderService _orderService;
+    //Removed: protected readonly IOrderService _orderService;
     protected readonly IPermissionService _permissionService;
     protected readonly IPictureService _pictureService;
-    protected readonly IProductService _productService;
-    protected readonly IReturnRequestService _returnRequestService;
+    //Removed: protected readonly IProductService _productService;
+    //Removed: protected readonly IReturnRequestService _returnRequestService;
     protected readonly IStateProvinceService _stateProvinceService;
     protected readonly IStoreContext _storeContext;
     protected readonly IStoreMappingService _storeMappingService;
     protected readonly IUrlRecordService _urlRecordService;
     protected readonly IWorkContext _workContext;
     protected readonly MediaSettings _mediaSettings;
-    protected readonly OrderSettings _orderSettings;
-    protected readonly RewardPointsSettings _rewardPointsSettings;
+    //COMMERCE SETTINGS REMOVED - Phase C
+    //Removed: protected readonly OrderSettings _orderSettings;
+    //Removed: protected readonly RewardPointsSettings _rewardPointsSettings;
     protected readonly SecuritySettings _securitySettings;
-    protected readonly TaxSettings _taxSettings;
-    protected readonly VendorSettings _vendorSettings;
+    //Removed: protected readonly TaxSettings _taxSettings;
+    //Removed: protected readonly VendorSettings _vendorSettings;
 
     #endregion
 
@@ -87,106 +92,98 @@ public partial class CustomerModelFactory : ICustomerModelFactory
 
     public CustomerModelFactory(AddressSettings addressSettings,
         CaptchaSettings captchaSettings,
-        CatalogSettings catalogSettings,
+        //COMMERCE SETTINGS REMOVED - Phase C
+        //Removed: CatalogSettings catalogSettings,
         CommonSettings commonSettings,
         CustomerSettings customerSettings,
         DateTimeSettings dateTimeSettings,
-        ExternalAuthenticationSettings externalAuthenticationSettings,
-        ForumSettings forumSettings,
-        GdprSettings gdprSettings,
+        //COMMERCE/ADDITIONAL FEATURES REMOVED - Phase C
+        //Removed: ExternalAuthenticationSettings externalAuthenticationSettings,
+        //Removed: ForumSettings forumSettings,
+        //Removed: GdprSettings gdprSettings,
         IAddressModelFactory addressModelFactory,
-        IAttributeParser<CustomerAttribute, CustomerAttributeValue> customerAttributeParser,
-        IAttributeService<CustomerAttribute, CustomerAttributeValue> customerAttributeService,
-        IAuthenticationPluginManager authenticationPluginManager,
+        //Removed: IAttributeParser<CustomerAttribute, CustomerAttributeValue> customerAttributeParser,
+        //Removed: IAttributeService<CustomerAttribute, CustomerAttributeValue> customerAttributeService,
+        //Removed: IAuthenticationPluginManager authenticationPluginManager,
         ICountryService countryService,
         ICustomerService customerService,
         IDateTimeHelper dateTimeHelper,
-        IExternalAuthenticationModelFactory externalAuthenticationModelFactory,
-        IExternalAuthenticationService externalAuthenticationService,
-        IGdprService gdprService,
+        //COMMERCE/ADDITIONAL FEATURES REMOVED - Phase C
+        //Removed: IExternalAuthenticationModelFactory externalAuthenticationModelFactory,
+        //Removed: IExternalAuthenticationService externalAuthenticationService,
+        //Removed: IGdprService gdprService,
         IGenericAttributeService genericAttributeService,
         ILocalizationService localizationService,
-        IMultiFactorAuthenticationPluginManager multiFactorAuthenticationPluginManager,
         INewsLetterSubscriptionService newsLetterSubscriptionService,
         INewsLetterSubscriptionTypeService newsLetterSubscriptionTypeService,
-        IOrderService orderService,
+        //Removed: IOrderService orderService,
         IPermissionService permissionService,
         IPictureService pictureService,
-        IProductService productService,
-        IReturnRequestService returnRequestService,
+        //Removed: IProductService productService,
+        //Removed: IReturnRequestService returnRequestService,
         IStateProvinceService stateProvinceService,
         IStoreContext storeContext,
         IStoreMappingService storeMappingService,
         IUrlRecordService urlRecordService,
         IWorkContext workContext,
         MediaSettings mediaSettings,
-        OrderSettings orderSettings,
-        RewardPointsSettings rewardPointsSettings,
-        SecuritySettings securitySettings,
-        TaxSettings taxSettings,
-        VendorSettings vendorSettings)
+        //COMMERCE SETTINGS REMOVED - Phase C
+        //Removed: OrderSettings orderSettings,
+        //Removed: RewardPointsSettings rewardPointsSettings,
+        SecuritySettings securitySettings
+        //Removed: TaxSettings taxSettings,
+        //Removed: VendorSettings vendorSettings
+        )
     {
         _addressSettings = addressSettings;
         _captchaSettings = captchaSettings;
-        _catalogSettings = catalogSettings;
+        //COMMERCE SETTINGS REMOVED - Phase C
+        //Removed: _catalogSettings = catalogSettings;
         _commonSettings = commonSettings;
         _customerSettings = customerSettings;
         _dateTimeSettings = dateTimeSettings;
-        _externalAuthenticationModelFactory = externalAuthenticationModelFactory;
-        _externalAuthenticationService = externalAuthenticationService;
-        _externalAuthenticationSettings = externalAuthenticationSettings;
-        _forumSettings = forumSettings;
-        _gdprSettings = gdprSettings;
+        //COMMERCE/ADDITIONAL FEATURES REMOVED - Phase C
+        //Removed: _externalAuthenticationModelFactory = externalAuthenticationModelFactory;
+        //Removed: _externalAuthenticationService = externalAuthenticationService;
+        //Removed: _externalAuthenticationSettings = externalAuthenticationSettings;
+        //Removed: _forumSettings = forumSettings;
+        //Removed: _gdprSettings = gdprSettings;
         _addressModelFactory = addressModelFactory;
-        _customerAttributeParser = customerAttributeParser;
-        _customerAttributeService = customerAttributeService;
-        _authenticationPluginManager = authenticationPluginManager;
+        //Removed: _customerAttributeParser = customerAttributeParser;
+        //Removed: _customerAttributeService = customerAttributeService;
+        //Removed: _authenticationPluginManager = authenticationPluginManager;
         _countryService = countryService;
         _customerService = customerService;
         _dateTimeHelper = dateTimeHelper;
-        _gdprService = gdprService;
+        //Removed: _gdprService = gdprService;
         _genericAttributeService = genericAttributeService;
         _localizationService = localizationService;
-        _multiFactorAuthenticationPluginManager = multiFactorAuthenticationPluginManager;
         _newsLetterSubscriptionService = newsLetterSubscriptionService;
         _newsLetterSubscriptionTypeService = newsLetterSubscriptionTypeService;
-        _orderService = orderService;
+        //Removed: _orderService = orderService;
         _permissionService = permissionService;
         _pictureService = pictureService;
-        _productService = productService;
-        _returnRequestService = returnRequestService;
+        //Removed: _productService = productService;
+        //Removed: _returnRequestService = returnRequestService;
         _stateProvinceService = stateProvinceService;
         _storeContext = storeContext;
         _storeMappingService = storeMappingService;
         _urlRecordService = urlRecordService;
         _workContext = workContext;
         _mediaSettings = mediaSettings;
-        _orderSettings = orderSettings;
-        _rewardPointsSettings = rewardPointsSettings;
+        //Removed: _orderSettings = orderSettings;
+        //Removed: _rewardPointsSettings = rewardPointsSettings;
         _securitySettings = securitySettings;
-        _taxSettings = taxSettings;
-        _vendorSettings = vendorSettings;
+        //Removed: _taxSettings = taxSettings;
+        //Removed: _vendorSettings = vendorSettings;
     }
 
     #endregion
 
     #region Utilities
 
-    /// <returns>A task that represents the asynchronous operation</returns>
-    protected virtual async Task<GdprConsentModel> PrepareGdprConsentModelAsync(GdprConsent consent, bool accepted)
-    {
-        ArgumentNullException.ThrowIfNull(consent);
-
-        var requiredMessage = await _localizationService.GetLocalizedAsync(consent, x => x.RequiredMessage);
-        return new GdprConsentModel
-        {
-            Id = consent.Id,
-            Message = await _localizationService.GetLocalizedAsync(consent, x => x.Message),
-            IsRequired = consent.IsRequired,
-            RequiredMessage = !string.IsNullOrEmpty(requiredMessage) ? requiredMessage : $"'{consent.Message}' is required",
-            Accepted = accepted
-        };
-    }
+    //COMMERCE/ADDITIONAL FEATURES REMOVED - Phase C
+    //Removed: PrepareGdprConsentModelAsync (GDPR feature)
 
     #endregion
 
@@ -204,7 +201,7 @@ public partial class CustomerModelFactory : ICustomerModelFactory
     /// The task result contains the customer info model
     /// </returns>
     public virtual async Task<CustomerInfoModel> PrepareCustomerInfoModelAsync(CustomerInfoModel model, Customer customer,
-        bool excludeProperties, string overrideCustomCustomerAttributesXml = "")
+        bool excludeProperties)
     {
         ArgumentNullException.ThrowIfNull(model);
 
@@ -217,7 +214,8 @@ public partial class CustomerModelFactory : ICustomerModelFactory
         var store = await _storeContext.GetCurrentStoreAsync();
         if (!excludeProperties)
         {
-            model.VatNumber = customer.VatNumber;
+            //COMMERCE/ADDITIONAL FEATURES REMOVED - Phase C
+            //Removed: model.VatNumber = customer.VatNumber;
             model.FirstName = customer.FirstName;
             model.LastName = customer.LastName;
             model.Gender = customer.Gender;
@@ -313,9 +311,11 @@ public partial class CustomerModelFactory : ICustomerModelFactory
             }
         }
 
-        model.DisplayVatNumber = _taxSettings.EuVatEnabled;
-        model.VatNumberRequired = _taxSettings.EuVatRequired;
-        model.VatNumberStatusNote = await _localizationService.GetLocalizedEnumAsync(customer.VatNumberStatus);
+        //COMMERCE/ADDITIONAL FEATURES REMOVED - Phase C
+        //Removed: Tax/VAT related code
+        model.DisplayVatNumber = false;
+        model.VatNumberRequired = false;
+        //Removed: model.VatNumberStatusNote = await _localizationService.GetLocalizedEnumAsync(customer.VatNumberStatus);
         model.FirstNameEnabled = _customerSettings.FirstNameEnabled;
         model.LastNameEnabled = _customerSettings.LastNameEnabled;
         model.FirstNameRequired = _customerSettings.FirstNameRequired;
@@ -348,45 +348,15 @@ public partial class CustomerModelFactory : ICustomerModelFactory
         model.UsernamesEnabled = _customerSettings.UsernamesEnabled;
         model.AllowUsersToChangeUsernames = _customerSettings.AllowUsersToChangeUsernames;
         model.CheckUsernameAvailabilityEnabled = _customerSettings.CheckUsernameAvailabilityEnabled;
-        model.SignatureEnabled = _forumSettings.ForumsEnabled && _forumSettings.SignaturesEnabled;
+        //COMMERCE/ADDITIONAL FEATURES REMOVED - Phase C
+        //Removed: model.SignatureEnabled = _forumSettings.ForumsEnabled && _forumSettings.SignaturesEnabled;
+        model.SignatureEnabled = false;
 
-        //external authentication
-        var currentCustomer = await _workContext.GetCurrentCustomerAsync();
-        model.AllowCustomersToRemoveAssociations = _externalAuthenticationSettings.AllowCustomersToRemoveAssociations;
-        var authenticationProviders = await _externalAuthenticationModelFactory.PrepareExternalMethodsModelAsync();
-        model.NumberOfExternalAuthenticationProviders = authenticationProviders.Count;
-        foreach (var record in await _externalAuthenticationService.GetCustomerExternalAuthenticationRecordsAsync(customer))
-        {
-            var authMethod = await _authenticationPluginManager
-                .LoadPluginBySystemNameAsync(record.ProviderSystemName, currentCustomer, store.Id);
-            if (!_authenticationPluginManager.IsPluginActive(authMethod))
-                continue;
+        //Removed: External authentication code
+        //Removed: Custom customer attributes code
 
-            model.AssociatedExternalAuthRecords.Add(new CustomerInfoModel.AssociatedExternalAuthModel
-            {
-                Id = record.Id,
-                Email = record.Email,
-                ExternalIdentifier = !string.IsNullOrEmpty(record.ExternalDisplayIdentifier)
-                    ? record.ExternalDisplayIdentifier : record.ExternalIdentifier,
-                AuthMethodName = await _localizationService.GetLocalizedFriendlyNameAsync(authMethod, currentLanguage.Id)
-            });
-        }
-
-        //custom customer attributes
-        var customAttributes = await PrepareCustomCustomerAttributesAsync(customer, overrideCustomCustomerAttributesXml);
-        foreach (var attribute in customAttributes)
-            model.CustomerAttributes.Add(attribute);
-
-        //GDPR
-        if (_gdprSettings.GdprEnabled)
-        {
-            var consents = (await _gdprService.GetAllConsentsAsync()).Where(consent => consent.DisplayOnCustomerInfoPage).ToList();
-            foreach (var consent in consents)
-            {
-                var accepted = await _gdprService.IsConsentAcceptedAsync(consent.Id, currentCustomer.Id);
-                model.GdprConsents.Add(await PrepareGdprConsentModelAsync(consent, accepted.HasValue && accepted.Value));
-            }
-        }
+        //COMMERCE FEATURE REMOVED - Phase C
+        //Removed: GDPR (GDPR tools - commerce-driven)
 
         return model;
     }
@@ -403,7 +373,7 @@ public partial class CustomerModelFactory : ICustomerModelFactory
     /// The task result contains the customer register model
     /// </returns>
     public virtual async Task<RegisterModel> PrepareRegisterModelAsync(RegisterModel model, bool excludeProperties,
-        string overrideCustomCustomerAttributesXml = "", bool setDefaultValues = false)
+        bool setDefaultValues = false)
     {
         ArgumentNullException.ThrowIfNull(model);
 
@@ -413,11 +383,10 @@ public partial class CustomerModelFactory : ICustomerModelFactory
         foreach (var tzi in _dateTimeHelper.GetSystemTimeZones())
             model.AvailableTimeZones.Add(new SelectListItem { Text = tzi.DisplayName, Value = tzi.Id, Selected = (excludeProperties ? tzi.Id == model.TimeZoneId : tzi.Id == (await _dateTimeHelper.GetCurrentTimeZoneAsync()).Id) });
 
-        //VAT
-        model.DisplayVatNumber = _taxSettings.EuVatEnabled;
-        model.VatNumberRequired = _taxSettings.EuVatRequired;
-        if (_taxSettings.EuVatEnabled && _taxSettings.EuVatEnabledForGuests)
-            model.VatNumber = customer.VatNumber;
+        //COMMERCE/ADDITIONAL FEATURES REMOVED - Phase C
+        //Removed: VAT/Tax related code
+        model.DisplayVatNumber = false;
+        model.VatNumberRequired = false;
 
         //form fields
         model.FirstNameEnabled = _customerSettings.FirstNameEnabled;
@@ -516,20 +485,9 @@ public partial class CustomerModelFactory : ICustomerModelFactory
             }
         }
 
-        //custom customer attributes
-        var customAttributes = await PrepareCustomCustomerAttributesAsync(customer, overrideCustomCustomerAttributesXml);
-        foreach (var attribute in customAttributes)
-            model.CustomerAttributes.Add(attribute);
-
-        //GDPR
-        if (_gdprSettings.GdprEnabled)
-        {
-            var consents = (await _gdprService.GetAllConsentsAsync()).Where(consent => consent.DisplayDuringRegistration).ToList();
-            foreach (var consent in consents)
-            {
-                model.GdprConsents.Add(await PrepareGdprConsentModelAsync(consent, false));
-            }
-        }
+        //COMMERCE/ADDITIONAL FEATURES REMOVED - Phase C
+        //Removed: Custom customer attributes code
+        //Removed: GDPR consents code
 
         return model;
     }
@@ -648,51 +606,8 @@ public partial class CustomerModelFactory : ICustomerModelFactory
         var store = await _storeContext.GetCurrentStoreAsync();
         var customer = await _workContext.GetCurrentCustomerAsync();
 
-        if (_orderSettings.ReturnRequestsEnabled &&
-            (await _returnRequestService.SearchReturnRequestsAsync(store.Id,
-                customer.Id, pageIndex: 0, pageSize: 1)).Any())
-        {
-            model.CustomerNavigationItems.Add(new CustomerNavigationItemModel
-            {
-                RouteName = NopRouteNames.Standard.CUSTOMER_RETURN_REQUESTS,
-                Title = await _localizationService.GetResourceAsync("Account.CustomerReturnRequests"),
-                Tab = (int)CustomerNavigationEnum.ReturnRequests,
-                ItemClass = "return-requests"
-            });
-        }
-
-        if (!_customerSettings.HideDownloadableProductsTab)
-        {
-            model.CustomerNavigationItems.Add(new CustomerNavigationItemModel
-            {
-                RouteName = NopRouteNames.Standard.CUSTOMER_DOWNLOADABLE_PRODUCTS,
-                Title = await _localizationService.GetResourceAsync("Account.DownloadableProducts"),
-                Tab = (int)CustomerNavigationEnum.DownloadableProducts,
-                ItemClass = "downloadable-products"
-            });
-        }
-
-        if (!_customerSettings.HideBackInStockSubscriptionsTab)
-        {
-            model.CustomerNavigationItems.Add(new CustomerNavigationItemModel
-            {
-                RouteName = NopRouteNames.Standard.CUSTOMER_BACK_IN_STOCK_SUBSCRIPTIONS,
-                Title = await _localizationService.GetResourceAsync("Account.BackInStockSubscriptions"),
-                Tab = (int)CustomerNavigationEnum.BackInStockSubscriptions,
-                ItemClass = "back-in-stock-subscriptions"
-            });
-        }
-
-        if (_rewardPointsSettings.Enabled)
-        {
-            model.CustomerNavigationItems.Add(new CustomerNavigationItemModel
-            {
-                RouteName = NopRouteNames.Standard.CUSTOMER_REWARD_POINTS,
-                Title = await _localizationService.GetResourceAsync("Account.RewardPoints"),
-                Tab = (int)CustomerNavigationEnum.RewardPoints,
-                ItemClass = "reward-points"
-            });
-        }
+        //COMMERCE NAVIGATION ITEMS REMOVED - Phase C
+        //Removed: ReturnRequests, DownloadableProducts, BackInStockSubscriptions, RewardPoints (commerce features)
 
         model.CustomerNavigationItems.Add(new CustomerNavigationItemModel
         {
@@ -713,46 +628,8 @@ public partial class CustomerModelFactory : ICustomerModelFactory
             });
         }
 
-        if (_forumSettings.ForumsEnabled && _forumSettings.AllowCustomersToManageSubscriptions)
-        {
-            model.CustomerNavigationItems.Add(new CustomerNavigationItemModel
-            {
-                RouteName = NopRouteNames.Standard.CUSTOMER_FORUM_SUBSCRIPTIONS,
-                Title = await _localizationService.GetResourceAsync("Account.ForumSubscriptions"),
-                Tab = (int)CustomerNavigationEnum.ForumSubscriptions,
-                ItemClass = "forum-subscriptions"
-            });
-        }
-        if (_catalogSettings.ShowProductReviewsTabOnAccountPage)
-        {
-            model.CustomerNavigationItems.Add(new CustomerNavigationItemModel
-            {
-                RouteName = NopRouteNames.Standard.CUSTOMER_PRODUCT_REVIEWS,
-                Title = await _localizationService.GetResourceAsync("Account.CustomerProductReviews"),
-                Tab = (int)CustomerNavigationEnum.ProductReviews,
-                ItemClass = "customer-reviews"
-            });
-        }
-        if (_vendorSettings.AllowVendorsToEditInfo && await _workContext.GetCurrentVendorAsync() != null)
-        {
-            model.CustomerNavigationItems.Add(new CustomerNavigationItemModel
-            {
-                RouteName = NopRouteNames.Standard.CUSTOMER_VENDOR_INFO,
-                Title = await _localizationService.GetResourceAsync("Account.VendorInfo"),
-                Tab = (int)CustomerNavigationEnum.VendorInfo,
-                ItemClass = "customer-vendor-info"
-            });
-        }
-        if (_gdprSettings.GdprEnabled)
-        {
-            model.CustomerNavigationItems.Add(new CustomerNavigationItemModel
-            {
-                RouteName = NopRouteNames.Standard.GDPR_TOOLS,
-                Title = await _localizationService.GetResourceAsync("Account.Gdpr"),
-                Tab = (int)CustomerNavigationEnum.GdprTools,
-                ItemClass = "customer-gdpr"
-            });
-        }
+        //COMMERCE NAVIGATION ITEMS REMOVED - Phase C
+        //Removed: ForumSubscriptions, ProductReviews, VendorInfo, GdprTools (commerce features)
 
         if (_customerSettings.AllowCustomersToCheckGiftCardBalance)
         {
@@ -762,18 +639,6 @@ public partial class CustomerModelFactory : ICustomerModelFactory
                 Title = await _localizationService.GetResourceAsync("CheckGiftCardBalance"),
                 Tab = (int)CustomerNavigationEnum.CheckGiftCardBalance,
                 ItemClass = "customer-check-gift-card-balance"
-            });
-        }
-
-        if (await _permissionService.AuthorizeAsync(StandardPermission.Security.ENABLE_MULTI_FACTOR_AUTHENTICATION) &&
-            await _multiFactorAuthenticationPluginManager.HasActivePluginsAsync())
-        {
-            model.CustomerNavigationItems.Add(new CustomerNavigationItemModel
-            {
-                RouteName = NopRouteNames.Standard.MULTI_FACTOR_AUTHENTICATION_SETTINGS,
-                Title = await _localizationService.GetResourceAsync("PageTitle.MultiFactorAuthentication"),
-                Tab = (int)CustomerNavigationEnum.MultiFactorAuthentication,
-                ItemClass = "customer-multiFactor-authentication"
             });
         }
 
@@ -812,69 +677,9 @@ public partial class CustomerModelFactory : ICustomerModelFactory
         return model;
     }
 
-    /// <summary>
-    /// Prepare the customer downloadable products model
-    /// </summary>
-    /// <returns>
-    /// A task that represents the asynchronous operation
-    /// The task result contains the customer downloadable products model
-    /// </returns>
-    public virtual async Task<CustomerDownloadableProductsModel> PrepareCustomerDownloadableProductsModelAsync()
-    {
-        var model = new CustomerDownloadableProductsModel();
-        var customer = await _workContext.GetCurrentCustomerAsync();
-        var items = await _orderService.GetDownloadableOrderItemsAsync(customer.Id);
-        foreach (var item in items)
-        {
-            var order = await _orderService.GetOrderByIdAsync(item.OrderId);
-            var product = await _productService.GetProductByIdAsync(item.ProductId);
-
-            var itemModel = new CustomerDownloadableProductsModel.DownloadableProductsModel
-            {
-                OrderItemGuid = item.OrderItemGuid,
-                OrderId = order.Id,
-                CustomOrderNumber = order.CustomOrderNumber,
-                CreatedOn = await _dateTimeHelper.ConvertToUserTimeAsync(order.CreatedOnUtc, DateTimeKind.Utc),
-                ProductName = await _localizationService.GetLocalizedAsync(product, x => x.Name),
-                ProductSeName = await _urlRecordService.GetSeNameAsync(product),
-                ProductAttributes = item.AttributeDescription,
-                ProductId = item.ProductId
-            };
-            model.Items.Add(itemModel);
-
-            if (await _orderService.IsDownloadAllowedAsync(item))
-                itemModel.DownloadId = product.DownloadId;
-
-            if (await _orderService.IsLicenseDownloadAllowedAsync(item))
-                itemModel.LicenseId = item.LicenseDownloadId ?? 0;
-        }
-
-        return model;
-    }
-
-    /// <summary>
-    /// Prepare the user agreement model
-    /// </summary>
-    /// <param name="orderItem">Order item</param>
-    /// <param name="product">Product</param>
-    /// <returns>
-    /// A task that represents the asynchronous operation
-    /// The task result contains the user agreement model
-    /// </returns>
-    public virtual Task<UserAgreementModel> PrepareUserAgreementModelAsync(OrderItem orderItem, Product product)
-    {
-        ArgumentNullException.ThrowIfNull(orderItem);
-
-        ArgumentNullException.ThrowIfNull(product);
-
-        var model = new UserAgreementModel
-        {
-            UserAgreementText = product.UserAgreementText,
-            OrderItemGuid = orderItem.OrderItemGuid
-        };
-
-        return Task.FromResult(model);
-    }
+    //COMMERCE METHODS REMOVED - Phase C
+    //Removed: PrepareCustomerDownloadableProductsModelAsync (downloadable products - commerce feature)
+    //Removed: PrepareUserAgreementModelAsync (user agreement - commerce feature)
 
     /// <summary>
     /// Prepare the change password model
@@ -915,33 +720,9 @@ public partial class CustomerModelFactory : ICustomerModelFactory
         return model;
     }
 
-    /// <summary>
-    /// Prepare the GDPR tools model
-    /// </summary>
-    /// <returns>
-    /// A task that represents the asynchronous operation
-    /// The task result contains the gDPR tools model
-    /// </returns>
-    public virtual Task<GdprToolsModel> PrepareGdprToolsModelAsync()
-    {
-        var model = new GdprToolsModel();
-
-        return Task.FromResult(model);
-    }
-
-    /// <summary>
-    /// Prepare the check gift card balance madel
-    /// </summary>
-    /// <returns>
-    /// A task that represents the asynchronous operation
-    /// The task result contains the check gift card balance madel
-    /// </returns>
-    public virtual Task<CheckGiftCardBalanceModel> PrepareCheckGiftCardBalanceModelAsync()
-    {
-        var model = new CheckGiftCardBalanceModel { DisplayCaptcha = _captchaSettings.Enabled && _captchaSettings.ShowOnCheckGiftCardBalance };
-
-        return Task.FromResult(model);
-    }
+    //COMMERCE METHODS REMOVED - Phase C
+    //Removed: PrepareGdprToolsModelAsync (GDPR tools - commerce-driven)
+    //Removed: PrepareCheckGiftCardBalanceModelAsync (gift card balance - commerce feature)
 
     /// <summary>
     /// Prepare the multi-factor authentication model
@@ -959,14 +740,6 @@ public partial class CustomerModelFactory : ICustomerModelFactory
             await _genericAttributeService.GetAttributeAsync<string>(customer, NopCustomerDefaults.SelectedMultiFactorAuthenticationProviderAttribute));
 
         var store = await _storeContext.GetCurrentStoreAsync();
-        var multiFactorAuthenticationProviders = (await _multiFactorAuthenticationPluginManager.LoadActivePluginsAsync(customer, store.Id)).ToList();
-        foreach (var multiFactorAuthenticationProvider in multiFactorAuthenticationProviders)
-        {
-            var providerModel = new MultiFactorAuthenticationProviderModel();
-            var sysName = multiFactorAuthenticationProvider.PluginDescriptor.SystemName;
-            providerModel = await PrepareMultiFactorAuthenticationProviderModelAsync(providerModel, sysName);
-            model.Providers.Add(providerModel);
-        }
 
         return model;
     }
@@ -986,123 +759,11 @@ public partial class CustomerModelFactory : ICustomerModelFactory
         var selectedProvider = await _genericAttributeService.GetAttributeAsync<string>(customer, NopCustomerDefaults.SelectedMultiFactorAuthenticationProviderAttribute);
         var store = await _storeContext.GetCurrentStoreAsync();
 
-        var multiFactorAuthenticationProvider = (await _multiFactorAuthenticationPluginManager.LoadActivePluginsAsync(customer, store.Id))
-            .FirstOrDefault(provider => provider.PluginDescriptor.SystemName == sysName);
-
-        if (multiFactorAuthenticationProvider != null)
-        {
-            providerModel.Name = await _localizationService.GetLocalizedFriendlyNameAsync(multiFactorAuthenticationProvider, (await _workContext.GetWorkingLanguageAsync()).Id);
-            providerModel.SystemName = sysName;
-            providerModel.Description = await multiFactorAuthenticationProvider.GetDescriptionAsync();
-            providerModel.LogoUrl = await _multiFactorAuthenticationPluginManager.GetPluginLogoUrlAsync(multiFactorAuthenticationProvider);
-            providerModel.ViewComponent = isLogin ? multiFactorAuthenticationProvider.GetVerificationViewComponent() : multiFactorAuthenticationProvider.GetPublicViewComponent();
-            providerModel.Selected = sysName == selectedProvider;
-        }
-
         return providerModel;
     }
 
-    /// <summary>
-    /// Prepare the custom customer attribute models
-    /// </summary>
-    /// <param name="customer">Customer</param>
-    /// <param name="overrideAttributesXml">Overridden customer attributes in XML format; pass null to use CustomCustomerAttributes of customer</param>
-    /// <returns>
-    /// A task that represents the asynchronous operation
-    /// The task result contains the list of the customer attribute model
-    /// </returns>
-    public virtual async Task<IList<CustomerAttributeModel>> PrepareCustomCustomerAttributesAsync(Customer customer, string overrideAttributesXml = "")
-    {
-        ArgumentNullException.ThrowIfNull(customer);
-
-        var result = new List<CustomerAttributeModel>();
-
-        var customerAttributes = await _customerAttributeService.GetAllAttributesAsync();
-        foreach (var attribute in customerAttributes)
-        {
-            var attributeModel = new CustomerAttributeModel
-            {
-                Id = attribute.Id,
-                Name = await _localizationService.GetLocalizedAsync(attribute, x => x.Name),
-                IsRequired = attribute.IsRequired,
-                AttributeControlType = attribute.AttributeControlType,
-            };
-
-            if (attribute.ShouldHaveValues)
-            {
-                //values
-                var attributeValues = await _customerAttributeService.GetAttributeValuesAsync(attribute.Id);
-                foreach (var attributeValue in attributeValues)
-                {
-                    var valueModel = new CustomerAttributeValueModel
-                    {
-                        Id = attributeValue.Id,
-                        Name = await _localizationService.GetLocalizedAsync(attributeValue, x => x.Name),
-                        IsPreSelected = attributeValue.IsPreSelected
-                    };
-                    attributeModel.Values.Add(valueModel);
-                }
-            }
-
-            //set already selected attributes
-            var selectedAttributesXml = !string.IsNullOrEmpty(overrideAttributesXml) ?
-                overrideAttributesXml :
-                customer.CustomCustomerAttributesXML;
-            switch (attribute.AttributeControlType)
-            {
-                case AttributeControlType.DropdownList:
-                case AttributeControlType.RadioList:
-                case AttributeControlType.Checkboxes:
-                {
-                    if (!string.IsNullOrEmpty(selectedAttributesXml))
-                    {
-                        if (!_customerAttributeParser.ParseValues(selectedAttributesXml, attribute.Id).Any())
-                            break;
-
-                        //clear default selection                                
-                        foreach (var item in attributeModel.Values)
-                            item.IsPreSelected = false;
-
-                        //select new values
-                        var selectedValues = await _customerAttributeParser.ParseAttributeValuesAsync(selectedAttributesXml);
-                        foreach (var attributeValue in selectedValues)
-                        foreach (var item in attributeModel.Values)
-                            if (attributeValue.Id == item.Id)
-                                item.IsPreSelected = true;
-                    }
-                }
-                    break;
-                case AttributeControlType.ReadonlyCheckboxes:
-                {
-                    //do nothing
-                    //values are already pre-set
-                }
-                    break;
-                case AttributeControlType.TextBox:
-                case AttributeControlType.MultilineTextbox:
-                {
-                    if (!string.IsNullOrEmpty(selectedAttributesXml))
-                    {
-                        var enteredText = _customerAttributeParser.ParseValues(selectedAttributesXml, attribute.Id);
-                        if (enteredText.Any())
-                            attributeModel.DefaultValue = enteredText[0];
-                    }
-                }
-                    break;
-                case AttributeControlType.ColorSquares:
-                case AttributeControlType.ImageSquares:
-                case AttributeControlType.Datepicker:
-                case AttributeControlType.FileUpload:
-                default:
-                    //not supported attribute control types
-                    break;
-            }
-
-            result.Add(attributeModel);
-        }
-
-        return result;
-    }
+    //COMMERCE/ADDITIONAL FEATURES REMOVED - Phase C
+    //Removed: PrepareCustomCustomerAttributesAsync (customer attributes feature)
 
     #endregion
 }

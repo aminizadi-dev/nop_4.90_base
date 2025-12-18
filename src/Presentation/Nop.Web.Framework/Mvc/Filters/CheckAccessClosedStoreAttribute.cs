@@ -6,7 +6,6 @@ using Nop.Core.Domain;
 using Nop.Core.Http;
 using Nop.Data;
 using Nop.Services.Security;
-using Nop.Services.Topics;
 
 namespace Nop.Web.Framework.Mvc.Filters;
 
@@ -50,8 +49,6 @@ public sealed class CheckAccessClosedStoreAttribute : TypeFilterAttribute
         protected readonly bool _ignoreFilter;
         protected readonly IPermissionService _permissionService;
         protected readonly IStoreContext _storeContext;
-        protected readonly ITopicService _topicService;
-        protected readonly StoreInformationSettings _storeInformationSettings;
 
         #endregion
 
@@ -59,15 +56,11 @@ public sealed class CheckAccessClosedStoreAttribute : TypeFilterAttribute
 
         public CheckAccessClosedStoreFilter(bool ignoreFilter,
             IPermissionService permissionService,
-            IStoreContext storeContext,
-            ITopicService topicService,
-            StoreInformationSettings storeInformationSettings)
+            IStoreContext storeContext)
         {
             _ignoreFilter = ignoreFilter;
             _permissionService = permissionService;
             _storeContext = storeContext;
-            _topicService = topicService;
-            _storeInformationSettings = storeInformationSettings;
         }
 
         #endregion
@@ -97,10 +90,6 @@ public sealed class CheckAccessClosedStoreAttribute : TypeFilterAttribute
             if (actionFilter?.IgnoreFilter ?? _ignoreFilter)
                 return;
 
-            //store isn't closed
-            if (!_storeInformationSettings.StoreClosed)
-                return;
-
             //get action and controller names
             var actionDescriptor = context.ActionDescriptor as ControllerActionDescriptor;
             var actionName = actionDescriptor?.ActionName;
@@ -108,27 +97,6 @@ public sealed class CheckAccessClosedStoreAttribute : TypeFilterAttribute
 
             if (string.IsNullOrEmpty(actionName) || string.IsNullOrEmpty(controllerName))
                 return;            
-
-            //topics accessible when a store is closed
-            if (controllerName.Equals("Topic", StringComparison.InvariantCultureIgnoreCase) &&
-                actionName.Equals("TopicDetails", StringComparison.InvariantCultureIgnoreCase))
-            {
-                //get identifiers of topics are accessible when a store is closed
-
-                var store = await _storeContext.GetCurrentStoreAsync();
-                var allowedTopicIds = (await _topicService.GetAllTopicsAsync(store.Id))
-                    .Where(topic => topic.AccessibleWhenStoreClosed)
-                    .Select(topic => topic.Id);
-
-                //check whether requested topic is allowed
-                var requestedTopicId = context.RouteData.Values["topicId"] as int?;
-                if (requestedTopicId.HasValue && allowedTopicIds.Contains(requestedTopicId.Value))
-                    return;
-            }
-
-            //check whether current customer has access to a closed store
-            if (await _permissionService.AuthorizeAsync(StandardPermission.PublicStore.ACCESS_CLOSED_STORE))
-                return;
 
             //store is closed and no access, so redirect to 'StoreClosed' page
             context.Result = new RedirectToRouteResult(NopRouteNames.Standard.STORE_CLOSED, null);

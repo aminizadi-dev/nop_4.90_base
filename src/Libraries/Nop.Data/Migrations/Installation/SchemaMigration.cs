@@ -1,31 +1,18 @@
 ﻿using FluentMigrator;
-using Nop.Core.Domain.Affiliates;
-using Nop.Core.Domain.Blogs;
-using Nop.Core.Domain.Catalog;
+//COMMERCE DOMAIN REMOVED - Phase C
+//Removed: Affiliates, Blogs, Catalog, Discounts, FilterLevels, Forums, Gdpr, Menus, News, Orders, Polls, Shipping, Tax, Topics, Vendors
 using Nop.Core.Domain.Common;
 using Nop.Core.Domain.Configuration;
 using Nop.Core.Domain.Customers;
 using Nop.Core.Domain.Directory;
-using Nop.Core.Domain.Discounts;
-using Nop.Core.Domain.FilterLevels;
-using Nop.Core.Domain.Forums;
-using Nop.Core.Domain.Gdpr;
 using Nop.Core.Domain.Localization;
 using Nop.Core.Domain.Logging;
 using Nop.Core.Domain.Media;
-using Nop.Core.Domain.Menus;
 using Nop.Core.Domain.Messages;
-using Nop.Core.Domain.News;
-using Nop.Core.Domain.Orders;
-using Nop.Core.Domain.Polls;
 using Nop.Core.Domain.ScheduleTasks;
 using Nop.Core.Domain.Security;
 using Nop.Core.Domain.Seo;
-using Nop.Core.Domain.Shipping;
 using Nop.Core.Domain.Stores;
-using Nop.Core.Domain.Tax;
-using Nop.Core.Domain.Topics;
-using Nop.Core.Domain.Vendors;
 using Nop.Data.Extensions;
 
 namespace Nop.Data.Migrations.Installation;
@@ -52,7 +39,8 @@ public class SchemaMigration : ForwardOnlyMigration
         Create.TableFor<MeasureWeight>();
         Create.TableFor<StateProvince>();
         Create.TableFor<Address>();
-        Create.TableFor<Affiliate>();
+        //COMMERCE TABLES REMOVED - Phase C
+        //Removed: Affiliate
         Create.TableFor<Language>();
         Create.TableFor<CustomerAttribute>();
         Create.TableFor<CustomerAttributeValue>();
@@ -62,89 +50,18 @@ public class SchemaMigration : ForwardOnlyMigration
         Create.TableFor<CustomerRole>();
         Create.TableFor<CustomerCustomerRoleMapping>();
         Create.TableFor<ExternalAuthenticationRecord>();
-        Create.TableFor<CheckoutAttribute>();
-        Create.TableFor<CheckoutAttributeValue>();
-        Create.TableFor<ReturnRequestAction>();
-        Create.TableFor<ReturnRequest>();
-        Create.TableFor<ReturnRequestReason>();
-        Create.TableFor<ProductAttribute>();
-        Create.TableFor<PredefinedProductAttributeValue>();
-        Create.TableFor<ProductTag>();
-        Create.TableFor<Product>();
-        Create.TableFor<ProductTemplate>();
-        Create.TableFor<BackInStockSubscription>();
-        Create.TableFor<RelatedProduct>();
-        Create.TableFor<FilterLevelValue>();
-        Create.TableFor<FilterLevelValueProductMapping>();
-        Create.TableFor<ReviewType>();
-        Create.TableFor<SpecificationAttributeGroup>();
-        Create.TableFor<SpecificationAttribute>();
-        Create.TableFor<ProductAttributeCombination>();
-        Create.TableFor<ProductAttributeCombinationPicture>();
-        Create.TableFor<ProductAttributeMapping>();
-        Create.TableFor<ProductAttributeValue>();
-        Create.TableFor<ProductAttributeValuePicture>();
-        Create.TableFor<Order>();
-        Create.TableFor<OrderItem>();
-        Create.TableFor<RewardPointsHistory>();
-        Create.TableFor<GiftCard>();
-        Create.TableFor<GiftCardUsageHistory>();
-        Create.TableFor<OrderNote>();
-        Create.TableFor<RecurringPayment>();
-        Create.TableFor<RecurringPaymentHistory>();
-        Create.TableFor<CustomWishlist>();
-        Create.TableFor<ShoppingCartItem>();
+        //COMMERCE TABLES REMOVED - Phase C
+        //Removed: CheckoutAttribute, ReturnRequest, Product, Order, ShoppingCartItem, etc.
         Create.TableFor<Store>();
         Create.TableFor<StoreMapping>();
         Create.TableFor<LocaleStringResource>();
         Create.TableFor<LocalizedProperty>();
-        Create.TableFor<BlogPost>();
-        Create.TableFor<BlogComment>();
-        Create.TableFor<Category>();
-        Create.TableFor<CategoryTemplate>();
-        Create.TableFor<ProductCategory>();
-        Create.TableFor<CrossSellProduct>();
-        Create.TableFor<Manufacturer>();
-        Create.TableFor<ManufacturerTemplate>();
-        Create.TableFor<ProductManufacturer>();
-        Create.TableFor<ProductProductTagMapping>();
-        Create.TableFor<ProductReview>();
-        Create.TableFor<ProductReviewHelpfulness>();
-        Create.TableFor<ProductReviewReviewTypeMapping>();
-        Create.TableFor<SpecificationAttributeOption>();
-        Create.TableFor<ProductSpecificationAttribute>();
-        Create.TableFor<TierPrice>();
-        Create.TableFor<Warehouse>();
-        Create.TableFor<DeliveryDate>();
-        Create.TableFor<ProductAvailabilityRange>();
-        Create.TableFor<Shipment>();
-        Create.TableFor<ShipmentItem>();
-        Create.TableFor<ShippingMethod>();
-        Create.TableFor<ShippingMethodCountryMapping>();
-        Create.TableFor<ProductWarehouseInventory>();
-        Create.TableFor<StockQuantityHistory>();
-        Create.TableFor<Download>();
+        //COMMERCE TABLES REMOVED - Phase C
+        //Removed: BlogPost, Category, Product, Manufacturer, Shipping, Discount, Forum, Gdpr, etc.
         Create.TableFor<Picture>();
         Create.TableFor<PictureBinary>();
-        Create.TableFor<ProductPicture>();
         Create.TableFor<Video>();
-        Create.TableFor<ProductVideo>();
         Create.TableFor<Setting>();
-        Create.TableFor<Discount>();
-        Create.TableFor<DiscountCategoryMapping>();
-        Create.TableFor<DiscountProductMapping>();
-        Create.TableFor<DiscountRequirement>();
-        Create.TableFor<DiscountUsageHistory>();
-        Create.TableFor<DiscountManufacturerMapping>();
-        Create.TableFor<PrivateMessage>();
-        Create.TableFor<ForumGroup>();
-        Create.TableFor<Forum>();
-        Create.TableFor<ForumTopic>();
-        Create.TableFor<ForumPost>();
-        Create.TableFor<ForumPostVote>();
-        Create.TableFor<ForumSubscription>();
-        Create.TableFor<GdprConsent>();
-        Create.TableFor<GdprLog>();
         Create.TableFor<ActivityLogType>();
         Create.TableFor<ActivityLog>();
         Create.TableFor<Log>();
@@ -154,24 +71,14 @@ public class SchemaMigration : ForwardOnlyMigration
         Create.TableFor<NewsLetterSubscriptionType>();
         Create.TableFor<NewsLetterSubscription>();
         Create.TableFor<QueuedEmail>();
-        Create.TableFor<NewsItem>();
-        Create.TableFor<NewsComment>();
-        Create.TableFor<Poll>();
-        Create.TableFor<PollAnswer>();
-        Create.TableFor<PollVotingRecord>();
+        //COMMERCE TABLES REMOVED - Phase C
+        //Removed: NewsItem, NewsComment, Poll, PollAnswer, PollVotingRecord
         Create.TableFor<AclRecord>();
         Create.TableFor<PermissionRecord>();
         Create.TableFor<PermissionRecordCustomerRoleMapping>();
         Create.TableFor<UrlRecord>();
         Create.TableFor<ScheduleTask>();
-        Create.TableFor<TaxCategory>();
-        Create.TableFor<TopicTemplate>();
-        Create.TableFor<Topic>();
-        Create.TableFor<Vendor>();
-        Create.TableFor<VendorAttribute>();
-        Create.TableFor<VendorAttributeValue>();
-        Create.TableFor<VendorNote>();
-        Create.TableFor<Menu>();
-        Create.TableFor<MenuItem>();
+        //COMMERCE TABLES REMOVED - Phase C
+        //Removed: TaxCategory, Topic, Vendor, Menu, etc.
     }
 }

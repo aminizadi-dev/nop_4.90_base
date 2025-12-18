@@ -21,97 +21,47 @@ public partial class NopStartup : INopStartup
         //installation localization service
         services.AddScoped<IInstallationLocalizationService, InstallationLocalizationService>();
 
-        //common factories
-        services.AddScoped<IDiscountSupportedModelFactory, DiscountSupportedModelFactory>();
+        //common factories (infrastructure only)
         services.AddScoped<ILocalizedModelFactory, LocalizedModelFactory>();
         services.AddScoped<IStoreMappingSupportedModelFactory, StoreMappingSupportedModelFactory>();
 
-        //admin factories
+        //admin factories (infrastructure only)
         services.AddScoped<IAclSupportedModelFactory, AclSupportedModelFactory>();
         services.AddScoped<IBaseAdminModelFactory, BaseAdminModelFactory>();
         services.AddScoped<IActivityLogModelFactory, ActivityLogModelFactory>();
         services.AddScoped<IAddressModelFactory, AddressModelFactory>();
-        services.AddScoped<IAddressAttributeModelFactory, AddressAttributeModelFactory>();
-        services.AddScoped<IAffiliateModelFactory, AffiliateModelFactory>();
-        services.AddScoped<IBlogModelFactory, BlogModelFactory>();
-        services.AddScoped<ICampaignModelFactory, CampaignModelFactory>();
-        services.AddScoped<ICategoryModelFactory, CategoryModelFactory>();
-        services.AddScoped<ICheckoutAttributeModelFactory, CheckoutAttributeModelFactory>();
         services.AddScoped<ICommonModelFactory, CommonModelFactory>();
         services.AddScoped<ICountryModelFactory, CountryModelFactory>();
-        services.AddScoped<ICurrencyModelFactory, CurrencyModelFactory>();
-        services.AddScoped<ICustomerAttributeModelFactory, CustomerAttributeModelFactory>();
         services.AddScoped<ICustomerModelFactory, CustomerModelFactory>();
         services.AddScoped<ICustomerRoleModelFactory, CustomerRoleModelFactory>();
-        services.AddScoped<IDiscountModelFactory, DiscountModelFactory>();
         services.AddScoped<IEmailAccountModelFactory, EmailAccountModelFactory>();
-        services.AddScoped<IExternalAuthenticationMethodModelFactory, ExternalAuthenticationMethodModelFactory>();
-        services.AddScoped<IFilterLevelValueModelFactory, FilterLevelValueModelFactory>();
-        services.AddScoped<IForumModelFactory, ForumModelFactory>();
-        services.AddScoped<IGiftCardModelFactory, GiftCardModelFactory>();
         services.AddScoped<IHomeModelFactory, HomeModelFactory>();
         services.AddScoped<ILanguageModelFactory, LanguageModelFactory>();
         services.AddScoped<ILogModelFactory, LogModelFactory>();
-        services.AddScoped<IManufacturerModelFactory, ManufacturerModelFactory>();
         services.AddScoped<IMeasureModelFactory, MeasureModelFactory>();
-        services.AddScoped<IMessageTemplateModelFactory, MessageTemplateModelFactory>();
-        services.AddScoped<IMultiFactorAuthenticationMethodModelFactory, MultiFactorAuthenticationMethodModelFactory>();
-        services.AddScoped<INewsLetterSubscriptionModelFactory, NewsLetterSubscriptionModelFactory>();
-        services.AddScoped<INewsLetterSubscriptionTypeModelFactory, NewsLetterSubscriptionTypeModelFactory>();
-        services.AddScoped<INewsModelFactory, NewsModelFactory>();
-        services.AddScoped<IOrderModelFactory, OrderModelFactory>();
-        services.AddScoped<IPaymentModelFactory, PaymentModelFactory>();
-        services.AddScoped<IPluginModelFactory, PluginModelFactory>();
-        services.AddScoped<IPollModelFactory, PollModelFactory>();
-        services.AddScoped<IProductModelFactory, ProductModelFactory>();
-        services.AddScoped<IProductAttributeModelFactory, ProductAttributeModelFactory>();
-        services.AddScoped<IProductReviewModelFactory, ProductReviewModelFactory>();
-        services.AddScoped<IReportModelFactory, ReportModelFactory>();
+        //services.AddScoped<IPluginModelFactory, PluginModelFactory>(); // REMOVED - Plugin functionality removed
         services.AddScoped<IQueuedEmailModelFactory, QueuedEmailModelFactory>();
-        services.AddScoped<IRecurringPaymentModelFactory, RecurringPaymentModelFactory>();
-        services.AddScoped<IReturnRequestModelFactory, ReturnRequestModelFactory>();
-        services.AddScoped<IReviewTypeModelFactory, ReviewTypeModelFactory>();
         services.AddScoped<IScheduleTaskModelFactory, ScheduleTaskModelFactory>();
         services.AddScoped<ISecurityModelFactory, SecurityModelFactory>();
         services.AddScoped<ISettingModelFactory, SettingModelFactory>();
-        services.AddScoped<IShippingModelFactory, ShippingModelFactory>();
-        services.AddScoped<IShoppingCartModelFactory, ShoppingCartModelFactory>();
-        services.AddScoped<ISpecificationAttributeModelFactory, SpecificationAttributeModelFactory>();
         services.AddScoped<IStoreModelFactory, StoreModelFactory>();
-        services.AddScoped<ITaxModelFactory, TaxModelFactory>();
-        services.AddScoped<ITemplateModelFactory, TemplateModelFactory>();
-        services.AddScoped<ITopicModelFactory, TopicModelFactory>();
-        services.AddScoped<IVendorAttributeModelFactory, VendorAttributeModelFactory>();
-        services.AddScoped<IVendorModelFactory, VendorModelFactory>();
-        services.AddScoped<Areas.Admin.Factories.IWidgetModelFactory, Areas.Admin.Factories.WidgetModelFactory>();
         services.AddScoped<ITranslationModelFactory, TranslationModelFactory>();
-        services.AddScoped<IMenuModelFactory, MenuModelFactory>();
 
-        //factories
+        //COMMERCE FACTORIES REMOVED - Phase B
+        //Removed: DiscountSupportedModelFactory, AffiliateModelFactory, BlogModelFactory, CampaignModelFactory, CategoryModelFactory, CheckoutAttributeModelFactory, DiscountModelFactory, FilterLevelValueModelFactory, ForumModelFactory, GiftCardModelFactory, ManufacturerModelFactory, NewsModelFactory, OrderModelFactory, PaymentModelFactory, PollModelFactory, ProductModelFactory, ProductAttributeModelFactory, ProductReviewModelFactory, ReportModelFactory, RecurringPaymentModelFactory, ReturnRequestModelFactory, ReviewTypeModelFactory, ShippingModelFactory, ShoppingCartModelFactory, SpecificationAttributeModelFactory, TaxModelFactory, TopicModelFactory, VendorAttributeModelFactory, VendorModelFactory, WidgetModelFactory, MenuModelFactory
+
+        //factories (infrastructure only)
         services.AddScoped<Factories.IAddressModelFactory, Factories.AddressModelFactory>();
-        services.AddScoped<Factories.IBlogModelFactory, Factories.BlogModelFactory>();
-        services.AddScoped<Factories.ICatalogModelFactory, Factories.CatalogModelFactory>();
-        services.AddScoped<Factories.ICheckoutModelFactory, Factories.CheckoutModelFactory>();
         services.AddScoped<Factories.ICommonModelFactory, Factories.CommonModelFactory>();
         services.AddScoped<Factories.ICountryModelFactory, Factories.CountryModelFactory>();
         services.AddScoped<Factories.ICustomerModelFactory, Factories.CustomerModelFactory>();
-        services.AddScoped<Factories.IForumModelFactory, Factories.ForumModelFactory>();
-        services.AddScoped<Factories.IFilterLevelValueModelFactory, Factories.FilterLevelValueModelFactory>();
-        services.AddScoped<Factories.IExternalAuthenticationModelFactory, Factories.ExternalAuthenticationModelFactory>();
+        //COMMERCE/ADDITIONAL FEATURES REMOVED - Phase C
+        //Removed: services.AddScoped<Factories.IExternalAuthenticationModelFactory, Factories.ExternalAuthenticationModelFactory>();
         services.AddScoped<Factories.IJsonLdModelFactory, Factories.JsonLdModelFactory>();
-        services.AddScoped<Factories.INewsModelFactory, Factories.NewsModelFactory>();
-        services.AddScoped<Factories.INewsLetterModelFactory, Factories.NewsLetterModelFactory>();
-        services.AddScoped<Factories.IOrderModelFactory, Factories.OrderModelFactory>();
-        services.AddScoped<Factories.IPollModelFactory, Factories.PollModelFactory>();
-        services.AddScoped<Factories.IPrivateMessagesModelFactory, Factories.PrivateMessagesModelFactory>();
-        services.AddScoped<Factories.IProductModelFactory, Factories.ProductModelFactory>();
-        services.AddScoped<Factories.IProfileModelFactory, Factories.ProfileModelFactory>();
-        services.AddScoped<Factories.IReturnRequestModelFactory, Factories.ReturnRequestModelFactory>();
-        services.AddScoped<Factories.IShoppingCartModelFactory, Factories.ShoppingCartModelFactory>();
         services.AddScoped<Factories.ISitemapModelFactory, Factories.SitemapModelFactory>();
-        services.AddScoped<Factories.ITopicModelFactory, Factories.TopicModelFactory>();
-        services.AddScoped<Factories.IVendorModelFactory, Factories.VendorModelFactory>();
-        services.AddScoped<Factories.IMenuModelFactory, Factories.MenuModelFactory>();
+
+        //COMMERCE FACTORIES REMOVED - Phase B
+        //Removed: BlogModelFactory, CatalogModelFactory, CheckoutModelFactory, ForumModelFactory, FilterLevelValueModelFactory, NewsModelFactory, OrderModelFactory, PollModelFactory, PrivateMessagesModelFactory, ProductModelFactory, ReturnRequestModelFactory, ShoppingCartModelFactory, TopicModelFactory, VendorModelFactory, MenuModelFactory
 
         //helpers classes
         services.AddScoped<ISummernoteHelper, SummernoteHelper>();

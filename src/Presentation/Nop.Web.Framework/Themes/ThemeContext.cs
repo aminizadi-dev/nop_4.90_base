@@ -17,7 +17,6 @@ public partial class ThemeContext : IThemeContext
     protected readonly IStoreContext _storeContext;
     protected readonly IThemeProvider _themeProvider;
     protected readonly IWorkContext _workContext;
-    protected readonly StoreInformationSettings _storeInformationSettings;
 
     protected string _cachedThemeName;
 
@@ -36,14 +35,12 @@ public partial class ThemeContext : IThemeContext
     public ThemeContext(IGenericAttributeService genericAttributeService,
         IStoreContext storeContext,
         IThemeProvider themeProvider,
-        IWorkContext workContext,
-        StoreInformationSettings storeInformationSettings)
+        IWorkContext workContext)
     {
         _genericAttributeService = genericAttributeService;
         _storeContext = storeContext;
         _themeProvider = themeProvider;
         _workContext = workContext;
-        _storeInformationSettings = storeInformationSettings;
     }
 
     #endregion
@@ -63,17 +60,6 @@ public partial class ThemeContext : IThemeContext
 
         //whether customers are allowed to select a theme
         var customer = await _workContext.GetCurrentCustomerAsync();
-        if (_storeInformationSettings.AllowCustomerToSelectTheme &&
-            customer != null)
-        {
-            var store = await _storeContext.GetCurrentStoreAsync();
-            themeName = await _genericAttributeService.GetAttributeAsync<string>(customer,
-                NopCustomerDefaults.WorkingThemeNameAttribute, store.Id);
-        }
-
-        //if not, try to get default store theme
-        if (string.IsNullOrEmpty(themeName))
-            themeName = _storeInformationSettings.DefaultStoreTheme;
 
         //ensure that this theme exists
         if (!await _themeProvider.ThemeExistsAsync(themeName))
@@ -97,9 +83,6 @@ public partial class ThemeContext : IThemeContext
     {
         //whether customers are allowed to select a theme
         var customer = await _workContext.GetCurrentCustomerAsync();
-        if (!_storeInformationSettings.AllowCustomerToSelectTheme ||
-            customer == null)
-            return;
 
         //save selected by customer theme system name
         var store = await _storeContext.GetCurrentStoreAsync();

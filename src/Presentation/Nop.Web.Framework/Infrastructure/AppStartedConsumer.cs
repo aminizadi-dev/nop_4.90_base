@@ -5,7 +5,6 @@ using Nop.Data.Migrations;
 using Nop.Services.Configuration;
 using Nop.Services.Events;
 using Nop.Services.Logging;
-using Nop.Services.Plugins;
 using Nop.Services.ScheduleTasks;
 using Nop.Services.Security;
 using Nop.Services.Themes;
@@ -23,7 +22,6 @@ public partial class AppStartedConsumer : IConsumer<AppStartedEvent>
     protected readonly ILogger _logger;
     protected readonly IMigrationManager _migrationManager;
     protected readonly IPermissionService _permissionService;
-    protected readonly IPluginService _pluginService;
     protected readonly ISettingService _settingService;
     protected readonly ITaskScheduler _taskScheduler;
     protected readonly IThemeProvider _themeProvider;
@@ -35,7 +33,6 @@ public partial class AppStartedConsumer : IConsumer<AppStartedEvent>
     public AppStartedConsumer(ILogger logger,
         IMigrationManager migrationManager,
         IPermissionService permissionService,
-        IPluginService pluginService,
         ISettingService settingService,
         ITaskScheduler taskScheduler,
         IThemeProvider themeProvider)
@@ -43,7 +40,6 @@ public partial class AppStartedConsumer : IConsumer<AppStartedEvent>
         _logger = logger;
         _migrationManager = migrationManager;
         _permissionService = permissionService;
-        _pluginService = pluginService;
         _settingService = settingService;
         _taskScheduler = taskScheduler;
         _themeProvider = themeProvider;
@@ -69,9 +65,7 @@ public partial class AppStartedConsumer : IConsumer<AppStartedEvent>
         //init theme provider
         await _themeProvider.InitializeAsync();
 
-        //install and update plugins
-        await _pluginService.InstallPluginsAsync();
-        await _pluginService.UpdatePluginsAsync();
+        //plugins removed - no plugin installation/update
 
         //insert new ACL permission if exists
         await _permissionService.InsertPermissionsAsync();

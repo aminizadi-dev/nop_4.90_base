@@ -109,41 +109,6 @@ public partial class HomeController : BaseAdminController
         return PartialView("Table", model);
     }
 
-    public virtual async Task<IActionResult> GetBestsellersBriefReportByAmount()
-    {
-        var model = new DataTablesModel();
-        model = await _homeModelFactory.PrepareBestsellersBriefReportByAmountModelAsync(model);
-        return PartialView("Table", model);
-    }
-
-    public virtual async Task<IActionResult> GetBestsellersBriefReportByQuantity()
-    {
-        var model = new DataTablesModel();
-        model = await _homeModelFactory.PrepareBestsellersBriefReportByQuantityModelAsync(model);
-        return PartialView("Table", model);
-    }
-
-    public virtual async Task<IActionResult> GetLatestOrders()
-    {
-        var model = new DataTablesModel();
-        model = await _homeModelFactory.PrepareLatestOrdersModelAsync(model);
-        return PartialView("Table", model);
-    }
-
-    public virtual async Task<IActionResult> GetOrderIncomplete()
-    {
-        var model = new DataTablesModel();
-        model = await _homeModelFactory.PrepareOrderIncompleteModelAsync(model);
-        return PartialView("Table", model);
-    }
-
-    public virtual async Task<IActionResult> GetOrderAverage()
-    {
-        var model = new DataTablesModel();
-        model = await _homeModelFactory.PrepareOrderAverageModelAsync(model);
-        return PartialView("Table", model);
-    }
-
     [HttpPost]
     public virtual async Task<IActionResult> AcceptLicenseTerms()
     {

@@ -475,45 +475,4 @@ public partial class CountryController : BaseAdminController
     }
 
     #endregion
-
-    #region Export / import
-
-    [CheckPermission(StandardPermission.Configuration.MANAGE_COUNTRIES)]
-    public virtual async Task<IActionResult> ExportCsv()
-    {
-        var fileName = $"states_{DateTime.Now:yyyy-MM-dd-HH-mm-ss}_{CommonHelper.GenerateRandomDigitCode(4)}.csv";
-
-        var states = await _stateProvinceService.GetStateProvincesAsync(true);
-        var result = await _exportManager.ExportStatesToTxtAsync(states);
-
-        return File(Encoding.UTF8.GetBytes(result), MimeTypes.TextCsv, fileName);
-    }
-
-    [HttpPost]
-    [CheckPermission(StandardPermission.Configuration.MANAGE_COUNTRIES)]
-    public virtual async Task<IActionResult> ImportCsv(IFormFile importcsvfile)
-    {
-        try
-        {
-            if (importcsvfile != null && importcsvfile.Length > 0)
-            {
-                var count = await _importManager.ImportStatesFromTxtAsync(importcsvfile.OpenReadStream());
-
-                _notificationService.SuccessNotification(string.Format(await _localizationService.GetResourceAsync("Admin.Configuration.Countries.ImportSuccess"), count));
-
-                return RedirectToAction("List");
-            }
-
-            _notificationService.ErrorNotification(await _localizationService.GetResourceAsync("Admin.Common.UploadFile"));
-
-            return RedirectToAction("List");
-        }
-        catch (Exception exc)
-        {
-            await _notificationService.ErrorNotificationAsync(exc);
-            return RedirectToAction("List");
-        }
-    }
-
-    #endregion
 }

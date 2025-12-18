@@ -43,17 +43,10 @@ public partial class CommonStatisticsViewComponent : NopViewComponent
     /// </returns>
     public async Task<IViewComponentResult> InvokeAsync()
     {
-        if (!await _permissionService.AuthorizeAsync(StandardPermission.Customers.CUSTOMERS_VIEW) ||
-            !await _permissionService.AuthorizeAsync(StandardPermission.Orders.ORDERS_VIEW) ||
-            !await _permissionService.AuthorizeAsync(StandardPermission.Orders.RETURN_REQUESTS_VIEW) ||
-            !await _permissionService.AuthorizeAsync(StandardPermission.Catalog.PRODUCTS_VIEW))
+        if (!await _permissionService.AuthorizeAsync(StandardPermission.Customers.CUSTOMERS_VIEW))
         {
             return Content(string.Empty);
         }
-
-        //a vendor doesn't have access to this report
-        if (await _workContext.GetCurrentVendorAsync() != null)
-            return Content(string.Empty);
 
         //prepare model
         var model = await _commonModelFactory.PrepareCommonStatisticsModelAsync();

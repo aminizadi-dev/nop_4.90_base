@@ -5,7 +5,6 @@ using Nop.Core;
 using Nop.Core.Domain.Customers;
 using Nop.Core.Http;
 using Nop.Data;
-using Nop.Services.Authentication.MultiFactor;
 using Nop.Services.Common;
 using Nop.Services.Security;
 
@@ -35,7 +34,6 @@ public sealed class ForceMultiFactorAuthenticationAttribute : TypeFilterAttribut
         #region Fields
 
         protected readonly IGenericAttributeService _genericAttributeService;
-        protected readonly IMultiFactorAuthenticationPluginManager _multiFactorAuthenticationPluginManager;
         protected readonly IPermissionService _permissionService;
         protected readonly IWorkContext _workContext;
         protected readonly MultiFactorAuthenticationSettings _multiFactorAuthenticationSettings;
@@ -45,13 +43,11 @@ public sealed class ForceMultiFactorAuthenticationAttribute : TypeFilterAttribut
         #region Ctor
 
         public ForceMultiFactorAuthenticationFilter(IGenericAttributeService genericAttributeService,
-            IMultiFactorAuthenticationPluginManager multiFactorAuthenticationPluginManager,
             IPermissionService permissionService,
             IWorkContext workContext,
             MultiFactorAuthenticationSettings multiFactorAuthenticationSettings)
         {
             _genericAttributeService = genericAttributeService;
-            _multiFactorAuthenticationPluginManager = multiFactorAuthenticationPluginManager;
             _permissionService = permissionService;
             _workContext = workContext;
             _multiFactorAuthenticationSettings = multiFactorAuthenticationSettings;
@@ -89,13 +85,6 @@ public sealed class ForceMultiFactorAuthenticationAttribute : TypeFilterAttribut
 
             if (controllerName.Equals("Customer", StringComparison.InvariantCultureIgnoreCase) &&
                 actionName.Equals("MultiFactorAuthentication", StringComparison.InvariantCultureIgnoreCase))
-            {
-                return;
-            }
-
-            //whether multi-factor authentication is enforced
-            if (!_multiFactorAuthenticationSettings.ForceMultifactorAuthentication ||
-                !await _multiFactorAuthenticationPluginManager.HasActivePluginsAsync())
             {
                 return;
             }

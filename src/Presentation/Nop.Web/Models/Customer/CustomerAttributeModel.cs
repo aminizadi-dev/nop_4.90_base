@@ -1,4 +1,4 @@
-﻿using Nop.Core.Domain.Catalog;
+﻿using Nop.Core.Domain.Attributes;
 using Nop.Web.Framework.Models;
 
 namespace Nop.Web.Models.Customer;

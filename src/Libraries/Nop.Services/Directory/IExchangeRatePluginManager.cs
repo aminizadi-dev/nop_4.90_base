@@ -1,12 +1,12 @@
 ﻿using Nop.Core.Domain.Customers;
-using Nop.Services.Plugins;
 
 namespace Nop.Services.Directory;
 
 /// <summary>
 /// Represents an exchange rate plugin manager
+/// NOTE: Plugin infrastructure removed - this interface is kept for compatibility but plugin functionality is disabled
 /// </summary>
-public partial interface IExchangeRatePluginManager : IPluginManager<IExchangeRateProvider>
+public partial interface IExchangeRatePluginManager
 {
     /// <summary>
     /// Load primary active exchange rate provider

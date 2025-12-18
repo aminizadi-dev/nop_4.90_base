@@ -1,6 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using Nop.Core.Domain.Catalog;
 using Nop.Web.Framework.Models;
 using Nop.Web.Framework.Mvc.ModelBinding;
 
@@ -104,8 +103,6 @@ public partial record AddressModel : BaseNopEntityModel
         /// Selected value for textboxes
         /// </summary>
         public string DefaultValue { get; set; }
-
-        public AttributeControlType AttributeControlType { get; set; }
 
         public IList<AddressAttributeValueModel> Values { get; set; }
     }

@@ -87,13 +87,7 @@ public sealed class ValidateVendorAttribute : TypeFilterAttribute
 
             //whether current customer is vendor
             var customer = await _workContext.GetCurrentCustomerAsync();
-            if (!await _customerService.IsVendorAsync(customer))
-                return;
 
-            //ensure that this user has active vendor record associated
-            var vendor = await _workContext.GetCurrentVendorAsync();
-            if (vendor == null)
-                context.Result = new ChallengeResult();
         }
 
         #endregion

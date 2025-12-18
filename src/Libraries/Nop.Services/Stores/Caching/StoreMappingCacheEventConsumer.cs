@@ -1,7 +1,6 @@
 ﻿using DocumentFormat.OpenXml.Drawing.Diagrams;
 using Nop.Core.Domain.Stores;
 using Nop.Services.Caching;
-using Nop.Services.Catalog;
 
 namespace Nop.Services.Stores.Caching;
 
@@ -21,7 +20,5 @@ public partial class StoreMappingCacheEventConsumer : CacheEventConsumer<StoreMa
         await RemoveAsync(NopStoreDefaults.StoreMappingIdsCacheKey, entity.EntityId, entity.EntityName);
         await RemoveAsync(NopStoreDefaults.StoreMappingExistsCacheKey, entity.EntityName);
 
-        if (entity.EntityName.Equals(nameof(Category)))
-            await RemoveByPrefixAsync(NopCatalogDefaults.ChildCategoryIdLookupByStorePrefix, entity.StoreId);
     }
 }

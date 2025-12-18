@@ -1,5 +1,4 @@
 ﻿using Nop.Core.Domain.Common;
-using Nop.Services.Attributes;
 using Nop.Web.Areas.Admin.Models.Common;
 
 namespace Nop.Web.Areas.Admin.Factories;
@@ -11,20 +10,15 @@ public partial class AddressModelFactory : IAddressModelFactory
 {
     #region Fields
 
-    protected readonly IAddressAttributeModelFactory _addressAttributeModelFactory;
-    protected readonly IAttributeFormatter<AddressAttribute, AddressAttributeValue> _addressAttributeFormatter;
     protected readonly IBaseAdminModelFactory _baseAdminModelFactory;
 
     #endregion
 
     #region Ctor
 
-    public AddressModelFactory(IAddressAttributeModelFactory addressAttributeModelFactory,
-        IAttributeFormatter<AddressAttribute, AddressAttributeValue> addressAttributeFormatter,
+    public AddressModelFactory(
         IBaseAdminModelFactory baseAdminModelFactory)
     {
-        _addressAttributeModelFactory = addressAttributeModelFactory;
-        _addressAttributeFormatter = addressAttributeFormatter;
         _baseAdminModelFactory = baseAdminModelFactory;
     }
 
@@ -48,13 +42,8 @@ public partial class AddressModelFactory : IAddressModelFactory
         //prepare available states
         await _baseAdminModelFactory.PrepareStatesAndProvincesAsync(model.AvailableStates, model.CountryId);
 
-        //prepare custom address attributes
-        await _addressAttributeModelFactory.PrepareCustomAddressAttributesAsync(model.CustomAddressAttributes, address);
-
         if (address == null)
             return;
-
-        model.FormattedCustomAddressAttributes = await _addressAttributeFormatter.FormatAttributesAsync(address.CustomAttributes);
     }
 
     #endregion

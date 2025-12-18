@@ -16,7 +16,6 @@ public partial record AppSettingsModel : BaseNopModel
         DistributedCacheConfigModel = new DistributedCacheConfigModel();
         HostingConfigModel = new HostingConfigModel();
         InstallationConfigModel = new InstallationConfigModel();
-        PluginConfigModel = new PluginConfigModel();
         CommonConfigModel = new CommonConfigModel();
         WebOptimizerConfigModel = new WebOptimizerConfigModel();
         EnvironmentVariables = new List<string>();
@@ -35,8 +34,6 @@ public partial record AppSettingsModel : BaseNopModel
     public DistributedCacheConfigModel DistributedCacheConfigModel { get; set; }
     
     public InstallationConfigModel InstallationConfigModel { get; set; }
-
-    public PluginConfigModel PluginConfigModel { get; set; }
 
     public CommonConfigModel CommonConfigModel { get; set; }
 

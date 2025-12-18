@@ -10,7 +10,8 @@ using Nop.Services.Helpers;
 using Nop.Services.Localization;
 using Nop.Services.Media;
 using Nop.Services.Messages;
-using Nop.Services.Orders;
+//COMMERCE SERVICE REMOVED - Phase B
+//Removed: using Nop.Services.Orders;
 using Nop.Services.Security;
 using Nop.Services.Seo;
 using Nop.Web.Areas.Admin.Factories;
@@ -42,7 +43,8 @@ public partial class CommonController : BaseAdminController
     protected readonly INotificationService _notificationService;
     protected readonly IPermissionService _permissionService;
     protected readonly IQueuedEmailService _queuedEmailService;
-    protected readonly IShoppingCartService _shoppingCartService;
+    //COMMERCE SERVICE REMOVED - Phase B
+    //Removed: protected readonly IShoppingCartService _shoppingCartService;
     protected readonly IStaticCacheManager _staticCacheManager;
     protected readonly IThumbService _thumbService;
     protected readonly IUrlRecordService _urlRecordService;
@@ -64,7 +66,8 @@ public partial class CommonController : BaseAdminController
         INotificationService notificationService,
         IPermissionService permissionService,
         IQueuedEmailService queuedEmailService,
-        IShoppingCartService shoppingCartService,
+        //COMMERCE SERVICE REMOVED - Phase B
+        //Removed: IShoppingCartService shoppingCartService,
         IStaticCacheManager staticCacheManager,
         IThumbService thumbService,
         IUrlRecordService urlRecordService,
@@ -82,7 +85,8 @@ public partial class CommonController : BaseAdminController
         _notificationService = notificationService;
         _permissionService = permissionService;
         _queuedEmailService = queuedEmailService;
-        _shoppingCartService = shoppingCartService;
+        //COMMERCE SERVICE REMOVED - Phase B
+        //Removed: _shoppingCartService = shoppingCartService;
         _staticCacheManager = staticCacheManager;
         _thumbService = thumbService;
         _urlRecordService = urlRecordService;
@@ -122,22 +126,6 @@ public partial class CommonController : BaseAdminController
     }
 
     [HttpPost, ActionName("Maintenance")]
-    [FormValueRequired("delete-guests")]
-    [CheckPermission(StandardPermission.System.MANAGE_MAINTENANCE)]
-    public virtual async Task<IActionResult> MaintenanceDeleteGuests(MaintenanceModel model)
-    {
-        var startDateValue = model.DeleteGuests.StartDate == null ? null
-            : (DateTime?)_dateTimeHelper.ConvertToUtcTime(model.DeleteGuests.StartDate.Value, await _dateTimeHelper.GetCurrentTimeZoneAsync());
-
-        var endDateValue = model.DeleteGuests.EndDate == null ? null
-            : (DateTime?)_dateTimeHelper.ConvertToUtcTime(model.DeleteGuests.EndDate.Value, await _dateTimeHelper.GetCurrentTimeZoneAsync()).AddDays(1);
-
-        model.DeleteGuests.NumberOfDeletedCustomers = await _customerService.DeleteGuestCustomersAsync(startDateValue, endDateValue, model.DeleteGuests.OnlyWithoutShoppingCart);
-
-        return View(model);
-    }
-
-    [HttpPost, ActionName("Maintenance")]
     [FormValueRequired("delete-thumb-files")]
     [CheckPermission(StandardPermission.System.MANAGE_MAINTENANCE)]
     public virtual async Task<IActionResult> MaintenanceDeleteThumbFiles(MaintenanceModel model)
@@ -155,16 +143,8 @@ public partial class CommonController : BaseAdminController
         return View(model);
     }
 
-    [HttpPost, ActionName("Maintenance")]
-    [FormValueRequired("delete-abondoned-carts")]
-    [CheckPermission(StandardPermission.System.MANAGE_MAINTENANCE)]
-    public virtual async Task<IActionResult> MaintenanceDeleteAbandonedCarts(MaintenanceModel model)
-    {
-        var olderThanDateValue = _dateTimeHelper.ConvertToUtcTime(model.DeleteAbandonedCarts.OlderThan, await _dateTimeHelper.GetCurrentTimeZoneAsync());
-
-        model.DeleteAbandonedCarts.NumberOfDeletedItems = await _shoppingCartService.DeleteExpiredShoppingCartItemsAsync(olderThanDateValue);
-        return View(model);
-    }
+    //COMMERCE METHOD REMOVED - Phase B
+    //Removed: MaintenanceDeleteAbandonedCarts (uses IShoppingCartService)
 
     [HttpPost, ActionName("Maintenance")]
     [FormValueRequired("delete-exported-files")]
@@ -453,15 +433,6 @@ public partial class CommonController : BaseAdminController
         return Json(new { Result = true });
     }
 
-    [HttpPost]
-    [CheckPermission(StandardPermission.Catalog.PRODUCTS_VIEW)]
-    public virtual async Task<IActionResult> PopularSearchTermsReport(PopularSearchTermSearchModel searchModel)
-    {
-        //prepare model
-        var model = await _commonModelFactory.PreparePopularSearchTermListModelAsync(searchModel);
-
-        return Json(model);
-    }
 
     //action displaying notification (warning) to a store owner that entered SE URL already exists
     public virtual async Task<IActionResult> UrlReservedWarning(string entityId, string entityName, string seName)

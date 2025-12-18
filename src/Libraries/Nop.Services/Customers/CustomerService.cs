@@ -1,16 +1,10 @@
 ﻿using System.Xml;
 using Nop.Core;
 using Nop.Core.Caching;
-using Nop.Core.Domain.Blogs;
-using Nop.Core.Domain.Catalog;
+//COMMERCE DOMAIN REMOVED - Phase C
+//Removed: Blogs, Catalog, Forums, News, Orders, Polls, Shipping, Tax
 using Nop.Core.Domain.Common;
 using Nop.Core.Domain.Customers;
-using Nop.Core.Domain.Forums;
-using Nop.Core.Domain.News;
-using Nop.Core.Domain.Orders;
-using Nop.Core.Domain.Polls;
-using Nop.Core.Domain.Shipping;
-using Nop.Core.Domain.Tax;
 using Nop.Core.Events;
 using Nop.Core.Infrastructure;
 using Nop.Data;
@@ -31,26 +25,19 @@ public partial class CustomerService : ICustomerService
     protected readonly IGenericAttributeService _genericAttributeService;
     protected readonly INopDataProvider _dataProvider;
     protected readonly IRepository<Address> _customerAddressRepository;
-    protected readonly IRepository<BlogComment> _blogCommentRepository;
+    //COMMERCE REPOSITORIES REMOVED - Phase C
+    //Removed: BlogComment, ForumPost, ForumTopic, NewsComment, Order, ProductReview, ProductReviewHelpfulness, PollVotingRecord, ShoppingCartItem
     protected readonly IRepository<Customer> _customerRepository;
     protected readonly IRepository<CustomerAddressMapping> _customerAddressMappingRepository;
     protected readonly IRepository<CustomerCustomerRoleMapping> _customerCustomerRoleMappingRepository;
     protected readonly IRepository<CustomerPassword> _customerPasswordRepository;
     protected readonly IRepository<CustomerRole> _customerRoleRepository;
-    protected readonly IRepository<ForumPost> _forumPostRepository;
-    protected readonly IRepository<ForumTopic> _forumTopicRepository;
     protected readonly IRepository<GenericAttribute> _gaRepository;
-    protected readonly IRepository<NewsComment> _newsCommentRepository;
-    protected readonly IRepository<Order> _orderRepository;
-    protected readonly IRepository<ProductReview> _productReviewRepository;
-    protected readonly IRepository<ProductReviewHelpfulness> _productReviewHelpfulnessRepository;
-    protected readonly IRepository<PollVotingRecord> _pollVotingRecordRepository;
-    protected readonly IRepository<ShoppingCartItem> _shoppingCartRepository;
     protected readonly IShortTermCacheManager _shortTermCacheManager;
     protected readonly IStaticCacheManager _staticCacheManager;
     protected readonly IStoreContext _storeContext;
-    protected readonly ShoppingCartSettings _shoppingCartSettings;
-    protected readonly TaxSettings _taxSettings;
+    //COMMERCE SETTINGS REMOVED - Phase C
+    //Removed: ShoppingCartSettings, TaxSettings
 
     #endregion
 
@@ -61,52 +48,39 @@ public partial class CustomerService : ICustomerService
         IGenericAttributeService genericAttributeService,
         INopDataProvider dataProvider,
         IRepository<Address> customerAddressRepository,
-        IRepository<BlogComment> blogCommentRepository,
+        //COMMERCE DEPENDENCIES REMOVED - Phase C
+        //Removed: BlogComment, ForumPost, ForumTopic, NewsComment, Order, ProductReview, ProductReviewHelpfulness, PollVotingRecord, ShoppingCartItem repositories
         IRepository<Customer> customerRepository,
         IRepository<CustomerAddressMapping> customerAddressMappingRepository,
         IRepository<CustomerCustomerRoleMapping> customerCustomerRoleMappingRepository,
         IRepository<CustomerPassword> customerPasswordRepository,
         IRepository<CustomerRole> customerRoleRepository,
-        IRepository<ForumPost> forumPostRepository,
-        IRepository<ForumTopic> forumTopicRepository,
         IRepository<GenericAttribute> gaRepository,
-        IRepository<NewsComment> newsCommentRepository,
-        IRepository<Order> orderRepository,
-        IRepository<ProductReview> productReviewRepository,
-        IRepository<ProductReviewHelpfulness> productReviewHelpfulnessRepository,
-        IRepository<PollVotingRecord> pollVotingRecordRepository,
-        IRepository<ShoppingCartItem> shoppingCartRepository,
         IShortTermCacheManager shortTermCacheManager,
         IStaticCacheManager staticCacheManager,
-        IStoreContext storeContext,
-        ShoppingCartSettings shoppingCartSettings,
-        TaxSettings taxSettings)
+        IStoreContext storeContext
+        //COMMERCE SETTINGS REMOVED - Phase C
+        //Removed: ShoppingCartSettings shoppingCartSettings, TaxSettings taxSettings
+        )
     {
         _customerSettings = customerSettings;
         _eventPublisher = eventPublisher;
         _genericAttributeService = genericAttributeService;
         _dataProvider = dataProvider;
         _customerAddressRepository = customerAddressRepository;
-        _blogCommentRepository = blogCommentRepository;
+        //COMMERCE ASSIGNMENTS REMOVED - Phase C
+        //Removed: _blogCommentRepository, _forumPostRepository, _forumTopicRepository, _newsCommentRepository, _orderRepository, _productReviewRepository, _productReviewHelpfulnessRepository, _pollVotingRecordRepository, _shoppingCartRepository
         _customerRepository = customerRepository;
         _customerAddressMappingRepository = customerAddressMappingRepository;
         _customerCustomerRoleMappingRepository = customerCustomerRoleMappingRepository;
         _customerPasswordRepository = customerPasswordRepository;
         _customerRoleRepository = customerRoleRepository;
-        _forumPostRepository = forumPostRepository;
-        _forumTopicRepository = forumTopicRepository;
         _gaRepository = gaRepository;
-        _newsCommentRepository = newsCommentRepository;
-        _orderRepository = orderRepository;
-        _productReviewRepository = productReviewRepository;
-        _productReviewHelpfulnessRepository = productReviewHelpfulnessRepository;
-        _pollVotingRecordRepository = pollVotingRecordRepository;
-        _shoppingCartRepository = shoppingCartRepository;
         _shortTermCacheManager = shortTermCacheManager;
         _staticCacheManager = staticCacheManager;
         _storeContext = storeContext;
-        _shoppingCartSettings = shoppingCartSettings;
-        _taxSettings = taxSettings;
+        //COMMERCE SETTINGS ASSIGNMENTS REMOVED - Phase C
+        //Removed: _shoppingCartSettings, _taxSettings
     }
 
     #endregion
@@ -139,8 +113,8 @@ public partial class CustomerService : ICustomerService
     /// <param name="createdToUtc">Created date to (UTC); null to load all records</param>
     /// <param name="lastActivityFromUtc">Last activity date from (UTC); null to load all records</param>
     /// <param name="lastActivityToUtc">Last activity date to (UTC); null to load all records</param>
-    /// <param name="affiliateId">Affiliate identifier</param>
-    /// <param name="vendorId">Vendor identifier</param>
+    //COMMERCE PARAMETERS REMOVED - Phase C
+    //Removed: affiliateId, vendorId (commerce features)
     /// <param name="customerRoleIds">A list of customer role identifiers to filter by (at least one match); pass null or empty list in order to load all customers; </param>
     /// <param name="email">Email; null to load all customers</param>
     /// <param name="username">Username; null to load all customers</param>
@@ -162,7 +136,9 @@ public partial class CustomerService : ICustomerService
     /// </returns>
     public virtual async Task<IPagedList<Customer>> GetAllCustomersAsync(DateTime? createdFromUtc = null, DateTime? createdToUtc = null,
         DateTime? lastActivityFromUtc = null, DateTime? lastActivityToUtc = null,
-        int affiliateId = 0, int vendorId = 0, int[] customerRoleIds = null,
+        //COMMERCE PARAMETERS REMOVED - Phase C
+        //Removed: int affiliateId = 0, int vendorId = 0
+        int[] customerRoleIds = null,
         string email = null, string username = null, string firstName = null, string lastName = null,
         int dayOfBirth = 0, int monthOfBirth = 0,
         string company = null, string phone = null, string zipPostalCode = null, string ipAddress = null,
@@ -178,10 +154,8 @@ public partial class CustomerService : ICustomerService
                 query = query.Where(c => lastActivityFromUtc.Value <= c.LastActivityDateUtc);
             if (lastActivityToUtc.HasValue)
                 query = query.Where(c => lastActivityToUtc.Value >= c.LastActivityDateUtc);
-            if (affiliateId > 0)
-                query = query.Where(c => affiliateId == c.AffiliateId);
-            if (vendorId > 0)
-                query = query.Where(c => vendorId == c.VendorId);
+            //COMMERCE FILTERS REMOVED - Phase C
+            //Removed: affiliateId, vendorId filters (commerce features)
             if (isActive.HasValue)
                 query = query.Where(c => c.Active == isActive.Value);
 
@@ -260,65 +234,6 @@ public partial class CustomerService : ICustomerService
         return customers;
     }
 
-    /// <summary>
-    /// Gets customers with shopping carts
-    /// </summary>
-    /// <param name="shoppingCartType">Shopping cart type; pass null to load all records</param>
-    /// <param name="storeId">Store identifier; pass 0 to load all records</param>
-    /// <param name="productId">Product identifier; pass null to load all records</param>
-    /// <param name="createdFromUtc">Created date from (UTC); pass null to load all records</param>
-    /// <param name="createdToUtc">Created date to (UTC); pass null to load all records</param>
-    /// <param name="countryId">Billing country identifier; pass null to load all records</param>
-    /// <param name="pageIndex">Page index</param>
-    /// <param name="pageSize">Page size</param>
-    /// <returns>
-    /// A task that represents the asynchronous operation
-    /// The task result contains the customers
-    /// </returns>
-    public virtual async Task<IPagedList<Customer>> GetCustomersWithShoppingCartsAsync(ShoppingCartType? shoppingCartType = null,
-        int storeId = 0, int? productId = null,
-        DateTime? createdFromUtc = null, DateTime? createdToUtc = null, int? countryId = null,
-        int pageIndex = 0, int pageSize = int.MaxValue)
-    {
-        //get all shopping cart items
-        var items = _shoppingCartRepository.Table;
-
-        //filter by type
-        if (shoppingCartType.HasValue)
-            items = items.Where(item => item.ShoppingCartTypeId == (int)shoppingCartType.Value);
-
-        //filter shopping cart items by store
-        if (storeId > 0 && !_shoppingCartSettings.CartsSharedBetweenStores)
-            items = items.Where(item => item.StoreId == storeId);
-
-        //filter shopping cart items by product
-        if (productId > 0)
-            items = items.Where(item => item.ProductId == productId);
-
-        //filter shopping cart items by date
-        if (createdFromUtc.HasValue)
-            items = items.Where(item => createdFromUtc.Value <= item.CreatedOnUtc);
-        if (createdToUtc.HasValue)
-            items = items.Where(item => createdToUtc.Value >= item.CreatedOnUtc);
-
-        //get all active customers
-        var customers = _customerRepository.Table.Where(customer => customer.Active && !customer.Deleted);
-
-        //filter customers by billing country
-        if (countryId > 0)
-            customers = from c in customers
-                join a in _customerAddressRepository.Table on c.BillingAddressId equals a.Id
-                where a.CountryId == countryId
-                select c;
-
-        var customersWithCarts = from c in customers
-            join item in items on c.Id equals item.CustomerId
-            //we change ordering for the MySQL engine to avoid problems with the ONLY_FULL_GROUP_BY server property that is set by default since the 5.7.5 version
-            orderby _dataProvider.ConfigurationName == "MySql" ? c.CreatedOnUtc : item.CreatedOnUtc descending
-            select c;
-
-        return await customersWithCarts.Distinct().ToPagedListAsync(pageIndex, pageSize);
-    }
 
     /// <summary>
     /// Gets customer for shopping cart
@@ -328,12 +243,8 @@ public partial class CustomerService : ICustomerService
     /// A task that represents the asynchronous operation
     /// The task result contains the result
     /// </returns>
-    public virtual async Task<Customer> GetShoppingCartCustomerAsync(IList<ShoppingCartItem> shoppingCart)
-    {
-        var customerId = shoppingCart.FirstOrDefault()?.CustomerId;
-
-        return customerId.HasValue && customerId != 0 ? await GetCustomerByIdAsync(customerId.Value) : null;
-    }
+    //COMMERCE FEATURE REMOVED - Phase C
+    //Removed: GetShoppingCartCustomerAsync (commerce feature)
 
     /// <summary>
     /// Delete a customer
@@ -648,23 +559,10 @@ public partial class CustomerService : ICustomerService
         if (clearCheckoutAttributes)
             await _genericAttributeService.SaveAttributeAsync<string>(customer, NopCustomerDefaults.CheckoutAttributes, null, storeId);
 
-        //clear reward points flag
-        if (clearRewardPoints)
-            await _genericAttributeService.SaveAttributeAsync(customer, NopCustomerDefaults.UseRewardPointsDuringCheckoutAttribute, false, storeId);
-
-        //clear selected shipping method
-        if (clearShippingMethod)
-        {
-            await _genericAttributeService.SaveAttributeAsync<ShippingOption>(customer, NopCustomerDefaults.SelectedShippingOptionAttribute, null, storeId);
-            await _genericAttributeService.SaveAttributeAsync<ShippingOption>(customer, NopCustomerDefaults.OfferedShippingOptionsAttribute, null, storeId);
-            await _genericAttributeService.SaveAttributeAsync<PickupPoint>(customer, NopCustomerDefaults.SelectedPickupPointAttribute, null, storeId);
-        }
 
         //clear selected payment method
         if (clearPaymentMethod)
             await _genericAttributeService.SaveAttributeAsync<string>(customer, NopCustomerDefaults.SelectedPaymentMethodAttribute, null, storeId);
-
-        await _eventPublisher.PublishAsync(new ResetCheckoutDataEvent(customer, storeId));
     }
 
     /// <summary>
@@ -688,19 +586,7 @@ public partial class CustomerService : ICustomerService
 
         var guestsToDelete = from guest in _customerRepository.Table
             join g in allGuestCustomers on guest.Id equals g.Id
-            from sCart in _shoppingCartRepository.Table.Where(sci => sci.CustomerId == guest.Id).DefaultIfEmpty()
-            from order in _orderRepository.Table.Where(o => o.CustomerId == guest.Id).DefaultIfEmpty()
-            from blogComment in _blogCommentRepository.Table.Where(o => o.CustomerId == guest.Id).DefaultIfEmpty()
-            from newsComment in _newsCommentRepository.Table.Where(o => o.CustomerId == guest.Id).DefaultIfEmpty()
-            from productReview in _productReviewRepository.Table.Where(o => o.CustomerId == guest.Id).DefaultIfEmpty()
-            from productReviewHelpfulness in _productReviewHelpfulnessRepository.Table.Where(o => o.CustomerId == guest.Id).DefaultIfEmpty()
-            from pollVotingRecord in _pollVotingRecordRepository.Table.Where(o => o.CustomerId == guest.Id).DefaultIfEmpty()
-            from forumTopic in _forumTopicRepository.Table.Where(o => o.CustomerId == guest.Id).DefaultIfEmpty()
-            from forumPost in _forumPostRepository.Table.Where(o => o.CustomerId == guest.Id).DefaultIfEmpty()
-            where (!onlyWithoutShoppingCart || sCart == null) &&
-                  order == null && blogComment == null && newsComment == null && productReview == null && productReviewHelpfulness == null &&
-                  pollVotingRecord == null && forumTopic == null && forumPost == null &&
-                  !guest.IsSystemAccount &&
+            where !guest.IsSystemAccount &&
                   (createdFromUtc == null || guest.CreatedOnUtc > createdFromUtc) &&
                   (createdToUtc == null || guest.CreatedOnUtc < createdToUtc)
             select new { CustomerId = guest.Id };
@@ -731,45 +617,8 @@ public partial class CustomerService : ICustomerService
     /// A task that represents the asynchronous operation
     /// The task result contains the tax display type
     /// </returns>
-    public virtual async Task<TaxDisplayType> GetCustomerTaxDisplayTypeAsync(Customer customer)
-    {
-        ArgumentNullException.ThrowIfNull(customer);
-
-        //default tax display type
-        var taxDisplayType = _taxSettings.TaxDisplayType;
-
-        //whether customers are allowed to select tax display type and the customer has previously saved one
-        if (_taxSettings.AllowCustomersToSelectTaxDisplayType && customer.TaxDisplayTypeId.HasValue)
-            taxDisplayType = (TaxDisplayType)customer.TaxDisplayTypeId.Value;
-        else
-        {
-            //default tax type by customer roles
-            var defaultRoleTaxDisplayType = await GetCustomerDefaultTaxDisplayTypeAsync(customer);
-            if (defaultRoleTaxDisplayType.HasValue)
-                taxDisplayType = defaultRoleTaxDisplayType.Value;
-        }
-
-        return taxDisplayType;
-    }
-
-    /// <summary>
-    /// Gets a default tax display type (if configured)
-    /// </summary>
-    /// <param name="customer">Customer</param>
-    /// <returns>
-    /// A task that represents the asynchronous operation
-    /// The task result contains the result
-    /// </returns>
-    public virtual async Task<TaxDisplayType?> GetCustomerDefaultTaxDisplayTypeAsync(Customer customer)
-    {
-        ArgumentNullException.ThrowIfNull(customer);
-
-        var roleWithOverriddenTaxType = (await GetCustomerRolesAsync(customer)).FirstOrDefault(cr => cr.Active && cr.OverrideTaxDisplayType);
-        if (roleWithOverriddenTaxType == null)
-            return null;
-
-        return (TaxDisplayType)roleWithOverriddenTaxType.DefaultTaxDisplayTypeId;
-    }
+    //COMMERCE FEATURES REMOVED - Phase C
+    //Removed: GetCustomerTaxDisplayTypeAsync, GetCustomerDefaultTaxDisplayTypeAsync (commerce features)
 
     /// <summary>
     /// Get full name
@@ -1378,10 +1227,8 @@ public partial class CustomerService : ICustomerService
     /// A task that represents the asynchronous operation
     /// The task result contains the result
     /// </returns>
-    public virtual async Task<bool> IsVendorAsync(Customer customer, bool onlyActiveCustomerRoles = true)
-    {
-        return await IsInCustomerRoleAsync(customer, NopCustomerDefaults.VendorsRoleName, onlyActiveCustomerRoles);
-    }
+    //COMMERCE FEATURE REMOVED - Phase C
+    //Removed: IsVendorAsync (commerce feature)
 
     /// <summary>
     /// Updates the customer role

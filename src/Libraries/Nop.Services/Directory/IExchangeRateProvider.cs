@@ -1,12 +1,11 @@
 ﻿using Nop.Core.Domain.Directory;
-using Nop.Services.Plugins;
 
 namespace Nop.Services.Directory;
 
 /// <summary>
 /// Exchange rate provider interface
 /// </summary>
-public partial interface IExchangeRateProvider : IPlugin
+public partial interface IExchangeRateProvider
 {
     /// <summary>
     /// Gets currency live rates

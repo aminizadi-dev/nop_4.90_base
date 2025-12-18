@@ -56,52 +56,6 @@ public partial interface IMenuModelFactory
     /// </returns>
     Task<MenuItemSearchModel> PrepareMenuItemSearchModelAsync(MenuItemSearchModel searchModel);
 
-    /// <summary>
-    /// Prepare paged menu item list model
-    /// </summary>
-    /// <param name="searchModel">Menu item search model</param>
-    /// <returns>
-    /// A task that represents the asynchronous operation
-    /// The task result contains the menu item list model
-    /// </returns>
-    Task<MenuItemListModel> PrepareMenuItemListModelAsync(MenuItemSearchModel searchModel);
-
-    /// <summary>
-    /// Prepare menu item model
-    /// </summary>
-    /// <param name="menu">Menu</param>
-    /// <param name="model">Menu item model</param>
-    /// <param name="menuItem">Menu item</param>
-    /// <param name="excludeProperties">Whether to exclude populating of some properties of model</param>
-    /// <returns>
-    /// A task that represents the asynchronous operation
-    /// The task result contains the menu item model
-    /// </returns>
-    Task<MenuItemModel> PrepareMenuItemModelAsync(Menu menu, MenuItemModel model, MenuItem menuItem, bool excludeProperties = false);
-
-    #region Products popup
-
-    /// <summary>
-    /// Prepare product search model
-    /// </summary>
-    /// <param name="searchModel">Product search model</param>
-    /// <returns>
-    /// A task that represents the asynchronous operation
-    /// The task result contains the product search model
-    /// </returns>
-    Task<SelectMenuItemProductSearchModel> PrepareMenuItemSelectProductSearchModelAsync(SelectMenuItemProductSearchModel searchModel);
-
-    /// <summary>
-    /// Prepare product list model
-    /// </summary>
-    /// <param name="searchModel">Product search model</param>
-    /// <returns>
-    /// A task that represents the asynchronous operation
-    /// The task result contains the product list model
-    /// </returns>
-    Task<SelectMenuItemProductListModel> PrepareMenuItemSelectProductListModelAsync(SelectMenuItemProductSearchModel searchModel);
-
-    #endregion
 
     #endregion
 }

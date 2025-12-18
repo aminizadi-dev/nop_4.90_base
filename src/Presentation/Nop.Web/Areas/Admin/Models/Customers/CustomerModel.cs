@@ -1,6 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using Nop.Core.Domain.Catalog;
 using Nop.Web.Framework.Models;
 using Nop.Web.Framework.Mvc.ModelBinding;
 
@@ -30,7 +29,6 @@ public partial record CustomerModel : BaseNopEntityModel, IAclSupportedModel
         CustomerRewardPointsSearchModel = new CustomerRewardPointsSearchModel();
         CustomerAddressSearchModel = new CustomerAddressSearchModel();
         CustomerOrderSearchModel = new CustomerOrderSearchModel();
-        CustomerShoppingCartSearchModel = new CustomerShoppingCartSearchModel();
         CustomerActivityLogSearchModel = new CustomerActivityLogSearchModel();
         CustomerBackInStockSubscriptionSearchModel = new CustomerBackInStockSubscriptionSearchModel();
         CustomerAssociatedExternalAuthRecordsSearchModel = new CustomerAssociatedExternalAuthRecordsSearchModel();
@@ -238,8 +236,6 @@ public partial record CustomerModel : BaseNopEntityModel, IAclSupportedModel
 
     public CustomerOrderSearchModel CustomerOrderSearchModel { get; set; }
 
-    public CustomerShoppingCartSearchModel CustomerShoppingCartSearchModel { get; set; }
-
     public CustomerActivityLogSearchModel CustomerActivityLogSearchModel { get; set; }
 
     public CustomerBackInStockSubscriptionSearchModel CustomerBackInStockSubscriptionSearchModel { get; set; }
@@ -290,8 +286,6 @@ public partial record CustomerModel : BaseNopEntityModel, IAclSupportedModel
         /// Default value for textboxes
         /// </summary>
         public string DefaultValue { get; set; }
-
-        public AttributeControlType AttributeControlType { get; set; }
 
         public IList<CustomerAttributeValueModel> Values { get; set; }
     }

@@ -41,16 +41,8 @@ public partial interface ICustomerModelFactory
     /// </returns>
     Task<CustomerModel> PrepareCustomerModelAsync(CustomerModel model, Customer customer, bool excludeProperties = false);
 
-    /// <summary>
-    /// Prepare paged reward points list model
-    /// </summary>
-    /// <param name="searchModel">Reward points search model</param>
-    /// <param name="customer">Customer</param>
-    /// <returns>
-    /// A task that represents the asynchronous operation
-    /// The task result contains the reward points list model
-    /// </returns>
-    Task<CustomerRewardPointsListModel> PrepareRewardPointsListModelAsync(CustomerRewardPointsSearchModel searchModel, Customer customer);
+    //COMMERCE/ADDITIONAL FEATURES REMOVED - Phase C
+    //Removed: PrepareRewardPointsListModelAsync (reward points feature)
 
     /// <summary>
     /// Prepare paged customer address list model
@@ -77,28 +69,9 @@ public partial interface ICustomerModelFactory
     Task<CustomerAddressModel> PrepareCustomerAddressModelAsync(CustomerAddressModel model,
         Customer customer, Address address, bool excludeProperties = false);
 
-    /// <summary>
-    /// Prepare paged customer order list model
-    /// </summary>
-    /// <param name="searchModel">Customer order search model</param>
-    /// <param name="customer">Customer</param>
-    /// <returns>
-    /// A task that represents the asynchronous operation
-    /// The task result contains the customer order list model
-    /// </returns>
-    Task<CustomerOrderListModel> PrepareCustomerOrderListModelAsync(CustomerOrderSearchModel searchModel, Customer customer);
-
-    /// <summary>
-    /// Prepare paged customer shopping cart list model
-    /// </summary>
-    /// <param name="searchModel">Customer shopping cart search model</param>
-    /// <param name="customer">Customer</param>
-    /// <returns>
-    /// A task that represents the asynchronous operation
-    /// The task result contains the customer shopping cart list model
-    /// </returns>
-    Task<CustomerShoppingCartListModel> PrepareCustomerShoppingCartListModelAsync(CustomerShoppingCartSearchModel searchModel,
-        Customer customer);
+    //COMMERCE METHODS REMOVED - Phase C
+    //Removed: PrepareCustomerOrderListModelAsync (commerce feature)
+    //Removed: PrepareCustomerShoppingCartListModelAsync (commerce feature)
 
     /// <summary>
     /// Prepare paged customer activity log list model
@@ -111,17 +84,8 @@ public partial interface ICustomerModelFactory
     /// </returns>
     Task<CustomerActivityLogListModel> PrepareCustomerActivityLogListModelAsync(CustomerActivityLogSearchModel searchModel, Customer customer);
 
-    /// <summary>
-    /// Prepare paged customer back in stock subscriptions list model
-    /// </summary>
-    /// <param name="searchModel">Customer back in stock subscriptions search model</param>
-    /// <param name="customer">Customer</param>
-    /// <returns>
-    /// A task that represents the asynchronous operation
-    /// The task result contains the customer back in stock subscriptions list model
-    /// </returns>
-    Task<CustomerBackInStockSubscriptionListModel> PrepareCustomerBackInStockSubscriptionListModelAsync(
-        CustomerBackInStockSubscriptionSearchModel searchModel, Customer customer);
+    //COMMERCE METHODS REMOVED - Phase C
+    //Removed: PrepareCustomerBackInStockSubscriptionListModelAsync (commerce feature)
 
     /// <summary>
     /// Prepare online customer search model
@@ -143,23 +107,7 @@ public partial interface ICustomerModelFactory
     /// </returns>
     Task<OnlineCustomerListModel> PrepareOnlineCustomerListModelAsync(OnlineCustomerSearchModel searchModel);
 
-    /// <summary>
-    /// Prepare GDPR request (log) search model
-    /// </summary>
-    /// <param name="searchModel">GDPR request search model</param>
-    /// <returns>
-    /// A task that represents the asynchronous operation
-    /// The task result contains the gDPR request search model
-    /// </returns>
-    Task<GdprLogSearchModel> PrepareGdprLogSearchModelAsync(GdprLogSearchModel searchModel);
-
-    /// <summary>
-    /// Prepare paged GDPR request list model
-    /// </summary>
-    /// <param name="searchModel">GDPR request search model</param>
-    /// <returns>
-    /// A task that represents the asynchronous operation
-    /// The task result contains the gDPR request list model
-    /// </returns>
-    Task<GdprLogListModel> PrepareGdprLogListModelAsync(GdprLogSearchModel searchModel);
+    //COMMERCE/ADDITIONAL FEATURES REMOVED - Phase C
+    //Removed: PrepareGdprLogSearchModelAsync (GDPR feature)
+    //Removed: PrepareGdprLogListModelAsync (GDPR feature)
 }

@@ -55,7 +55,7 @@ public partial class NopCommonStartup : INopStartup
         application.UseKeepAlive();
 
         //check whether database is installed
-        application.UseInstallUrl();
+        //application.UseInstallUrl();
 
         //use HTTP session
         application.UseSession();

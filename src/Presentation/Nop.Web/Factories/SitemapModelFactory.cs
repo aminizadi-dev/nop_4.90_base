@@ -3,23 +3,24 @@ using System.Text;
 using System.Xml;
 using Nop.Core;
 using Nop.Core.Caching;
-using Nop.Core.Domain.Blogs;
-using Nop.Core.Domain.Catalog;
+//COMMERCE DOMAIN REMOVED - Phase C
+//Removed: using Nop.Core.Domain.Blogs;
+//Removed: using Nop.Core.Domain.Catalog;
 using Nop.Core.Domain.Common;
-using Nop.Core.Domain.Forums;
+//Removed: using Nop.Core.Domain.Forums;
 using Nop.Core.Domain.Localization;
-using Nop.Core.Domain.News;
+//Removed: using Nop.Core.Domain.News;
 using Nop.Core.Domain.Seo;
 using Nop.Core.Events;
 using Nop.Core.Http;
 using Nop.Core.Infrastructure;
-using Nop.Services.Blogs;
-using Nop.Services.Catalog;
+//COMMERCE SERVICES REMOVED - Phase C
+//Removed: using Nop.Services.Blogs;
+//Removed: using Nop.Services.Catalog;
 using Nop.Services.Customers;
 using Nop.Services.Localization;
-using Nop.Services.News;
+//Removed: using Nop.Services.News;
 using Nop.Services.Seo;
-using Nop.Services.Topics;
 using Nop.Web.Framework.Mvc.Routing;
 using Nop.Web.Infrastructure.Cache;
 using Nop.Web.Models.Sitemap;
@@ -33,29 +34,29 @@ public partial class SitemapModelFactory : ISitemapModelFactory
 {
     #region Fields
 
-    protected readonly BlogSettings _blogSettings;
-    protected readonly ForumSettings _forumSettings;
-    protected readonly IBlogService _blogService;
-    protected readonly ICategoryService _categoryService;
+    //COMMERCE SETTINGS/SERVICES REMOVED - Phase C
+    //Removed: protected readonly BlogSettings _blogSettings;
+    //Removed: protected readonly ForumSettings _forumSettings;
+    //Removed: protected readonly IBlogService _blogService;
+    //Removed: protected readonly ICategoryService _categoryService;
     protected readonly ICustomerService _customerService;
     protected readonly IEventPublisher _eventPublisher;
     protected readonly IHttpContextAccessor _httpContextAccessor;
     protected readonly ILanguageService _languageService;
     protected readonly ILocalizationService _localizationService;
     protected readonly ILocker _locker;
-    protected readonly IManufacturerService _manufacturerService;
-    protected readonly INewsService _newsService;
+    //Removed: protected readonly IManufacturerService _manufacturerService;
+    //Removed: protected readonly INewsService _newsService;
     protected readonly INopFileProvider _nopFileProvider;
     protected readonly INopUrlHelper _nopUrlHelper;
-    protected readonly IProductService _productService;
-    protected readonly IProductTagService _productTagService;
+    //Removed: protected readonly IProductService _productService;
+    //Removed: protected readonly IProductTagService _productTagService;
     protected readonly IStaticCacheManager _staticCacheManager;
     protected readonly IStoreContext _storeContext;
-    protected readonly ITopicService _topicService;
     protected readonly IWebHelper _webHelper;
     protected readonly IWorkContext _workContext;
     protected readonly LocalizationSettings _localizationSettings;
-    protected readonly NewsSettings _newsSettings;
+    //Removed: protected readonly NewsSettings _newsSettings;
     protected readonly SitemapSettings _sitemapSettings;
     protected readonly SitemapXmlSettings _sitemapXmlSettings;
 
@@ -63,55 +64,56 @@ public partial class SitemapModelFactory : ISitemapModelFactory
 
     #region Ctor
 
-    public SitemapModelFactory(BlogSettings blogSettings,
-        ForumSettings forumSettings,
-        IBlogService blogService,
-        ICategoryService categoryService,
+    public SitemapModelFactory(
+        //COMMERCE SETTINGS/SERVICES REMOVED - Phase C
+        //Removed: BlogSettings blogSettings,
+        //Removed: ForumSettings forumSettings,
+        //Removed: IBlogService blogService,
+        //Removed: ICategoryService categoryService,
         ICustomerService customerService,
         IEventPublisher eventPublisher,
         IHttpContextAccessor httpContextAccessor,
         ILanguageService languageService,
         ILocalizationService localizationService,
         ILocker locker,
-        IManufacturerService manufacturerService,
-        INewsService newsService,
+        //Removed: IManufacturerService manufacturerService,
+        //Removed: INewsService newsService,
         INopFileProvider nopFileProvider,
         INopUrlHelper nopUrlHelper,
-        IProductService productService,
-        IProductTagService productTagService,
+        //Removed: IProductService productService,
+        //Removed: IProductTagService productTagService,
         IStaticCacheManager staticCacheManager,
         IStoreContext storeContext,
-        ITopicService topicService,
         IWebHelper webHelper,
         IWorkContext workContext,
         LocalizationSettings localizationSettings,
-        NewsSettings newsSettings,
+        //Removed: NewsSettings newsSettings,
         SitemapSettings sitemapSettings,
         SitemapXmlSettings sitemapXmlSettings)
     {
-        _blogSettings = blogSettings;
-        _forumSettings = forumSettings;
-        _blogService = blogService;
-        _categoryService = categoryService;
+        //COMMERCE SETTINGS/SERVICES REMOVED - Phase C
+        //Removed: _blogSettings = blogSettings;
+        //Removed: _forumSettings = forumSettings;
+        //Removed: _blogService = blogService;
+        //Removed: _categoryService = categoryService;
         _customerService = customerService;
         _eventPublisher = eventPublisher;
         _httpContextAccessor = httpContextAccessor;
         _languageService = languageService;
         _localizationService = localizationService;
         _locker = locker;
-        _manufacturerService = manufacturerService;
-        _newsService = newsService;
+        //Removed: _manufacturerService = manufacturerService;
+        //Removed: _newsService = newsService;
         _nopFileProvider = nopFileProvider;
         _nopUrlHelper = nopUrlHelper;
-        _productService = productService;
-        _productTagService = productTagService;
+        //Removed: _productService = productService;
+        //Removed: _productTagService = productTagService;
         _staticCacheManager = staticCacheManager;
         _storeContext = storeContext;
-        _topicService = topicService;
         _webHelper = webHelper;
         _workContext = workContext;
         _localizationSettings = localizationSettings;
-        _newsSettings = newsSettings;
+        //Removed: _newsSettings = newsSettings;
         _sitemapSettings = sitemapSettings;
         _sitemapXmlSettings = sitemapXmlSettings;
     }
@@ -148,52 +150,12 @@ public partial class SitemapModelFactory : ISitemapModelFactory
             //home page
             await PrepareLocalizedSitemapUrlAsync(NopRouteNames.General.HOMEPAGE),
 
-            //search products
-            await PrepareLocalizedSitemapUrlAsync(NopRouteNames.General.SEARCH),
-
             //contact us
             await PrepareLocalizedSitemapUrlAsync(NopRouteNames.General.CONTACT_US)
         };
 
-        //news
-        if (_newsSettings.Enabled)
-            sitemapUrls.Add(await PrepareLocalizedSitemapUrlAsync(NopRouteNames.General.NEWS));
-
-        //blog
-        if (_blogSettings.Enabled)
-            sitemapUrls.Add(await PrepareLocalizedSitemapUrlAsync(NopRouteNames.General.BLOG));
-
-        //forum
-        if (_forumSettings.ForumsEnabled)
-            sitemapUrls.Add(await PrepareLocalizedSitemapUrlAsync(NopRouteNames.General.BOARDS));
-
-        //categories
-        if (_sitemapXmlSettings.SitemapXmlIncludeCategories)
-            sitemapUrls.AddRange(await GetCategoryUrlsAsync());
-
-        //manufacturers
-        if (_sitemapXmlSettings.SitemapXmlIncludeManufacturers)
-            sitemapUrls.AddRange(await GetManufacturerUrlsAsync());
-
-        //products
-        if (_sitemapXmlSettings.SitemapXmlIncludeProducts)
-            sitemapUrls.AddRange(await GetProductUrlsAsync());
-
-        //product tags
-        if (_sitemapXmlSettings.SitemapXmlIncludeProductTags)
-            sitemapUrls.AddRange(await GetProductTagUrlsAsync());
-
-        //news
-        if (_sitemapXmlSettings.SitemapXmlIncludeNews && _newsSettings.Enabled)
-            sitemapUrls.AddRange(await GetNewsItemUrlsAsync());
-
-        //blog posts
-        if (_sitemapXmlSettings.SitemapXmlIncludeBlogPosts && _blogSettings.Enabled)
-            sitemapUrls.AddRange(await GetBlogPostUrlsAsync());
-
-        //topics
-        if (_sitemapXmlSettings.SitemapXmlIncludeTopics)
-            sitemapUrls.AddRange(await GetTopicUrlsAsync());
+        //COMMERCE URLS REMOVED - Phase C
+        //Removed: search products, news, blog, forum, categories, manufacturers, products, product tags
 
         //custom URLs
         if (_sitemapXmlSettings.SitemapXmlIncludeCustomUrls)
@@ -205,126 +167,15 @@ public partial class SitemapModelFactory : ISitemapModelFactory
         return sitemapUrls;
     }
 
-    /// <summary>
-    /// Get news item URLs for the sitemap
-    /// </summary>
-    /// <returns>
-    /// A task that represents the asynchronous operation
-    /// The task result contains the sitemap URLs
-    /// </returns>
-    protected virtual async Task<IEnumerable<SitemapUrlModel>> GetNewsItemUrlsAsync()
-    {
-        var store = await _storeContext.GetCurrentStoreAsync();
-        var newsList = await _newsService.GetAllNewsAsync(storeId: store.Id);
+    //COMMERCE METHODS REMOVED - Phase C
+    //Removed: GetNewsItemUrlsAsync (news - commerce feature)
+    //Removed: GetCategoryUrlsAsync (categories - commerce feature)
+    //Removed: GetManufacturerUrlsAsync (manufacturers - commerce feature)
+    //Removed: GetProductUrlsAsync (products - commerce feature)
+    //Removed: GetProductTagUrlsAsync (product tags - commerce feature)
 
-        return await newsList
-            .SelectAwait(async news => await PrepareLocalizedSitemapUrlAsync(news, news.CreatedOnUtc))
-            .ToListAsync();
-    }
-
-    /// <summary>
-    /// Get category URLs for the sitemap
-    /// </summary>
-    /// <returns>
-    /// A task that represents the asynchronous operation
-    /// The task result contains the sitemap URLs
-    /// </returns>
-    protected virtual async Task<IEnumerable<SitemapUrlModel>> GetCategoryUrlsAsync()
-    {
-        var store = await _storeContext.GetCurrentStoreAsync();
-        var categories = await _categoryService.GetAllCategoriesAsync(storeId: store.Id);
-
-        return await categories
-            .SelectAwait(async category => await PrepareLocalizedSitemapUrlAsync(category, category.UpdatedOnUtc))
-            .ToListAsync();
-    }
-
-    /// <summary>
-    /// Get manufacturer URLs for the sitemap
-    /// </summary>
-    /// <returns>
-    /// A task that represents the asynchronous operation
-    /// The task result contains the sitemap URLs
-    /// </returns>
-    protected virtual async Task<IEnumerable<SitemapUrlModel>> GetManufacturerUrlsAsync()
-    {
-        var store = await _storeContext.GetCurrentStoreAsync();
-        var manufacturers = await _manufacturerService.GetAllManufacturersAsync(storeId: store.Id);
-
-        return await manufacturers
-            .SelectAwait(async manufacturer => await PrepareLocalizedSitemapUrlAsync(manufacturer, manufacturer.UpdatedOnUtc))
-            .ToListAsync();
-    }
-
-    /// <summary>
-    /// Get product URLs for the sitemap
-    /// </summary>
-    /// <returns>
-    /// A task that represents the asynchronous operation
-    /// The task result contains the sitemap URLs
-    /// </returns>
-    protected virtual async Task<IEnumerable<SitemapUrlModel>> GetProductUrlsAsync()
-    {
-        var store = await _storeContext.GetCurrentStoreAsync();
-        var products = await _productService
-            .SearchProductsAsync(0, storeId: store.Id, visibleIndividuallyOnly: true, orderBy: ProductSortingEnum.CreatedOn);
-
-        return await products
-            .SelectAwait(async product => await PrepareLocalizedSitemapUrlAsync(product, product.UpdatedOnUtc))
-            .ToListAsync();
-    }
-
-    /// <summary>
-    /// Get product tag URLs for the sitemap
-    /// </summary>
-    /// <returns>
-    /// A task that represents the asynchronous operation
-    /// The task result contains the sitemap URLs
-    /// </returns>
-    protected virtual async Task<IEnumerable<SitemapUrlModel>> GetProductTagUrlsAsync()
-    {
-        var productTags = await _productTagService.GetAllProductTagsAsync();
-
-        return await productTags
-            .SelectAwait(async productTag => await PrepareLocalizedSitemapUrlAsync(productTag))
-            .ToListAsync();
-    }
-
-    /// <summary>
-    /// Get topic URLs for the sitemap
-    /// </summary>
-    /// <returns>
-    /// A task that represents the asynchronous operation
-    /// The task result contains the sitemap URLs
-    /// </returns>
-    protected virtual async Task<IEnumerable<SitemapUrlModel>> GetTopicUrlsAsync()
-    {
-        var store = await _storeContext.GetCurrentStoreAsync();
-        var topics = await _topicService.GetAllTopicsAsync(store.Id);
-
-        return await topics
-            .Where(t => t.IncludeInSitemap)
-            .SelectAwait(async topic => await PrepareLocalizedSitemapUrlAsync(topic))
-            .ToListAsync();
-    }
-
-    /// <summary>
-    /// Get blog post URLs for the sitemap
-    /// </summary>
-    /// <returns>
-    /// A task that represents the asynchronous operation
-    /// The task result contains the sitemap URLs
-    /// </returns>
-    protected virtual async Task<IEnumerable<SitemapUrlModel>> GetBlogPostUrlsAsync()
-    {
-        var store = await _storeContext.GetCurrentStoreAsync();
-        var blogPosts = await _blogService.GetAllBlogPostsAsync(store.Id);
-
-        return await blogPosts
-            .Where(p => p.IncludeInSitemap)
-            .SelectAwait(async post => await PrepareLocalizedSitemapUrlAsync(post, post.CreatedOnUtc))
-            .ToListAsync();
-    }
+    //COMMERCE METHOD REMOVED - Phase C
+    //Removed: GetBlogPostUrlsAsync (blog posts - commerce feature)
 
     /// <summary>
     /// Get custom URLs for the sitemap
@@ -550,9 +401,8 @@ public partial class SitemapModelFactory : ISitemapModelFactory
         DateTime? dateTimeUpdatedOn = null,
         UpdateFrequency updateFreq = UpdateFrequency.Weekly) where TEntity : BaseEntity, ISlugSupported
     {
-        var isSingleLanguageEntity = entity is BlogPost or NewsItem;
         var url = await _nopUrlHelper
-            .RouteGenericUrlAsync(entity, await GetHttpProtocolAsync(), ensureTwoPublishedLanguages: !isSingleLanguageEntity);
+            .RouteGenericUrlAsync(entity, await GetHttpProtocolAsync());
 
         var store = await _storeContext.GetCurrentStoreAsync();
 
@@ -563,18 +413,6 @@ public partial class SitemapModelFactory : ISitemapModelFactory
 
         if (languages == null || languages.Count == 1)
             return new SitemapUrlModel(url, new List<string>(), updateFreq, updatedOn);
-
-        if (isSingleLanguageEntity)
-        {
-            var languageId = entity is BlogPost blogPost ? blogPost.LanguageId : (entity is NewsItem newsItem ? newsItem.LanguageId : 0);
-            if (await _languageService.GetLanguageByIdAsync(languageId) is not Language language || !language.Published)
-                return new SitemapUrlModel(url, new List<string>(), updateFreq, updatedOn);
-
-            var localizedUrl = await _nopUrlHelper
-                .RouteGenericUrlAsync(entity, await GetHttpProtocolAsync(), languageId: languageId, ensureTwoPublishedLanguages: false);
-            localizedUrl = GetLocalizedUrl(url, language);
-            return new SitemapUrlModel(localizedUrl, new List<string>(), updateFreq, updatedOn);
-        }
 
         //return list of localized urls
         var localizedUrls = await languages
@@ -659,46 +497,8 @@ public partial class SitemapModelFactory : ISitemapModelFactory
                 Url = _nopUrlHelper.RouteUrl(NopRouteNames.General.HOMEPAGE)
             });
 
-            //search
-            model.Items.Add(new SitemapModel.SitemapItemModel
-            {
-                GroupTitle = commonGroupTitle,
-                Name = await _localizationService.GetResourceAsync("Search"),
-                Url = _nopUrlHelper.RouteUrl(NopRouteNames.General.SEARCH)
-            });
-
-            //news
-            if (_newsSettings.Enabled)
-            {
-                model.Items.Add(new SitemapModel.SitemapItemModel
-                {
-                    GroupTitle = commonGroupTitle,
-                    Name = await _localizationService.GetResourceAsync("News"),
-                    Url = _nopUrlHelper.RouteUrl(NopRouteNames.General.NEWS)
-                });
-            }
-
-            //blog
-            if (_blogSettings.Enabled)
-            {
-                model.Items.Add(new SitemapModel.SitemapItemModel
-                {
-                    GroupTitle = commonGroupTitle,
-                    Name = await _localizationService.GetResourceAsync("Blog"),
-                    Url = _nopUrlHelper.RouteUrl(NopRouteNames.General.BLOG)
-                });
-            }
-
-            //forums
-            if (_forumSettings.ForumsEnabled)
-            {
-                model.Items.Add(new SitemapModel.SitemapItemModel
-                {
-                    GroupTitle = commonGroupTitle,
-                    Name = await _localizationService.GetResourceAsync("Forum.Forums"),
-                    Url = _nopUrlHelper.RouteUrl(NopRouteNames.General.BOARDS)
-                });
-            }
+            //COMMERCE URLS REMOVED - Phase C
+            //Removed: search, news, blog, forums
 
             //contact us
             model.Items.Add(new SitemapModel.SitemapItemModel
@@ -716,99 +516,8 @@ public partial class SitemapModelFactory : ISitemapModelFactory
                 Url = _nopUrlHelper.RouteUrl(NopRouteNames.General.CUSTOMER_INFO)
             });
 
-            //at the moment topics are in general category too
-            if (_sitemapSettings.SitemapIncludeTopics)
-            {
-                var topics = (await _topicService.GetAllTopicsAsync(storeId: store.Id))
-                    .Where(topic => topic.IncludeInSitemap);
-
-                model.Items.AddRange(await topics.SelectAwait(async topic => new SitemapModel.SitemapItemModel
-                {
-                    GroupTitle = commonGroupTitle,
-                    Name = await _localizationService.GetLocalizedAsync(topic, x => x.Title),
-                    Url = await _nopUrlHelper.RouteGenericUrlAsync(topic)
-                }).ToListAsync());
-            }
-
-            //blog posts
-            if (_sitemapSettings.SitemapIncludeBlogPosts && _blogSettings.Enabled)
-            {
-                var blogPostsGroupTitle = await _localizationService.GetResourceAsync("Sitemap.BlogPosts");
-                var blogPosts = (await _blogService.GetAllBlogPostsAsync(storeId: store.Id))
-                    .Where(p => p.IncludeInSitemap);
-
-                model.Items.AddRange(await blogPosts.SelectAwait(async post => new SitemapModel.SitemapItemModel
-                {
-                    GroupTitle = blogPostsGroupTitle,
-                    Name = post.Title,
-                    Url = await _nopUrlHelper.RouteGenericUrlAsync(post, languageId: post.LanguageId, ensureTwoPublishedLanguages: false)
-                }).ToListAsync());
-            }
-
-            //news
-            if (_sitemapSettings.SitemapIncludeNews && _newsSettings.Enabled)
-            {
-                var newsGroupTitle = await _localizationService.GetResourceAsync("Sitemap.News");
-                var news = await _newsService.GetAllNewsAsync(storeId: store.Id);
-                model.Items.AddRange(await news.SelectAwait(async newsItem => new SitemapModel.SitemapItemModel
-                {
-                    GroupTitle = newsGroupTitle,
-                    Name = newsItem.Title,
-                    Url = await _nopUrlHelper.RouteGenericUrlAsync(newsItem, languageId: newsItem.LanguageId, ensureTwoPublishedLanguages: false)
-                }).ToListAsync());
-            }
-
-            //categories
-            if (_sitemapSettings.SitemapIncludeCategories)
-            {
-                var categoriesGroupTitle = await _localizationService.GetResourceAsync("Sitemap.Categories");
-                var categories = await _categoryService.GetAllCategoriesAsync(storeId: store.Id);
-                model.Items.AddRange(await categories.SelectAwait(async category => new SitemapModel.SitemapItemModel
-                {
-                    GroupTitle = categoriesGroupTitle,
-                    Name = await _localizationService.GetLocalizedAsync(category, x => x.Name),
-                    Url = await _nopUrlHelper.RouteGenericUrlAsync(category)
-                }).ToListAsync());
-            }
-
-            //manufacturers
-            if (_sitemapSettings.SitemapIncludeManufacturers)
-            {
-                var manufacturersGroupTitle = await _localizationService.GetResourceAsync("Sitemap.Manufacturers");
-                var manufacturers = await _manufacturerService.GetAllManufacturersAsync(storeId: store.Id);
-                model.Items.AddRange(await manufacturers.SelectAwait(async manufacturer => new SitemapModel.SitemapItemModel
-                {
-                    GroupTitle = manufacturersGroupTitle,
-                    Name = await _localizationService.GetLocalizedAsync(manufacturer, x => x.Name),
-                    Url = await _nopUrlHelper.RouteGenericUrlAsync(manufacturer)
-                }).ToListAsync());
-            }
-
-            //products
-            if (_sitemapSettings.SitemapIncludeProducts)
-            {
-                var productsGroupTitle = await _localizationService.GetResourceAsync("Sitemap.Products");
-                var products = await _productService.SearchProductsAsync(0, storeId: store.Id, visibleIndividuallyOnly: true);
-                model.Items.AddRange(await products.SelectAwait(async product => new SitemapModel.SitemapItemModel
-                {
-                    GroupTitle = productsGroupTitle,
-                    Name = await _localizationService.GetLocalizedAsync(product, x => x.Name),
-                    Url = await _nopUrlHelper.RouteGenericUrlAsync(product)
-                }).ToListAsync());
-            }
-
-            //product tags
-            if (_sitemapSettings.SitemapIncludeProductTags)
-            {
-                var productTagsGroupTitle = await _localizationService.GetResourceAsync("Sitemap.ProductTags");
-                var productTags = await _productTagService.GetAllProductTagsAsync();
-                model.Items.AddRange(await productTags.SelectAwait(async productTag => new SitemapModel.SitemapItemModel
-                {
-                    GroupTitle = productTagsGroupTitle,
-                    Name = await _localizationService.GetLocalizedAsync(productTag, x => x.Name),
-                    Url = await _nopUrlHelper.RouteGenericUrlAsync(productTag)
-                }).ToListAsync());
-            }
+            //COMMERCE ITEMS REMOVED - Phase C
+            //Removed: blog posts, news, categories, manufacturers, products, product tags
 
             return model;
         });

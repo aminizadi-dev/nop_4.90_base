@@ -3,27 +3,18 @@ using System.Text;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Primitives;
 using Nop.Core;
-using Nop.Core.Domain.Catalog;
 using Nop.Core.Domain.Common;
 using Nop.Core.Domain.Customers;
-using Nop.Core.Domain.Forums;
-using Nop.Core.Domain.Gdpr;
 using Nop.Core.Domain.Messages;
-using Nop.Core.Domain.Tax;
 using Nop.Core.Events;
-using Nop.Services.Attributes;
 using Nop.Services.Common;
 using Nop.Services.Customers;
 using Nop.Services.ExportImport;
-using Nop.Services.Forums;
-using Nop.Services.Gdpr;
 using Nop.Services.Helpers;
 using Nop.Services.Localization;
 using Nop.Services.Logging;
 using Nop.Services.Messages;
-using Nop.Services.Orders;
 using Nop.Services.Security;
-using Nop.Services.Tax;
 using Nop.Web.Areas.Admin.Factories;
 using Nop.Web.Areas.Admin.Infrastructure.Mapper.Extensions;
 using Nop.Web.Areas.Admin.Models.Customers;
@@ -40,12 +31,7 @@ public partial class CustomerController : BaseAdminController
     protected readonly CustomerSettings _customerSettings;
     protected readonly DateTimeSettings _dateTimeSettings;
     protected readonly EmailAccountSettings _emailAccountSettings;
-    protected readonly ForumSettings _forumSettings;
-    protected readonly GdprSettings _gdprSettings;
     protected readonly IAddressService _addressService;
-    protected readonly IAttributeParser<AddressAttribute, AddressAttributeValue> _addressAttributeParser;
-    protected readonly IAttributeParser<CustomerAttribute, CustomerAttributeValue> _customerAttributeParser;
-    protected readonly IAttributeService<CustomerAttribute, CustomerAttributeValue> _customerAttributeService;
     protected readonly ICustomerActivityService _customerActivityService;
     protected readonly ICustomerModelFactory _customerModelFactory;
     protected readonly ICustomerRegistrationService _customerRegistrationService;
@@ -53,9 +39,6 @@ public partial class CustomerController : BaseAdminController
     protected readonly IDateTimeHelper _dateTimeHelper;
     protected readonly IEmailAccountService _emailAccountService;
     protected readonly IEventPublisher _eventPublisher;
-    protected readonly IExportManager _exportManager;
-    protected readonly IForumService _forumService;
-    protected readonly IGdprService _gdprService;
     protected readonly IGenericAttributeService _genericAttributeService;
     protected readonly IImportManager _importManager;
     protected readonly ILocalizationService _localizationService;
@@ -63,12 +46,8 @@ public partial class CustomerController : BaseAdminController
     protected readonly INotificationService _notificationService;
     protected readonly IPermissionService _permissionService;
     protected readonly IQueuedEmailService _queuedEmailService;
-    protected readonly IRewardPointService _rewardPointService;
     protected readonly IStoreContext _storeContext;
-    protected readonly ITaxService _taxService;
     protected readonly IWorkContext _workContext;
-    protected readonly IWorkflowMessageService _workflowMessageService;
-    protected readonly TaxSettings _taxSettings;
     private static readonly char[] _separator = [','];
 
     #endregion
@@ -78,12 +57,7 @@ public partial class CustomerController : BaseAdminController
     public CustomerController(CustomerSettings customerSettings,
         DateTimeSettings dateTimeSettings,
         EmailAccountSettings emailAccountSettings,
-        ForumSettings forumSettings,
-        GdprSettings gdprSettings,
         IAddressService addressService,
-        IAttributeParser<AddressAttribute, AddressAttributeValue> addressAttributeParser,
-        IAttributeParser<CustomerAttribute, CustomerAttributeValue> customerAttributeParser,
-        IAttributeService<CustomerAttribute, CustomerAttributeValue> customerAttributeService,
         ICustomerActivityService customerActivityService,
         ICustomerModelFactory customerModelFactory,
         ICustomerRegistrationService customerRegistrationService,
@@ -91,9 +65,6 @@ public partial class CustomerController : BaseAdminController
         IDateTimeHelper dateTimeHelper,
         IEmailAccountService emailAccountService,
         IEventPublisher eventPublisher,
-        IExportManager exportManager,
-        IForumService forumService,
-        IGdprService gdprService,
         IGenericAttributeService genericAttributeService,
         IImportManager importManager,
         ILocalizationService localizationService,
@@ -101,22 +72,13 @@ public partial class CustomerController : BaseAdminController
         INotificationService notificationService,
         IPermissionService permissionService,
         IQueuedEmailService queuedEmailService,
-        IRewardPointService rewardPointService,
         IStoreContext storeContext,
-        ITaxService taxService,
-        IWorkContext workContext,
-        IWorkflowMessageService workflowMessageService,
-        TaxSettings taxSettings)
+        IWorkContext workContext)
     {
         _customerSettings = customerSettings;
         _dateTimeSettings = dateTimeSettings;
         _emailAccountSettings = emailAccountSettings;
-        _forumSettings = forumSettings;
-        _gdprSettings = gdprSettings;
         _addressService = addressService;
-        _addressAttributeParser = addressAttributeParser;
-        _customerAttributeParser = customerAttributeParser;
-        _customerAttributeService = customerAttributeService;
         _customerActivityService = customerActivityService;
         _customerModelFactory = customerModelFactory;
         _customerRegistrationService = customerRegistrationService;
@@ -124,9 +86,6 @@ public partial class CustomerController : BaseAdminController
         _dateTimeHelper = dateTimeHelper;
         _emailAccountService = emailAccountService;
         _eventPublisher = eventPublisher;
-        _exportManager = exportManager;
-        _forumService = forumService;
-        _gdprService = gdprService;
         _genericAttributeService = genericAttributeService;
         _importManager = importManager;
         _localizationService = localizationService;
@@ -134,12 +93,8 @@ public partial class CustomerController : BaseAdminController
         _notificationService = notificationService;
         _permissionService = permissionService;
         _queuedEmailService = queuedEmailService;
-        _rewardPointService = rewardPointService;
         _storeContext = storeContext;
-        _taxService = taxService;
         _workContext = workContext;
-        _workflowMessageService = workflowMessageService;
-        _taxSettings = taxSettings;
     }
 
     #endregion
@@ -172,83 +127,6 @@ public partial class CustomerController : BaseAdminController
 
         //no errors
         return string.Empty;
-    }
-
-    protected virtual async Task<string> ParseCustomCustomerAttributesAsync(IFormCollection form)
-    {
-        ArgumentNullException.ThrowIfNull(form);
-
-        var attributesXml = string.Empty;
-        var customerAttributes = await _customerAttributeService.GetAllAttributesAsync();
-        foreach (var attribute in customerAttributes)
-        {
-            var controlId = $"{NopCustomerServicesDefaults.CustomerAttributePrefix}{attribute.Id}";
-            StringValues ctrlAttributes;
-
-            switch (attribute.AttributeControlType)
-            {
-                case AttributeControlType.DropdownList:
-                case AttributeControlType.RadioList:
-                    ctrlAttributes = form[controlId];
-                    if (!StringValues.IsNullOrEmpty(ctrlAttributes))
-                    {
-                        var selectedAttributeId = int.Parse(ctrlAttributes);
-                        if (selectedAttributeId > 0)
-                            attributesXml = _customerAttributeParser.AddAttribute(attributesXml,
-                                attribute, selectedAttributeId.ToString());
-                    }
-
-                    break;
-                case AttributeControlType.Checkboxes:
-                    var cblAttributes = form[controlId];
-                    if (!StringValues.IsNullOrEmpty(cblAttributes))
-                    {
-                        foreach (var item in cblAttributes.ToString()
-                                     .Split(_separator, StringSplitOptions.RemoveEmptyEntries))
-                        {
-                            var selectedAttributeId = int.Parse(item);
-                            if (selectedAttributeId > 0)
-                                attributesXml = _customerAttributeParser.AddAttribute(attributesXml,
-                                    attribute, selectedAttributeId.ToString());
-                        }
-                    }
-
-                    break;
-                case AttributeControlType.ReadonlyCheckboxes:
-                    //load read-only (already server-side selected) values
-                    var attributeValues = await _customerAttributeService.GetAttributeValuesAsync(attribute.Id);
-                    foreach (var selectedAttributeId in attributeValues
-                                 .Where(v => v.IsPreSelected)
-                                 .Select(v => v.Id)
-                                 .ToList())
-                    {
-                        attributesXml = _customerAttributeParser.AddAttribute(attributesXml,
-                            attribute, selectedAttributeId.ToString());
-                    }
-
-                    break;
-                case AttributeControlType.TextBox:
-                case AttributeControlType.MultilineTextbox:
-                    ctrlAttributes = form[controlId];
-                    if (!StringValues.IsNullOrEmpty(ctrlAttributes))
-                    {
-                        var enteredText = ctrlAttributes.ToString().Trim();
-                        attributesXml = _customerAttributeParser.AddAttribute(attributesXml,
-                            attribute, enteredText);
-                    }
-
-                    break;
-                case AttributeControlType.Datepicker:
-                case AttributeControlType.ColorSquares:
-                case AttributeControlType.ImageSquares:
-                case AttributeControlType.FileUpload:
-                //not supported customer attributes
-                default:
-                    break;
-            }
-        }
-
-        return attributesXml;
     }
 
     protected virtual async Task<bool> SecondAdminAccountExistsAsync(Customer customer)
@@ -331,17 +209,6 @@ public partial class CustomerController : BaseAdminController
             _notificationService.ErrorNotification(await _localizationService.GetResourceAsync("Admin.Customers.Customers.ValidEmailRequiredRegisteredRole"));
         }
 
-        //custom customer attributes
-        var customerAttributesXml = await ParseCustomCustomerAttributesAsync(form);
-        if (newCustomerRoles.Any() && newCustomerRoles.FirstOrDefault(c => c.SystemName == NopCustomerDefaults.RegisteredRoleName) != null)
-        {
-            var customerAttributeWarnings = await _customerAttributeParser.GetAttributeWarningsAsync(customerAttributesXml);
-            foreach (var error in customerAttributeWarnings)
-            {
-                ModelState.AddModelError(string.Empty, error);
-            }
-        }
-
         if (ModelState.IsValid)
         {
             //fill entity from model
@@ -384,7 +251,6 @@ public partial class CustomerController : BaseAdminController
                 customer.Phone = model.Phone;
             if (_customerSettings.FaxEnabled)
                 customer.Fax = model.Fax;
-            customer.CustomCustomerAttributesXML = customerAttributesXml;
 
             await _customerService.InsertCustomerAsync(customer);
 
@@ -412,25 +278,9 @@ public partial class CustomerController : BaseAdminController
 
             await _customerService.UpdateCustomerAsync(customer);
 
-            //ensure that a customer with a vendor associated is not in "Administrators" role
-            //otherwise, he won't have access to other functionality in admin area
-            if (await _customerService.IsAdminAsync(customer) && customer.VendorId > 0)
-            {
-                customer.VendorId = 0;
-                await _customerService.UpdateCustomerAsync(customer);
-
-                _notificationService.ErrorNotification(await _localizationService.GetResourceAsync("Admin.Customers.Customers.AdminCouldNotbeVendor"));
-            }
-
-            //ensure that a customer in the Vendors role has a vendor account associated.
-            //otherwise, he will have access to ALL products
-            if (await _customerService.IsVendorAsync(customer) && customer.VendorId == 0)
-            {
-                var vendorRole = await _customerService.GetCustomerRoleBySystemNameAsync(NopCustomerDefaults.VendorsRoleName);
-                await _customerService.RemoveCustomerRoleMappingAsync(customer, vendorRole);
-
-                _notificationService.ErrorNotification(await _localizationService.GetResourceAsync("Admin.Customers.Customers.CannotBeInVendoRoleWithoutVendorAssociated"));
-            }
+            //COMMERCE FEATURE REMOVED - Phase B
+            //Removed: Vendor validation logic (commerce feature)
+            //VendorId field is kept in Customer entity but vendor-related validation is removed
 
             //activity log
             await _customerActivityService.InsertActivityAsync("AddNewCustomer",
@@ -497,17 +347,6 @@ public partial class CustomerController : BaseAdminController
             _notificationService.ErrorNotification(await _localizationService.GetResourceAsync("Admin.Customers.Customers.ValidEmailRequiredRegisteredRole"));
         }
 
-        //custom customer attributes
-        var customerAttributesXml = await ParseCustomCustomerAttributesAsync(form);
-        if (newCustomerRoles.Any() && newCustomerRoles.FirstOrDefault(c => c.SystemName == NopCustomerDefaults.RegisteredRoleName) != null)
-        {
-            var customerAttributeWarnings = await _customerAttributeParser.GetAttributeWarningsAsync(customerAttributesXml);
-            foreach (var error in customerAttributeWarnings)
-            {
-                ModelState.AddModelError(string.Empty, error);
-            }
-        }
-
         if (ModelState.IsValid)
         {
             try
@@ -537,23 +376,10 @@ public partial class CustomerController : BaseAdminController
                         customer.Username = model.Username;
                 }
 
-                //VAT number
-                if (_taxSettings.EuVatEnabled)
-                {
-                    var prevVatNumber = customer.VatNumber;
-
-                    customer.VatNumber = model.VatNumber;
-                    //set VAT number status
-                    if (!string.IsNullOrEmpty(model.VatNumber))
-                    {
-                        if (!model.VatNumber.Equals(prevVatNumber, StringComparison.InvariantCultureIgnoreCase))
-                        {
-                            customer.VatNumberStatusId = (int)(await _taxService.GetVatNumberStatusAsync(model.VatNumber)).vatNumberStatus;
-                        }
-                    }
-                    else
-                        customer.VatNumberStatusId = (int)VatNumberStatus.Empty;
-                }
+                //VAT number (COMMERCE FEATURE REMOVED - Phase B)
+                //Removed: VAT number validation using tax service
+                //customer.VatNumber = model.VatNumber;
+                //VAT number status validation removed as tax service is commerce-specific
 
                 //vendor
                 customer.VendorId = model.VendorId;
@@ -590,8 +416,6 @@ public partial class CustomerController : BaseAdminController
                 if (_customerSettings.FaxEnabled)
                     customer.Fax = model.Fax;
 
-                //custom customer attributes
-                customer.CustomCustomerAttributesXML = customerAttributesXml;
 
                 var currentCustomerRoleIds = await _customerService.GetCustomerRoleIdsAsync(customer, true);
 
@@ -634,16 +458,6 @@ public partial class CustomerController : BaseAdminController
                     customer.VendorId = 0;
                     await _customerService.UpdateCustomerAsync(customer);
                     _notificationService.ErrorNotification(await _localizationService.GetResourceAsync("Admin.Customers.Customers.AdminCouldNotbeVendor"));
-                }
-
-                //ensure that a customer in the Vendors role has a vendor account associated.
-                //otherwise, he will have access to ALL products
-                if (await _customerService.IsVendorAsync(customer) && customer.VendorId == 0)
-                {
-                    var vendorRole = await _customerService.GetCustomerRoleBySystemNameAsync(NopCustomerDefaults.VendorsRoleName);
-                    await _customerService.RemoveCustomerRoleMappingAsync(customer, vendorRole);
-
-                    _notificationService.ErrorNotification(await _localizationService.GetResourceAsync("Admin.Customers.Customers.CannotBeInVendoRoleWithoutVendorAssociated"));
                 }
 
                 //activity log
@@ -709,7 +523,6 @@ public partial class CustomerController : BaseAdminController
         if (customer == null)
             return RedirectToAction("List");
 
-        customer.VatNumberStatusId = (int)VatNumberStatus.Valid;
         await _customerService.UpdateCustomerAsync(customer);
 
         return RedirectToAction("Edit", new { id = customer.Id });
@@ -725,7 +538,6 @@ public partial class CustomerController : BaseAdminController
         if (customer == null)
             return RedirectToAction("List");
 
-        customer.VatNumberStatusId = (int)VatNumberStatus.Invalid;
         await _customerService.UpdateCustomerAsync(customer);
 
         return RedirectToAction("Edit", new { id = customer.Id });
@@ -867,8 +679,6 @@ public partial class CustomerController : BaseAdminController
         if (customer == null)
             return RedirectToAction("List");
 
-        await _workflowMessageService.SendCustomerWelcomeMessageAsync(customer, (await _workContext.GetWorkingLanguageAsync()).Id);
-
         _notificationService.SuccessNotification(await _localizationService.GetResourceAsync("Admin.Customers.Customers.SendWelcomeMessage.Success"));
 
         return RedirectToAction("Edit", new { id = customer.Id });
@@ -886,7 +696,6 @@ public partial class CustomerController : BaseAdminController
 
         //email validation message
         await _genericAttributeService.SaveAttributeAsync(customer, NopCustomerDefaults.AccountActivationTokenAttribute, Guid.NewGuid().ToString());
-        await _workflowMessageService.SendCustomerEmailValidationMessageAsync(customer, (await _workContext.GetWorkingLanguageAsync()).Id);
 
         _notificationService.SuccessNotification(await _localizationService.GetResourceAsync("Admin.Customers.Customers.ReSendActivationMessage.Success"));
 
@@ -939,108 +748,6 @@ public partial class CustomerController : BaseAdminController
         }
 
         return RedirectToAction("Edit", new { id = customer.Id });
-    }
-
-    [CheckPermission(StandardPermission.Customers.CUSTOMERS_CREATE_EDIT_DELETE)]
-    public virtual async Task<IActionResult> SendPm(CustomerModel model)
-    {
-        //try to get a customer with the specified id
-        var customer = await _customerService.GetCustomerByIdAsync(model.Id);
-        if (customer == null)
-            return RedirectToAction("List");
-
-        try
-        {
-            if (!_forumSettings.AllowPrivateMessages)
-                throw new NopException("Private messages are disabled");
-            if (await _customerService.IsGuestAsync(customer))
-                throw new NopException("Customer should be registered");
-            if (string.IsNullOrWhiteSpace(model.SendPm.Subject))
-                throw new NopException(await _localizationService.GetResourceAsync("PrivateMessages.SubjectCannotBeEmpty"));
-            if (string.IsNullOrWhiteSpace(model.SendPm.Message))
-                throw new NopException(await _localizationService.GetResourceAsync("PrivateMessages.MessageCannotBeEmpty"));
-
-            var store = await _storeContext.GetCurrentStoreAsync();
-            var currentCustomer = await _workContext.GetCurrentCustomerAsync();
-
-            var privateMessage = new PrivateMessage
-            {
-                StoreId = store.Id,
-                ToCustomerId = customer.Id,
-                FromCustomerId = currentCustomer.Id,
-                Subject = model.SendPm.Subject,
-                Text = model.SendPm.Message,
-                IsDeletedByAuthor = false,
-                IsDeletedByRecipient = false,
-                IsRead = false,
-                CreatedOnUtc = DateTime.UtcNow
-            };
-
-            await _forumService.InsertPrivateMessageAsync(privateMessage);
-
-            _notificationService.SuccessNotification(await _localizationService.GetResourceAsync("Admin.Customers.Customers.SendPM.Sent"));
-        }
-        catch (Exception exc)
-        {
-            _notificationService.ErrorNotification(exc.Message);
-        }
-
-        return RedirectToAction("Edit", new { id = customer.Id });
-    }
-
-    #endregion
-
-    #region Reward points history
-
-    [HttpPost]
-    [CheckPermission(StandardPermission.Customers.CUSTOMERS_VIEW)]
-    public virtual async Task<IActionResult> RewardPointsHistorySelect(CustomerRewardPointsSearchModel searchModel)
-    {
-        //try to get a customer with the specified id
-        var customer = await _customerService.GetCustomerByIdAsync(searchModel.CustomerId)
-            ?? throw new ArgumentException("No customer found with the specified id");
-
-        //prepare model
-        var model = await _customerModelFactory.PrepareRewardPointsListModelAsync(searchModel, customer);
-
-        return Json(model);
-    }
-
-    [CheckPermission(StandardPermission.Customers.CUSTOMERS_CREATE_EDIT_DELETE)]
-    public virtual async Task<IActionResult> RewardPointsHistoryAdd(AddRewardPointsToCustomerModel model)
-    {
-        //prevent adding a new row with zero value
-        if (model.Points == 0)
-            return ErrorJson(await _localizationService.GetResourceAsync("Admin.Customers.Customers.RewardPoints.AddingZeroValueNotAllowed"));
-
-        //prevent adding negative point validity for point reduction
-        if (model.Points < 0 && model.PointsValidity.HasValue)
-            return ErrorJson(await _localizationService.GetResourceAsync("Admin.Customers.Customers.RewardPoints.Fields.AddNegativePointsValidity"));
-
-        //try to get a customer with the specified id
-        var customer = await _customerService.GetCustomerByIdAsync(model.CustomerId);
-        if (customer == null)
-            return ErrorJson("Customer cannot be loaded");
-
-        //check whether delay is set
-        DateTime? activatingDate = null;
-        if (!model.ActivatePointsImmediately && model.ActivationDelay > 0)
-        {
-            var delayPeriod = (RewardPointsActivatingDelayPeriod)model.ActivationDelayPeriodId;
-            var delayInHours = delayPeriod.ToHours(model.ActivationDelay);
-            activatingDate = DateTime.UtcNow.AddHours(delayInHours);
-        }
-
-        //whether points validity is set
-        DateTime? endDate = null;
-        if (model.PointsValidity > 0)
-            endDate = (activatingDate ?? DateTime.UtcNow).AddDays(model.PointsValidity.Value);
-
-        //add reward points
-        await _rewardPointService.AddRewardPointsHistoryEntryAsync(customer, model.Points, model.StoreId, model.Message,
-            activatingDate: activatingDate, endDate: endDate);
-
-        return Json(new { Result = true });
     }
 
     #endregion
@@ -1107,18 +814,9 @@ public partial class CustomerController : BaseAdminController
         if (customer == null)
             return RedirectToAction("List");
 
-        //custom address attributes
-        var customAttributes = await _addressAttributeParser.ParseCustomAttributesAsync(form, NopCommonDefaults.AddressAttributeControlName);
-        var customAttributeWarnings = await _addressAttributeParser.GetAttributeWarningsAsync(customAttributes);
-        foreach (var error in customAttributeWarnings)
-        {
-            ModelState.AddModelError(string.Empty, error);
-        }
-
         if (ModelState.IsValid)
         {
             var address = model.Address.ToEntity<Address>();
-            address.CustomAttributes = customAttributes;
             address.CreatedOnUtc = DateTime.UtcNow;
 
             //some validation
@@ -1176,18 +874,9 @@ public partial class CustomerController : BaseAdminController
         if (address == null)
             return RedirectToAction("Edit", new { id = customer.Id });
 
-        //custom address attributes
-        var customAttributes = await _addressAttributeParser.ParseCustomAttributesAsync(form, NopCommonDefaults.AddressAttributeControlName);
-        var customAttributeWarnings = await _addressAttributeParser.GetAttributeWarningsAsync(customAttributes);
-        foreach (var error in customAttributeWarnings)
-        {
-            ModelState.AddModelError(string.Empty, error);
-        }
-
         if (ModelState.IsValid)
         {
             address = model.Address.ToEntity(address);
-            address.CustomAttributes = customAttributes;
             await _addressService.UpdateAddressAsync(address);
 
             _notificationService.SuccessNotification(await _localizationService.GetResourceAsync("Admin.Customers.Customers.Addresses.Updated"));
@@ -1200,24 +889,6 @@ public partial class CustomerController : BaseAdminController
 
         //if we got this far, something failed, redisplay form
         return View(model);
-    }
-
-    #endregion
-
-    #region Orders
-
-    [HttpPost]
-    [CheckPermission(StandardPermission.Customers.CUSTOMERS_VIEW)]
-    public virtual async Task<IActionResult> OrderList(CustomerOrderSearchModel searchModel)
-    {
-        //try to get a customer with the specified id
-        var customer = await _customerService.GetCustomerByIdAsync(searchModel.CustomerId)
-            ?? throw new ArgumentException("No customer found with the specified id");
-
-        //prepare model
-        var model = await _customerModelFactory.PrepareCustomerOrderListModelAsync(searchModel, customer);
-
-        return Json(model);
     }
 
     #endregion
@@ -1308,24 +979,6 @@ public partial class CustomerController : BaseAdminController
 
     #endregion
 
-    #region Current shopping cart/ wishlist
-
-    [HttpPost]
-    [CheckPermission(StandardPermission.Customers.CUSTOMERS_VIEW)]
-    public virtual async Task<IActionResult> GetCartList(CustomerShoppingCartSearchModel searchModel)
-    {
-        //try to get a customer with the specified id
-        var customer = await _customerService.GetCustomerByIdAsync(searchModel.CustomerId)
-            ?? throw new ArgumentException("No customer found with the specified id");
-
-        //prepare model
-        var model = await _customerModelFactory.PrepareCustomerShoppingCartListModelAsync(searchModel, customer);
-
-        return Json(model);
-    }
-
-    #endregion
-
     #region Activity log
 
     [HttpPost]
@@ -1343,122 +996,6 @@ public partial class CustomerController : BaseAdminController
         return Json(model);
     }
 
-    #endregion
-
-    #region Back in stock subscriptions
-
-    [HttpPost]
-    [CheckPermission(StandardPermission.Customers.CUSTOMERS_VIEW)]
-    public virtual async Task<IActionResult> BackInStockSubscriptionList(CustomerBackInStockSubscriptionSearchModel searchModel)
-    {
-        //try to get a customer with the specified id
-        var customer = await _customerService.GetCustomerByIdAsync(searchModel.CustomerId)
-            ?? throw new ArgumentException("No customer found with the specified id");
-
-        //prepare model
-        var model = await _customerModelFactory.PrepareCustomerBackInStockSubscriptionListModelAsync(searchModel, customer);
-
-        return Json(model);
-    }
-
-    #endregion
-
-    #region GDPR
-
-    [CheckPermission(StandardPermission.Customers.CUSTOMERS_VIEW)]
-    [CheckPermission(StandardPermission.Customers.GDPR_MANAGE)]
-    public virtual async Task<IActionResult> GdprLog()
-    {
-        //prepare model
-        var model = await _customerModelFactory.PrepareGdprLogSearchModelAsync(new GdprLogSearchModel());
-
-        return View(model);
-    }
-
-    [HttpPost]
-    [CheckPermission(StandardPermission.Customers.CUSTOMERS_VIEW)]
-    [CheckPermission(StandardPermission.Customers.GDPR_MANAGE)]
-    public virtual async Task<IActionResult> GdprLogList(GdprLogSearchModel searchModel)
-    {
-        //prepare model
-        var model = await _customerModelFactory.PrepareGdprLogListModelAsync(searchModel);
-
-        return Json(model);
-    }
-
-    [HttpPost]
-    [CheckPermission(StandardPermission.Customers.CUSTOMERS_CREATE_EDIT_DELETE)]
-    [CheckPermission(StandardPermission.Customers.GDPR_MANAGE)]
-    public virtual async Task<IActionResult> GdprDelete(int id)
-    {
-        //try to get a customer with the specified id
-        var customer = await _customerService.GetCustomerByIdAsync(id);
-        if (customer == null)
-            return RedirectToAction("List");
-
-        if (!_gdprSettings.GdprEnabled)
-            return RedirectToAction("List");
-
-        try
-        {
-            //prevent attempts to delete the user, if it is the last active administrator
-            if (await _customerService.IsAdminAsync(customer) && !await SecondAdminAccountExistsAsync(customer))
-            {
-                _notificationService.ErrorNotification(await _localizationService.GetResourceAsync("Admin.Customers.Customers.AdminAccountShouldExists.DeleteAdministrator"));
-                return RedirectToAction("Edit", new { id = customer.Id });
-            }
-
-            //ensure that the current customer cannot delete "Administrators" if he's not an admin himself
-            if (await _customerService.IsAdminAsync(customer) && !await _customerService.IsAdminAsync(await _workContext.GetCurrentCustomerAsync()))
-            {
-                _notificationService.ErrorNotification(await _localizationService.GetResourceAsync("Admin.Customers.Customers.OnlyAdminCanDeleteAdmin"));
-                return RedirectToAction("Edit", new { id = customer.Id });
-            }
-
-            //delete
-            await _gdprService.PermanentDeleteCustomerAsync(customer);
-
-            //activity log
-            await _customerActivityService.InsertActivityAsync("DeleteCustomer",
-                string.Format(await _localizationService.GetResourceAsync("ActivityLog.DeleteCustomer"), customer.Id), customer);
-
-            _notificationService.SuccessNotification(await _localizationService.GetResourceAsync("Admin.Customers.Customers.Deleted"));
-
-            return RedirectToAction("List");
-        }
-        catch (Exception exc)
-        {
-            _notificationService.ErrorNotification(exc.Message);
-            return RedirectToAction("Edit", new { id = customer.Id });
-        }
-    }
-
-    [CheckPermission(StandardPermission.Customers.CUSTOMERS_VIEW)]
-    [CheckPermission(StandardPermission.Customers.GDPR_MANAGE)]
-    public virtual async Task<IActionResult> GdprExport(int id)
-    {
-        //try to get a customer with the specified id
-        var customer = await _customerService.GetCustomerByIdAsync(id);
-        if (customer == null)
-            return RedirectToAction("List");
-
-        try
-        {
-            //log
-            //_gdprService.InsertLog(customer, 0, GdprRequestType.ExportData, await _localizationService.GetResource("Gdpr.Exported"));
-            
-            //export
-            var store = await _storeContext.GetCurrentStoreAsync();
-            var bytes = await _exportManager.ExportCustomerGdprInfoToXlsxAsync(customer, store.Id);
-
-            return File(bytes, MimeTypes.TextXlsx, $"customerdata-{customer.Id}.xlsx");
-        }
-        catch (Exception exc)
-        {
-            await _notificationService.ErrorNotificationAsync(exc);
-            return RedirectToAction("Edit", new { id = customer.Id });
-        }
-    }
     #endregion
 
     #region Export / Import
@@ -1481,16 +1018,10 @@ public partial class CustomerController : BaseAdminController
             phone: model.SearchPhone,
             zipPostalCode: model.SearchZipPostalCode);
 
-        try
-        {
-            var bytes = await _exportManager.ExportCustomersToXlsxAsync(customers);
-            return File(bytes, MimeTypes.TextXlsx, "customers.xlsx");
-        }
-        catch (Exception exc)
-        {
-            await _notificationService.ErrorNotificationAsync(exc);
-            return RedirectToAction("List");
-        }
+        //COMMERCE FEATURE REMOVED - Phase B
+        //Removed: Export functionality (commerce feature)
+        _notificationService.ErrorNotification("Export functionality is not available (commerce feature removed)");
+        return RedirectToAction("List");
     }
 
     [HttpPost]
@@ -1508,16 +1039,10 @@ public partial class CustomerController : BaseAdminController
             customers.AddRange(await _customerService.GetCustomersByIdsAsync(ids));
         }
 
-        try
-        {
-            var bytes = await _exportManager.ExportCustomersToXlsxAsync(customers);
-            return File(bytes, MimeTypes.TextXlsx, "customers.xlsx");
-        }
-        catch (Exception exc)
-        {
-            await _notificationService.ErrorNotificationAsync(exc);
-            return RedirectToAction("List");
-        }
+        //COMMERCE FEATURE REMOVED - Phase B
+        //Removed: Export functionality (commerce feature)
+        _notificationService.ErrorNotification("Export functionality is not available (commerce feature removed)");
+        return RedirectToAction("List");
     }
 
     [HttpPost, ActionName("ExportXML")]
@@ -1540,8 +1065,10 @@ public partial class CustomerController : BaseAdminController
 
         try
         {
-            var xml = await _exportManager.ExportCustomersToXmlAsync(customers);
-            return File(Encoding.UTF8.GetBytes(xml), "application/xml", "customers.xml");
+            //COMMERCE FEATURE REMOVED - Phase B
+            //Removed: XML export functionality (commerce feature)
+            _notificationService.ErrorNotification("XML export functionality is not available (commerce feature removed)");
+            return RedirectToAction("List");
         }
         catch (Exception exc)
         {
@@ -1567,8 +1094,10 @@ public partial class CustomerController : BaseAdminController
 
         try
         {
-            var xml = await _exportManager.ExportCustomersToXmlAsync(customers);
-            return File(Encoding.UTF8.GetBytes(xml), "application/xml", "customers.xml");
+            //COMMERCE FEATURE REMOVED - Phase B
+            //Removed: XML export functionality (commerce feature)
+            _notificationService.ErrorNotification("XML export functionality is not available (commerce feature removed)");
+            return RedirectToAction("List");
         }
         catch (Exception exc)
         {
@@ -1582,9 +1111,10 @@ public partial class CustomerController : BaseAdminController
     [CheckPermission(StandardPermission.Customers.CUSTOMERS_IMPORT_EXPORT)]
     public virtual async Task<IActionResult> ImportExcel(IFormFile importexcelfile)
     {
-        if (await _workContext.GetCurrentVendorAsync() != null)
-            //a vendor can not import customer
-            return AccessDeniedView();
+        //COMMERCE FEATURE REMOVED - Phase B
+        //Removed: Vendor check (commerce feature)
+        //if (await _workContext.GetCurrentVendorAsync() != null)
+        //    return AccessDeniedView();
 
         try
         {

@@ -33,6 +33,8 @@ public partial class GenericUrlRouteProvider : BaseRouteProvider, IRouteProvider
         if (!DataSettingsManager.IsDatabaseInstalled())
             return;
 
+        //COMMERCE GENERIC ROUTES DISABLED - Phase A
+        /*
         //generic routes (actually routing is processed later in SlugRouteTransformer)
         var genericCatalogPattern = $"{lang}/{{{NopRoutingDefaults.RouteValue.CatalogSeName}}}/{{{NopRoutingDefaults.RouteValue.SeName}}}";
         endpointRouteBuilder.MapDynamicControllerRoute<SlugRouteTransformer>(genericCatalogPattern);
@@ -97,6 +99,7 @@ public partial class GenericUrlRouteProvider : BaseRouteProvider, IRouteProvider
         endpointRouteBuilder.MapControllerRoute(name: NopRoutingDefaults.RouteName.Generic.ProductTag,
             pattern: genericPattern,
             defaults: new { controller = "Catalog", action = "ProductsByTag" });
+        */
     }
 
     #endregion

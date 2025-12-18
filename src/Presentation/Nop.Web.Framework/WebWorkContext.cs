@@ -4,8 +4,8 @@ using Nop.Core;
 using Nop.Core.Domain.Customers;
 using Nop.Core.Domain.Directory;
 using Nop.Core.Domain.Localization;
-using Nop.Core.Domain.Tax;
-using Nop.Core.Domain.Vendors;
+//COMMERCE DOMAIN REMOVED - Phase C
+//Removed: using Nop.Core.Domain.Tax; using Nop.Core.Domain.Vendors;
 using Nop.Core.Events;
 using Nop.Core.Http;
 using Nop.Core.Security;
@@ -16,7 +16,8 @@ using Nop.Services.Directory;
 using Nop.Services.Helpers;
 using Nop.Services.Localization;
 using Nop.Services.ScheduleTasks;
-using Nop.Services.Vendors;
+//COMMERCE SERVICES REMOVED - Phase C
+//Removed: using Nop.Services.Vendors;
 using Nop.Web.Framework.Globalization;
 
 namespace Nop.Web.Framework;
@@ -39,17 +40,19 @@ public partial class WebWorkContext : IWorkContext
     protected readonly ILanguageService _languageService;
     protected readonly IStoreContext _storeContext;
     protected readonly IUserAgentHelper _userAgentHelper;
-    protected readonly IVendorService _vendorService;
+    //COMMERCE SERVICES REMOVED - Phase C
+    //Removed: protected readonly IVendorService _vendorService;
     protected readonly IWebHelper _webHelper;
     protected readonly LocalizationSettings _localizationSettings;
-    protected readonly TaxSettings _taxSettings;
+    //COMMERCE SETTINGS REMOVED - Phase C
+    //Removed: protected readonly TaxSettings _taxSettings;
 
     protected Customer _cachedCustomer;
     protected Customer _originalCustomerIfImpersonated;
-    protected Vendor _cachedVendor;
+    //COMMERCE CACHED VALUES REMOVED - Phase C
+    //Removed: protected Vendor _cachedVendor; protected TaxDisplayType? _cachedTaxDisplayType;
     protected Language _cachedLanguage;
     protected Currency _cachedCurrency;
-    protected TaxDisplayType? _cachedTaxDisplayType;
 
     #endregion
 
@@ -66,10 +69,10 @@ public partial class WebWorkContext : IWorkContext
         ILanguageService languageService,
         IStoreContext storeContext,
         IUserAgentHelper userAgentHelper,
-        IVendorService vendorService,
+        //COMMERCE DEPENDENCIES REMOVED - Phase C
+        //Removed: IVendorService vendorService, TaxSettings taxSettings
         IWebHelper webHelper,
-        LocalizationSettings localizationSettings,
-        TaxSettings taxSettings)
+        LocalizationSettings localizationSettings)
     {
         _cookieSettings = cookieSettings;
         _currencySettings = currencySettings;
@@ -82,10 +85,10 @@ public partial class WebWorkContext : IWorkContext
         _languageService = languageService;
         _storeContext = storeContext;
         _userAgentHelper = userAgentHelper;
-        _vendorService = vendorService;
+        //COMMERCE ASSIGNMENTS REMOVED - Phase C
+        //Removed: _vendorService = vendorService; _taxSettings = taxSettings;
         _webHelper = webHelper;
         _localizationSettings = localizationSettings;
-        _taxSettings = taxSettings;
     }
 
     #endregion
@@ -289,30 +292,8 @@ public partial class WebWorkContext : IWorkContext
     /// </summary>
     public virtual Customer OriginalCustomerIfImpersonated => _originalCustomerIfImpersonated;
 
-    /// <summary>
-    /// Gets the current vendor (logged-in manager)
-    /// </summary>
-    /// <returns>A task that represents the asynchronous operation</returns>
-    public virtual async Task<Vendor> GetCurrentVendorAsync()
-    {
-        //whether there is a cached value
-        if (_cachedVendor != null)
-            return _cachedVendor;
-
-        var customer = await GetCurrentCustomerAsync();
-        if (customer == null)
-            return null;
-
-        //check vendor availability
-        var vendor = await _vendorService.GetVendorByIdAsync(customer.VendorId);
-        if (vendor == null || vendor.Deleted || !vendor.Active)
-            return null;
-
-        //cache the found vendor
-        _cachedVendor = vendor;
-
-        return _cachedVendor;
-    }
+    //COMMERCE FEATURE REMOVED - Phase C
+    //Removed: GetCurrentVendorAsync (commerce feature)
 
     /// <summary>
     /// Sets current user working language
@@ -468,40 +449,8 @@ public partial class WebWorkContext : IWorkContext
         _cachedCurrency = null;
     }
 
-    /// <summary>
-    /// Gets or sets current tax display type
-    /// </summary>
-    /// <returns>A task that represents the asynchronous operation</returns>
-    public virtual async Task<TaxDisplayType> GetTaxDisplayTypeAsync()
-    {
-        //whether there is a cached value
-        if (_cachedTaxDisplayType.HasValue)
-            return _cachedTaxDisplayType.Value;
-
-        var customer = await GetCurrentCustomerAsync();
-        var taxDisplayType = await _customerService.GetCustomerTaxDisplayTypeAsync(customer);
-
-        //cache the value
-        _cachedTaxDisplayType = taxDisplayType;
-
-        return _cachedTaxDisplayType.Value;
-    }
-
-    /// <returns>A task that represents the asynchronous operation</returns>
-    public virtual async Task SetTaxDisplayTypeAsync(TaxDisplayType taxDisplayType)
-    {
-        //whether customers are allowed to select tax display type
-        if (!_taxSettings.AllowCustomersToSelectTaxDisplayType)
-            return;
-
-        //save passed value
-        var customer = await GetCurrentCustomerAsync();
-        customer.TaxDisplayType = taxDisplayType;
-        await _customerService.UpdateCustomerAsync(customer);
-
-        //then reset the cached value
-        _cachedTaxDisplayType = null;
-    }
+    //COMMERCE FEATURES REMOVED - Phase C
+    //Removed: GetTaxDisplayTypeAsync, SetTaxDisplayTypeAsync (commerce features)
 
     /// <summary>
     /// Gets or sets value indicating whether we're in admin area

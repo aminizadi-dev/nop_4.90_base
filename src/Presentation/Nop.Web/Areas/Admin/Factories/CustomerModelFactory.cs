@@ -1,33 +1,37 @@
 ﻿using System.Text;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Nop.Core;
-using Nop.Core.Domain.Catalog;
 using Nop.Core.Domain.Common;
 using Nop.Core.Domain.Customers;
-using Nop.Core.Domain.Forums;
-using Nop.Core.Domain.Gdpr;
 using Nop.Core.Domain.Media;
-using Nop.Core.Domain.Orders;
-using Nop.Core.Domain.Tax;
-using Nop.Services.Affiliates;
-using Nop.Services.Attributes;
-using Nop.Services.Authentication.External;
-using Nop.Services.Catalog;
+//COMMERCE/ADDITIONAL FEATURES REMOVED - Phase C
+//Removed: using Nop.Core.Domain.Forums;
+//Removed: using Nop.Core.Domain.Gdpr;
+//Removed: using Nop.Core.Domain.Tax;
+//Removed: using Nop.Services.Affiliates;
+//Removed: using Nop.Services.Attributes;
+//Removed: using Nop.Services.Authentication.External;
+//COMMERCE DOMAIN/SERVICES REMOVED - Phase C
+//Removed: using Nop.Core.Domain.Catalog;
+//Removed: using Nop.Core.Domain.Orders;
+//Removed: using Nop.Services.Catalog;
+//Removed: using Nop.Services.Orders;
 using Nop.Services.Common;
 using Nop.Services.Customers;
 using Nop.Services.Directory;
-using Nop.Services.Gdpr;
+//COMMERCE/ADDITIONAL FEATURES REMOVED - Phase C
+//Removed: using Nop.Services.Gdpr;
 using Nop.Services.Helpers;
 using Nop.Services.Localization;
 using Nop.Services.Logging;
 using Nop.Services.Media;
-using Nop.Services.Orders;
 using Nop.Services.Stores;
-using Nop.Services.Tax;
+//Removed: using Nop.Services.Tax;
 using Nop.Web.Areas.Admin.Infrastructure.Mapper.Extensions;
 using Nop.Web.Areas.Admin.Models.Common;
 using Nop.Web.Areas.Admin.Models.Customers;
-using Nop.Web.Areas.Admin.Models.ShoppingCart;
+//COMMERCE MODELS REMOVED - Phase C
+//Removed: using Nop.Web.Areas.Admin.Models.ShoppingCart;
 using Nop.Web.Framework.Models.Extensions;
 
 namespace Nop.Web.Areas.Admin.Factories;
@@ -42,42 +46,49 @@ public partial class CustomerModelFactory : ICustomerModelFactory
     protected readonly AddressSettings _addressSettings;
     protected readonly CustomerSettings _customerSettings;
     protected readonly DateTimeSettings _dateTimeSettings;
-    protected readonly GdprSettings _gdprSettings;
-    protected readonly ForumSettings _forumSettings;
+    //COMMERCE/ADDITIONAL FEATURES REMOVED - Phase C
+    //Removed: protected readonly GdprSettings _gdprSettings;
+    //Removed: protected readonly ForumSettings _forumSettings;
     protected readonly IAddressModelFactory _addressModelFactory;
     protected readonly IAddressService _addressService;
-    protected readonly IAffiliateService _affiliateService;
-    protected readonly IAttributeFormatter<AddressAttribute, AddressAttributeValue> _addressAttributeFormatter;
-    protected readonly IAttributeParser<CustomerAttribute, CustomerAttributeValue> _customerAttributeParser;
-    protected readonly IAttributeService<CustomerAttribute, CustomerAttributeValue> _customerAttributeService;
-    protected readonly IAuthenticationPluginManager _authenticationPluginManager;
-    protected readonly IBackInStockSubscriptionService _backInStockSubscriptionService;
+    //Removed: protected readonly IAffiliateService _affiliateService;
+    //Removed: protected readonly IAttributeFormatter<AddressAttribute, AddressAttributeValue> _addressAttributeFormatter;
+    //Removed: protected readonly IAttributeParser<CustomerAttribute, CustomerAttributeValue> _customerAttributeParser;
+    //Removed: protected readonly IAttributeService<CustomerAttribute, CustomerAttributeValue> _customerAttributeService;
+    //COMMERCE/ADDITIONAL FEATURES REMOVED - Phase C
+    //Removed: protected readonly IAuthenticationPluginManager _authenticationPluginManager;
+    //Removed: protected readonly IBackInStockSubscriptionService _backInStockSubscriptionService;
     protected readonly IBaseAdminModelFactory _baseAdminModelFactory;
     protected readonly ICountryService _countryService;
     protected readonly ICustomerActivityService _customerActivityService;
     protected readonly ICustomerService _customerService;
-    protected readonly ICustomWishlistService _customWishlistService;
+    //Removed: protected readonly ICustomWishlistService _customWishlistService;
     protected readonly IDateTimeHelper _dateTimeHelper;
-    protected readonly IExternalAuthenticationService _externalAuthenticationService;
-    protected readonly IGdprService _gdprService;
+    //COMMERCE/ADDITIONAL FEATURES REMOVED - Phase C
+    //Removed: protected readonly IExternalAuthenticationService _externalAuthenticationService;
+    //Removed: protected readonly IGdprService _gdprService;
     protected readonly IGenericAttributeService _genericAttributeService;
     protected readonly IGeoLookupService _geoLookupService;
     protected readonly ILocalizationService _localizationService;
-    protected readonly IOrderService _orderService;
+    //COMMERCE SERVICES REMOVED - Phase C
+    //Removed: protected readonly IOrderService _orderService;
     protected readonly IPictureService _pictureService;
-    protected readonly IPriceFormatter _priceFormatter;
-    protected readonly IProductAttributeFormatter _productAttributeFormatter;
-    protected readonly IProductService _productService;
-    protected readonly IRewardPointService _rewardPointService;
-    protected readonly IShoppingCartService _shoppingCartService;
+    //Removed: protected readonly IPriceFormatter _priceFormatter;
+    //Removed: protected readonly IProductAttributeFormatter _productAttributeFormatter;
+    //Removed: protected readonly IProductService _productService;
+    //COMMERCE/ADDITIONAL FEATURES REMOVED - Phase C
+    //Removed: protected readonly IRewardPointService _rewardPointService;
+    //Removed: protected readonly IShoppingCartService _shoppingCartService;
     protected readonly IStateProvinceService _stateProvinceService;
     protected readonly IStoreContext _storeContext;
     protected readonly IStoreService _storeService;
-    protected readonly ITaxService _taxService;
+    //COMMERCE/ADDITIONAL FEATURES REMOVED - Phase C
+    //Removed: protected readonly ITaxService _taxService;
     protected readonly IWorkContext _workContext;
     protected readonly MediaSettings _mediaSettings;
-    protected readonly RewardPointsSettings _rewardPointsSettings;
-    protected readonly TaxSettings _taxSettings;
+    //COMMERCE/ADDITIONAL FEATURES REMOVED - Phase C
+    //Removed: protected readonly RewardPointsSettings _rewardPointsSettings;
+    //Removed: protected readonly TaxSettings _taxSettings;
 
     #endregion
 
@@ -86,229 +97,110 @@ public partial class CustomerModelFactory : ICustomerModelFactory
     public CustomerModelFactory(AddressSettings addressSettings,
         CustomerSettings customerSettings,
         DateTimeSettings dateTimeSettings,
-        GdprSettings gdprSettings,
-        ForumSettings forumSettings,
+        //COMMERCE/ADDITIONAL FEATURES REMOVED - Phase C
+        //Removed: GdprSettings gdprSettings,
+        //Removed: ForumSettings forumSettings,
         IAddressModelFactory addressModelFactory,
         IAddressService addressService,
-        IAffiliateService affiliateService,
-        IAttributeFormatter<AddressAttribute, AddressAttributeValue> addressAttributeFormatter,
-        IAttributeParser<CustomerAttribute, CustomerAttributeValue> customerAttributeParser,
-        IAttributeService<CustomerAttribute, CustomerAttributeValue> customerAttributeService,
-        IAuthenticationPluginManager authenticationPluginManager,
-        IBackInStockSubscriptionService backInStockSubscriptionService,
+        //Removed: IAffiliateService affiliateService,
+        //Removed: IAttributeFormatter<AddressAttribute, AddressAttributeValue> addressAttributeFormatter,
+        //Removed: IAttributeParser<CustomerAttribute, CustomerAttributeValue> customerAttributeParser,
+        //Removed:         //COMMERCE/ADDITIONAL FEATURES REMOVED - Phase C
+        //Removed: IAttributeService<CustomerAttribute, CustomerAttributeValue> customerAttributeService,
+        //Removed: IAuthenticationPluginManager authenticationPluginManager,
+        //Removed: IBackInStockSubscriptionService backInStockSubscriptionService,
         IBaseAdminModelFactory baseAdminModelFactory,
         ICountryService countryService,
         ICustomerActivityService customerActivityService,
         ICustomerService customerService,
-        ICustomWishlistService customWishlistService,
+        //COMMERCE/ADDITIONAL FEATURES REMOVED - Phase C
+        //Removed: ICustomWishlistService customWishlistService,
         IDateTimeHelper dateTimeHelper,
-        IExternalAuthenticationService externalAuthenticationService,
-        IGdprService gdprService,
+        //COMMERCE/ADDITIONAL FEATURES REMOVED - Phase C
+        //Removed: IExternalAuthenticationService externalAuthenticationService,
+        //Removed: IGdprService gdprService,
         IGenericAttributeService genericAttributeService,
         IGeoLookupService geoLookupService,
         ILocalizationService localizationService,
-        IOrderService orderService,
+        //COMMERCE SERVICES REMOVED - Phase C
+        //Removed: IOrderService orderService,
         IPictureService pictureService,
-        IPriceFormatter priceFormatter,
-        IProductAttributeFormatter productAttributeFormatter,
-        IProductService productService,
-        IRewardPointService rewardPointService,
-        IShoppingCartService shoppingCartService,
+        //Removed: IPriceFormatter priceFormatter,
+        //Removed: IProductAttributeFormatter productAttributeFormatter,
+        //Removed: IProductService productService,
+        //COMMERCE/ADDITIONAL FEATURES REMOVED - Phase C
+        //Removed: IRewardPointService rewardPointService,
+        //Removed: IShoppingCartService shoppingCartService,
         IStateProvinceService stateProvinceService,
         IStoreContext storeContext,
         IStoreService storeService,
-        ITaxService taxService,
+        //COMMERCE/ADDITIONAL FEATURES REMOVED - Phase C
+        //Removed: ITaxService taxService,
         IWorkContext workContext,
-        MediaSettings mediaSettings,
-        RewardPointsSettings rewardPointsSettings,
-        TaxSettings taxSettings)
+        MediaSettings mediaSettings)
+        //COMMERCE/ADDITIONAL FEATURES REMOVED - Phase C
+        //Removed: RewardPointsSettings rewardPointsSettings)
+        //Removed: TaxSettings taxSettings)
     {
         _addressSettings = addressSettings;
         _customerSettings = customerSettings;
         _dateTimeSettings = dateTimeSettings;
-        _gdprSettings = gdprSettings;
-        _forumSettings = forumSettings;
+        //COMMERCE/ADDITIONAL FEATURES REMOVED - Phase C
+        //Removed: _gdprSettings = gdprSettings;
+        //Removed: _forumSettings = forumSettings;
         _addressModelFactory = addressModelFactory;
         _addressService = addressService;
-        _affiliateService = affiliateService;
-        _addressAttributeFormatter = addressAttributeFormatter;
-        _customerAttributeParser = customerAttributeParser;
-        _customerAttributeService = customerAttributeService;
-        _authenticationPluginManager = authenticationPluginManager;
-        _backInStockSubscriptionService = backInStockSubscriptionService;
+        //Removed: _affiliateService = affiliateService;
+        //Removed: _addressAttributeFormatter = addressAttributeFormatter;
+        //Removed: _customerAttributeParser = customerAttributeParser;
+        //Removed: _customerAttributeService = customerAttributeService;
+        //COMMERCE/ADDITIONAL FEATURES REMOVED - Phase C
+        //Removed: _authenticationPluginManager = authenticationPluginManager;
+        //Removed: _backInStockSubscriptionService = backInStockSubscriptionService;
         _baseAdminModelFactory = baseAdminModelFactory;
         _countryService = countryService;
         _customerActivityService = customerActivityService;
         _customerService = customerService;
-        _customWishlistService = customWishlistService;
+        //COMMERCE/ADDITIONAL FEATURES REMOVED - Phase C
+        //Removed: _customWishlistService = customWishlistService;
         _dateTimeHelper = dateTimeHelper;
-        _externalAuthenticationService = externalAuthenticationService;
-        _gdprService = gdprService;
+        //COMMERCE/ADDITIONAL FEATURES REMOVED - Phase C
+        //Removed: _externalAuthenticationService = externalAuthenticationService;
+        //Removed: _gdprService = gdprService;
         _genericAttributeService = genericAttributeService;
         _geoLookupService = geoLookupService;
         _localizationService = localizationService;
-        _orderService = orderService;
+        //COMMERCE SERVICES REMOVED - Phase C
+        //Removed: _orderService = orderService;
         _pictureService = pictureService;
-        _priceFormatter = priceFormatter;
-        _productAttributeFormatter = productAttributeFormatter;
-        _productService = productService;
-        _rewardPointService = rewardPointService;
-        _shoppingCartService = shoppingCartService;
+        //Removed: _priceFormatter = priceFormatter;
+        //Removed: _productAttributeFormatter = productAttributeFormatter;
+        //Removed: _productService = productService;
+        //COMMERCE/ADDITIONAL FEATURES REMOVED - Phase C
+        //Removed: _rewardPointService = rewardPointService;
+        //Removed: _shoppingCartService = shoppingCartService;
         _stateProvinceService = stateProvinceService;
         _storeContext = storeContext;
         _storeService = storeService;
-        _taxService = taxService;
+        //COMMERCE/ADDITIONAL FEATURES REMOVED - Phase C
+        //Removed: _taxService = taxService;
         _workContext = workContext;
         _mediaSettings = mediaSettings;
-        _rewardPointsSettings = rewardPointsSettings;
-        _taxSettings = taxSettings;
+        //COMMERCE/ADDITIONAL FEATURES REMOVED - Phase C
+        //Removed: _rewardPointsSettings = rewardPointsSettings;
+        //Removed: _taxSettings = taxSettings;
     }
 
     #endregion
 
     #region Utilities
 
-    /// <summary>
-    /// Prepare the reward points model to add to the customer
-    /// </summary>
-    /// <param name="model">Reward points model to add to the customer</param>
-    /// <returns>A task that represents the asynchronous operation</returns>
-    protected virtual async Task PrepareAddRewardPointsToCustomerModelAsync(AddRewardPointsToCustomerModel model)
-    {
-        ArgumentNullException.ThrowIfNull(model);
+    //COMMERCE/ADDITIONAL FEATURES REMOVED - Phase C
+    //Removed: PrepareAddRewardPointsToCustomerModelAsync (reward points feature)
 
-        var store = await _storeContext.GetCurrentStoreAsync();
-
-        model.Message = string.Empty;
-        model.ActivatePointsImmediately = true;
-        model.StoreId = store.Id;
-
-        //prepare available stores
-        await _baseAdminModelFactory.PrepareStoresAsync(model.AvailableStores, false);
-    }
-
-    /// <summary>
-    /// Prepare customer associated external authorization models
-    /// </summary>
-    /// <param name="models">List of customer associated external authorization models</param>
-    /// <param name="customer">Customer</param>
-    /// <returns>A task that represents the asynchronous operation</returns>
-    protected virtual async Task PrepareAssociatedExternalAuthModelsAsync(IList<CustomerAssociatedExternalAuthModel> models, Customer customer)
-    {
-        ArgumentNullException.ThrowIfNull(models);
-
-        ArgumentNullException.ThrowIfNull(customer);
-
-        foreach (var record in await _externalAuthenticationService.GetCustomerExternalAuthenticationRecordsAsync(customer))
-        {
-            var method = await _authenticationPluginManager.LoadPluginBySystemNameAsync(record.ProviderSystemName);
-            if (method == null)
-                continue;
-
-            models.Add(new CustomerAssociatedExternalAuthModel
-            {
-                Id = record.Id,
-                Email = record.Email,
-                ExternalIdentifier = !string.IsNullOrEmpty(record.ExternalDisplayIdentifier)
-                    ? record.ExternalDisplayIdentifier : record.ExternalIdentifier,
-                AuthMethodName = method.PluginDescriptor.FriendlyName
-            });
-        }
-    }
-
-    /// <summary>
-    /// Prepare customer attribute models
-    /// </summary>
-    /// <param name="models">List of customer attribute models</param>
-    /// <param name="customer">Customer</param>
-    /// <returns>A task that represents the asynchronous operation</returns>
-    protected virtual async Task PrepareCustomerAttributeModelsAsync(IList<CustomerModel.CustomerAttributeModel> models, Customer customer)
-    {
-        ArgumentNullException.ThrowIfNull(models);
-
-        //get available customer attributes
-        var customerAttributes = await _customerAttributeService.GetAllAttributesAsync();
-        foreach (var attribute in customerAttributes)
-        {
-            var attributeModel = new CustomerModel.CustomerAttributeModel
-            {
-                Id = attribute.Id,
-                Name = attribute.Name,
-                IsRequired = attribute.IsRequired,
-                AttributeControlType = attribute.AttributeControlType
-            };
-
-            if (attribute.ShouldHaveValues)
-            {
-                //values
-                var attributeValues = await _customerAttributeService.GetAttributeValuesAsync(attribute.Id);
-                foreach (var attributeValue in attributeValues)
-                {
-                    var attributeValueModel = new CustomerModel.CustomerAttributeValueModel
-                    {
-                        Id = attributeValue.Id,
-                        Name = attributeValue.Name,
-                        IsPreSelected = attributeValue.IsPreSelected
-                    };
-                    attributeModel.Values.Add(attributeValueModel);
-                }
-            }
-
-            //set already selected attributes
-            if (customer != null)
-            {
-                var selectedCustomerAttributes = customer.CustomCustomerAttributesXML;
-                switch (attribute.AttributeControlType)
-                {
-                    case AttributeControlType.DropdownList:
-                    case AttributeControlType.RadioList:
-                    case AttributeControlType.Checkboxes:
-                    {
-                        if (!string.IsNullOrEmpty(selectedCustomerAttributes))
-                        {
-                            //clear default selection
-                            foreach (var item in attributeModel.Values)
-                                item.IsPreSelected = false;
-
-                            //select new values
-                            var selectedValues = await _customerAttributeParser.ParseAttributeValuesAsync(selectedCustomerAttributes);
-                            foreach (var attributeValue in selectedValues)
-                            foreach (var item in attributeModel.Values)
-                                if (attributeValue.Id == item.Id)
-                                    item.IsPreSelected = true;
-                        }
-                    }
-                        break;
-                    case AttributeControlType.ReadonlyCheckboxes:
-                    {
-                        //do nothing
-                        //values are already pre-set
-                    }
-                        break;
-                    case AttributeControlType.TextBox:
-                    case AttributeControlType.MultilineTextbox:
-                    {
-                        if (!string.IsNullOrEmpty(selectedCustomerAttributes))
-                        {
-                            var enteredText = _customerAttributeParser.ParseValues(selectedCustomerAttributes, attribute.Id);
-                            if (enteredText.Any())
-                                attributeModel.DefaultValue = enteredText[0];
-                        }
-                    }
-                        break;
-                    case AttributeControlType.Datepicker:
-                    case AttributeControlType.ColorSquares:
-                    case AttributeControlType.ImageSquares:
-                    case AttributeControlType.FileUpload:
-                    default:
-                        //not supported attribute control types
-                        break;
-                }
-            }
-
-            models.Add(attributeModel);
-        }
-    }
+    //COMMERCE/ADDITIONAL FEATURES REMOVED - Phase C
+    //Removed: PrepareAssociatedExternalAuthModelsAsync (external authentication feature)
+    //Removed: PrepareCustomerAttributeModelsAsync (customer attributes feature)
 
     /// <summary>
     /// Prepare HTML string address
@@ -326,37 +218,16 @@ public partial class CustomerModelFactory : ICustomerModelFactory
         var (addressLine, _) = await _addressService.FormatAddressAsync(address, languageId, separator, true);
         addressHtmlSb.Append(addressLine);
 
-        var customAttributesFormatted = await _addressAttributeFormatter.FormatAttributesAsync(address?.CustomAttributes);
-        if (!string.IsNullOrEmpty(customAttributesFormatted))
-        {
-            //already encoded
-            addressHtmlSb.AppendFormat($"{separator}{customAttributesFormatted}");
-        }
+        //COMMERCE/ADDITIONAL FEATURES REMOVED - Phase C
+        //Removed: Address custom attributes formatting
 
         addressHtmlSb.Append("</div>");
 
         model.AddressHtml = addressHtmlSb.ToString();
     }
 
-    /// <summary>
-    /// Prepare reward points search model
-    /// </summary>
-    /// <param name="searchModel">Reward points search model</param>
-    /// <param name="customer">Customer</param>
-    /// <returns>Reward points search model</returns>
-    protected virtual CustomerRewardPointsSearchModel PrepareRewardPointsSearchModel(CustomerRewardPointsSearchModel searchModel, Customer customer)
-    {
-        ArgumentNullException.ThrowIfNull(searchModel);
-
-        ArgumentNullException.ThrowIfNull(customer);
-
-        searchModel.CustomerId = customer.Id;
-
-        //prepare page parameters
-        searchModel.SetGridPageSize();
-
-        return searchModel;
-    }
+    //COMMERCE/ADDITIONAL FEATURES REMOVED - Phase C
+    //Removed: PrepareRewardPointsSearchModel (reward points feature)
 
     /// <summary>
     /// Prepare customer address search model
@@ -378,53 +249,9 @@ public partial class CustomerModelFactory : ICustomerModelFactory
         return searchModel;
     }
 
-    /// <summary>
-    /// Prepare customer order search model
-    /// </summary>
-    /// <param name="searchModel">Customer order search model</param>
-    /// <param name="customer">Customer</param>
-    /// <returns>Customer order search model</returns>
-    protected virtual CustomerOrderSearchModel PrepareCustomerOrderSearchModel(CustomerOrderSearchModel searchModel, Customer customer)
-    {
-        ArgumentNullException.ThrowIfNull(searchModel);
-
-        ArgumentNullException.ThrowIfNull(customer);
-
-        searchModel.CustomerId = customer.Id;
-
-        //prepare page parameters
-        searchModel.SetGridPageSize();
-
-        return searchModel;
-    }
-
-    /// <summary>
-    /// Prepare customer shopping cart search model
-    /// </summary>
-    /// <param name="searchModel">Customer shopping cart search model</param>
-    /// <param name="customer">Customer</param>
-    /// <returns>
-    /// A task that represents the asynchronous operation
-    /// The task result contains the customer shopping cart search model
-    /// </returns>
-    protected virtual async Task<CustomerShoppingCartSearchModel> PrepareCustomerShoppingCartSearchModelAsync(CustomerShoppingCartSearchModel searchModel,
-        Customer customer)
-    {
-        ArgumentNullException.ThrowIfNull(searchModel);
-
-        ArgumentNullException.ThrowIfNull(customer);
-
-        searchModel.CustomerId = customer.Id;
-
-        //prepare available shopping cart types (search shopping cart by default)
-        searchModel.ShoppingCartTypeId = (int)ShoppingCartType.ShoppingCart;
-        await _baseAdminModelFactory.PrepareShoppingCartTypesAsync(searchModel.AvailableShoppingCartTypes, false);
-
-        //prepare page parameters
-        searchModel.SetGridPageSize();
-
-        return searchModel;
-    }
+    //COMMERCE METHODS REMOVED - Phase C
+    //Removed: PrepareCustomerOrderSearchModel (commerce feature)
+    //Removed: PrepareCustomerShoppingCartSearchModelAsync (commerce feature)
 
     /// <summary>
     /// Prepare customer activity log search model
@@ -446,52 +273,9 @@ public partial class CustomerModelFactory : ICustomerModelFactory
         return searchModel;
     }
 
-    /// <summary>
-    /// Prepare customer back in stock subscriptions search model
-    /// </summary>
-    /// <param name="searchModel">Customer back in stock subscriptions search model</param>
-    /// <param name="customer">Customer</param>
-    /// <returns>Customer back in stock subscriptions search model</returns>
-    protected virtual CustomerBackInStockSubscriptionSearchModel PrepareCustomerBackInStockSubscriptionSearchModel(
-        CustomerBackInStockSubscriptionSearchModel searchModel, Customer customer)
-    {
-        ArgumentNullException.ThrowIfNull(searchModel);
-
-        ArgumentNullException.ThrowIfNull(customer);
-
-        searchModel.CustomerId = customer.Id;
-
-        //prepare page parameters
-        searchModel.SetGridPageSize();
-
-        return searchModel;
-    }
-
-    /// <summary>
-    /// Prepare customer back in stock subscriptions search model
-    /// </summary>
-    /// <param name="searchModel">Customer back in stock subscriptions search model</param>
-    /// <param name="customer">Customer</param>
-    /// <returns>
-    /// A task that represents the asynchronous operation
-    /// The task result contains the customer back in stock subscriptions search model
-    /// </returns>
-    protected virtual async Task<CustomerAssociatedExternalAuthRecordsSearchModel> PrepareCustomerAssociatedExternalAuthRecordsSearchModelAsync(
-        CustomerAssociatedExternalAuthRecordsSearchModel searchModel, Customer customer)
-    {
-        ArgumentNullException.ThrowIfNull(searchModel);
-
-        ArgumentNullException.ThrowIfNull(customer);
-
-        searchModel.CustomerId = customer.Id;
-
-        //prepare page parameters
-        searchModel.SetGridPageSize();
-        //prepare external authentication records
-        await PrepareAssociatedExternalAuthModelsAsync(searchModel.AssociatedExternalAuthRecords, customer);
-
-        return searchModel;
-    }
+    //COMMERCE/ADDITIONAL FEATURES REMOVED - Phase C
+    //Removed: PrepareCustomerBackInStockSubscriptionSearchModel (commerce feature)
+    //Removed: PrepareCustomerAssociatedExternalAuthRecordsSearchModelAsync (external authentication feature)
 
     #endregion
 
@@ -650,14 +434,14 @@ public partial class CustomerModelFactory : ICustomerModelFactory
             model ??= new CustomerModel();
 
             model.Id = customer.Id;
-            model.DisplayVatNumber = _taxSettings.EuVatEnabled;
-            model.AllowSendingOfPrivateMessage = await _customerService.IsRegisteredAsync(customer) &&
-                                                 _forumSettings.AllowPrivateMessages;
+            //COMMERCE/ADDITIONAL FEATURES REMOVED - Phase C
+            //Removed: model.DisplayVatNumber = _taxSettings.EuVatEnabled;
+            //Removed: model.AllowSendingOfPrivateMessage = await _customerService.IsRegisteredAsync(customer) && _forumSettings.AllowPrivateMessages;
             model.AllowSendingOfWelcomeMessage = await _customerService.IsRegisteredAsync(customer) &&
                                                  _customerSettings.UserRegistrationType == UserRegistrationType.AdminApproval;
             model.AllowReSendingOfActivationMessage = await _customerService.IsRegisteredAsync(customer) && !customer.Active &&
                                                       _customerSettings.UserRegistrationType == UserRegistrationType.EmailValidation;
-            model.GdprEnabled = _gdprSettings.GdprEnabled;
+            //Removed: model.GdprEnabled = _gdprSettings.GdprEnabled;
 
             model.MultiFactorAuthenticationProvider = await _genericAttributeService
                 .GetAttributeAsync<string>(customer, NopCustomerDefaults.SelectedMultiFactorAuthenticationProviderAttribute);
@@ -667,9 +451,11 @@ public partial class CustomerModelFactory : ICustomerModelFactory
             {
                 model.Email = customer.Email;
                 model.Username = customer.Username;
-                model.VendorId = customer.VendorId;
+                //COMMERCE FEATURES REMOVED - Phase C
+                //Removed: model.VendorId = customer.VendorId;
                 model.AdminComment = customer.AdminComment;
-                model.IsTaxExempt = customer.IsTaxExempt;
+                //COMMERCE/ADDITIONAL FEATURES REMOVED - Phase C
+                //Removed: model.IsTaxExempt = customer.IsTaxExempt;
                 model.Active = customer.Active;
                 model.FirstName = customer.FirstName;
                 model.LastName = customer.LastName;
@@ -686,8 +472,9 @@ public partial class CustomerModelFactory : ICustomerModelFactory
                 model.Phone = customer.Phone;
                 model.Fax = customer.Fax;
                 model.TimeZoneId = customer.TimeZoneId;
-                model.VatNumber = customer.VatNumber;
-                model.VatNumberStatusNote = await _localizationService.GetLocalizedEnumAsync(customer.VatNumberStatus);
+                //COMMERCE/ADDITIONAL FEATURES REMOVED - Phase C
+                //Removed: model.VatNumber = customer.VatNumber;
+                //Removed: model.VatNumberStatusNote = await _localizationService.GetLocalizedEnumAsync(customer.VatNumberStatus);
                 model.LastActivityDate = await _dateTimeHelper.ConvertToUserTimeAsync(customer.LastActivityDateUtc, DateTimeKind.Utc);
                 model.LastIpAddress = customer.LastIpAddress;
                 model.LastVisitedPage = await _genericAttributeService.GetAttributeAsync<string>(customer, NopCustomerDefaults.LastVisitedPageAttribute);
@@ -700,27 +487,22 @@ public partial class CustomerModelFactory : ICustomerModelFactory
 
                 model.MustChangePassword = customer.MustChangePassword;
 
-                //prepare model affiliate
-                var affiliate = await _affiliateService.GetAffiliateByIdAsync(customer.AffiliateId);
-                if (affiliate != null)
-                {
-                    model.AffiliateId = affiliate.Id;
-                    model.AffiliateName = await _affiliateService.GetAffiliateFullNameAsync(affiliate);
-                }
+                //COMMERCE/ADDITIONAL FEATURES REMOVED - Phase C
+                //Removed: Affiliate model preparation
             }
-            //prepare reward points model
-            model.DisplayRewardPointsHistory = _rewardPointsSettings.Enabled;
-            if (model.DisplayRewardPointsHistory)
-                await PrepareAddRewardPointsToCustomerModelAsync(model.AddRewardPoints);
+            //COMMERCE/ADDITIONAL FEATURES REMOVED - Phase C
+            //Removed: Reward points model preparation
+            //Removed: PrepareRewardPointsSearchModel(model.CustomerRewardPointsSearchModel, customer);
 
             //prepare nested search models
-            PrepareRewardPointsSearchModel(model.CustomerRewardPointsSearchModel, customer);
             PrepareCustomerAddressSearchModel(model.CustomerAddressSearchModel, customer);
-            PrepareCustomerOrderSearchModel(model.CustomerOrderSearchModel, customer);
-            await PrepareCustomerShoppingCartSearchModelAsync(model.CustomerShoppingCartSearchModel, customer);
+            //COMMERCE FEATURES REMOVED - Phase C
+            //Removed: PrepareCustomerOrderSearchModel(model.CustomerOrderSearchModel, customer);
+            //Removed: await PrepareCustomerShoppingCartSearchModelAsync(model.CustomerShoppingCartSearchModel, customer);
             PrepareCustomerActivityLogSearchModel(model.CustomerActivityLogSearchModel, customer);
-            PrepareCustomerBackInStockSubscriptionSearchModel(model.CustomerBackInStockSubscriptionSearchModel, customer);
-            await PrepareCustomerAssociatedExternalAuthRecordsSearchModelAsync(model.CustomerAssociatedExternalAuthRecordsSearchModel, customer);
+            //Removed: PrepareCustomerBackInStockSubscriptionSearchModel(model.CustomerBackInStockSubscriptionSearchModel, customer);
+            //COMMERCE/ADDITIONAL FEATURES REMOVED - Phase C
+            //Removed: await PrepareCustomerAssociatedExternalAuthRecordsSearchModelAsync(model.CustomerAssociatedExternalAuthRecordsSearchModel, customer);
         }
         else
         {
@@ -756,15 +538,16 @@ public partial class CustomerModelFactory : ICustomerModelFactory
         if (customer == null)
         {
             model.Active = true;
-            model.DisplayVatNumber = false;
+            //COMMERCE/ADDITIONAL FEATURES REMOVED - Phase C
+            //Removed: model.DisplayVatNumber = false;
         }
 
-        //prepare available vendors
-        await _baseAdminModelFactory.PrepareVendorsAsync(model.AvailableVendors,
-            defaultItemText: await _localizationService.GetResourceAsync("Admin.Customers.Customers.Fields.Vendor.None"));
+        //COMMERCE FEATURES REMOVED - Phase C
+        //Removed: await _baseAdminModelFactory.PrepareVendorsAsync(model.AvailableVendors,
+        //    defaultItemText: await _localizationService.GetResourceAsync("Admin.Customers.Customers.Fields.Vendor.None"));
 
-        //prepare model customer attributes
-        await PrepareCustomerAttributeModelsAsync(model.CustomerAttributes, customer);
+        //COMMERCE/ADDITIONAL FEATURES REMOVED - Phase C
+        //Removed: await PrepareCustomerAttributeModelsAsync(model.CustomerAttributes, customer);
 
         //prepare available customer roles
         var availableRoles = await _customerService.GetAllCustomerRolesAsync(showHidden: true);
@@ -789,54 +572,8 @@ public partial class CustomerModelFactory : ICustomerModelFactory
         return model;
     }
 
-    /// <summary>
-    /// Prepare paged reward points list model
-    /// </summary>
-    /// <param name="searchModel">Reward points search model</param>
-    /// <param name="customer">Customer</param>
-    /// <returns>
-    /// A task that represents the asynchronous operation
-    /// The task result contains the reward points list model
-    /// </returns>
-    public virtual async Task<CustomerRewardPointsListModel> PrepareRewardPointsListModelAsync(CustomerRewardPointsSearchModel searchModel, Customer customer)
-    {
-        ArgumentNullException.ThrowIfNull(searchModel);
-
-        ArgumentNullException.ThrowIfNull(customer);
-
-        //get reward points history
-        var rewardPoints = await _rewardPointService.GetRewardPointsHistoryAsync(customer.Id,
-            showNotActivated: true,
-            pageIndex: searchModel.Page - 1, pageSize: searchModel.PageSize);
-
-        //prepare list model
-        var model = await new CustomerRewardPointsListModel().PrepareToGridAsync(searchModel, rewardPoints, () =>
-        {
-            return rewardPoints.SelectAwait(async historyEntry =>
-            {
-                //fill in model values from the entity        
-                var rewardPointsHistoryModel = historyEntry.ToModel<CustomerRewardPointsModel>();
-
-                //convert dates to the user time
-                var activatingDate = await _dateTimeHelper.ConvertToUserTimeAsync(historyEntry.CreatedOnUtc, DateTimeKind.Utc);
-                rewardPointsHistoryModel.CreatedOn = activatingDate;
-
-                rewardPointsHistoryModel.PointsBalance = historyEntry.PointsBalance.HasValue
-                    ? historyEntry.PointsBalance.ToString()
-                    : string.Format((await _localizationService.GetResourceAsync("Admin.Customers.Customers.RewardPoints.ActivatedLater")), activatingDate);
-                rewardPointsHistoryModel.EndDate = !historyEntry.EndDateUtc.HasValue
-                    ? null
-                    : (DateTime?)(await _dateTimeHelper.ConvertToUserTimeAsync(historyEntry.EndDateUtc.Value, DateTimeKind.Utc));
-
-                //fill in additional values (not existing in the entity)
-                rewardPointsHistoryModel.StoreName = (await _storeService.GetStoreByIdAsync(historyEntry.StoreId))?.Name ?? "Unknown";
-
-                return rewardPointsHistoryModel;
-            });
-        });
-
-        return model;
-    }
+    //COMMERCE/ADDITIONAL FEATURES REMOVED - Phase C
+    //Removed: PrepareRewardPointsListModelAsync (reward points feature)
 
     /// <summary>
     /// Prepare paged customer address list model
@@ -924,111 +661,9 @@ public partial class CustomerModelFactory : ICustomerModelFactory
         return model;
     }
 
-    /// <summary>
-    /// Prepare paged customer order list model
-    /// </summary>
-    /// <param name="searchModel">Customer order search model</param>
-    /// <param name="customer">Customer</param>
-    /// <returns>
-    /// A task that represents the asynchronous operation
-    /// The task result contains the customer order list model
-    /// </returns>
-    public virtual async Task<CustomerOrderListModel> PrepareCustomerOrderListModelAsync(CustomerOrderSearchModel searchModel, Customer customer)
-    {
-        ArgumentNullException.ThrowIfNull(searchModel);
-
-        ArgumentNullException.ThrowIfNull(customer);
-
-        //get customer orders
-        var orders = await _orderService.SearchOrdersAsync(customerId: customer.Id,
-            pageIndex: searchModel.Page - 1, pageSize: searchModel.PageSize);
-
-        //prepare list model
-        var model = await new CustomerOrderListModel().PrepareToGridAsync(searchModel, orders, () =>
-        {
-            return orders.SelectAwait(async order =>
-            {
-                //fill in model values from the entity
-                var orderModel = order.ToModel<CustomerOrderModel>();
-
-                //convert dates to the user time
-                orderModel.CreatedOn = await _dateTimeHelper.ConvertToUserTimeAsync(order.CreatedOnUtc, DateTimeKind.Utc);
-
-                //fill in additional values (not existing in the entity)
-                orderModel.StoreName = (await _storeService.GetStoreByIdAsync(order.StoreId))?.Name ?? "Unknown";
-                orderModel.OrderStatus = await _localizationService.GetLocalizedEnumAsync(order.OrderStatus);
-                orderModel.PaymentStatus = await _localizationService.GetLocalizedEnumAsync(order.PaymentStatus);
-                orderModel.ShippingStatus = await _localizationService.GetLocalizedEnumAsync(order.ShippingStatus);
-                orderModel.OrderTotal = await _priceFormatter.FormatPriceAsync(order.OrderTotal, true, false);
-
-                return orderModel;
-            });
-        });
-
-        return model;
-    }
-
-    /// <summary>
-    /// Prepare paged customer shopping cart list model
-    /// </summary>
-    /// <param name="searchModel">Customer shopping cart search model</param>
-    /// <param name="customer">Customer</param>
-    /// <returns>
-    /// A task that represents the asynchronous operation
-    /// The task result contains the customer shopping cart list model
-    /// </returns>
-    public virtual async Task<CustomerShoppingCartListModel> PrepareCustomerShoppingCartListModelAsync(CustomerShoppingCartSearchModel searchModel,
-        Customer customer)
-    {
-        ArgumentNullException.ThrowIfNull(searchModel);
-        ArgumentNullException.ThrowIfNull(customer);
-
-        //get customer shopping cart
-        var shoppingCart = (await _shoppingCartService
-            .GetShoppingCartAsync(customer, (ShoppingCartType)searchModel.ShoppingCartTypeId, customWishlistId: 0))
-            .ToPagedList(searchModel);
-        var customWishlists = shoppingCart.Any(item => item.ShoppingCartType == ShoppingCartType.Wishlist)
-            ? await _customWishlistService.GetAllCustomWishlistsAsync(customer.Id)
-            : new List<CustomWishlist>();
-
-        //prepare list model
-        var model = await new CustomerShoppingCartListModel().PrepareToGridAsync(searchModel, shoppingCart, () =>
-        {
-            return shoppingCart.SelectAwait(async item =>
-            {
-                //fill in model values from the entity
-                var shoppingCartItemModel = item.ToModel<ShoppingCartItemModel>();
-
-                var product = await _productService.GetProductByIdAsync(item.ProductId);
-
-                //fill in additional values (not existing in the entity)
-                shoppingCartItemModel.ProductName = product.Name;
-                shoppingCartItemModel.Store = (await _storeService.GetStoreByIdAsync(item.StoreId))?.Name ?? "Unknown";
-                shoppingCartItemModel.AttributeInfo = await _productAttributeFormatter.FormatAttributesAsync(product, item.AttributesXml);
-                var (unitPrice, _, _) = await _shoppingCartService.GetUnitPriceAsync(item, true);
-                shoppingCartItemModel.UnitPrice = await _priceFormatter.FormatPriceAsync((await _taxService.GetProductPriceAsync(product, unitPrice)).price);
-                shoppingCartItemModel.UnitPriceValue = (await _taxService.GetProductPriceAsync(product, unitPrice)).price;
-                var (subTotal, _, _, _) = await _shoppingCartService.GetSubTotalAsync(item, true);
-                shoppingCartItemModel.Total = await _priceFormatter.FormatPriceAsync((await _taxService.GetProductPriceAsync(product, subTotal)).price);
-                shoppingCartItemModel.TotalValue = (await _taxService.GetProductPriceAsync(product, subTotal)).price;
-
-                //convert dates to the user time
-                shoppingCartItemModel.UpdatedOn = await _dateTimeHelper.ConvertToUserTimeAsync(item.UpdatedOnUtc, DateTimeKind.Utc);
-
-                if (item.ShoppingCartType == ShoppingCartType.Wishlist)
-                {
-                    shoppingCartItemModel.CustomWishlistName = customWishlists
-                        .FirstOrDefault(wishlist => wishlist.Id == item.CustomWishlistId) is CustomWishlist customWishlist
-                        ? customWishlist.Name
-                        : await _localizationService.GetResourceAsync("Wishlist.Default");
-                }
-
-                return shoppingCartItemModel;
-            });
-        });
-
-        return model;
-    }
+    //COMMERCE METHODS REMOVED - Phase C
+    //Removed: PrepareCustomerOrderListModelAsync (commerce feature)
+    //Removed: PrepareCustomerShoppingCartListModelAsync (commerce feature)
 
     /// <summary>
     /// Prepare paged customer activity log list model
@@ -1070,48 +705,8 @@ public partial class CustomerModelFactory : ICustomerModelFactory
         return model;
     }
 
-    /// <summary>
-    /// Prepare paged customer back in stock subscriptions list model
-    /// </summary>
-    /// <param name="searchModel">Customer back in stock subscriptions search model</param>
-    /// <param name="customer">Customer</param>
-    /// <returns>
-    /// A task that represents the asynchronous operation
-    /// The task result contains the customer back in stock subscriptions list model
-    /// </returns>
-    public virtual async Task<CustomerBackInStockSubscriptionListModel> PrepareCustomerBackInStockSubscriptionListModelAsync(
-        CustomerBackInStockSubscriptionSearchModel searchModel, Customer customer)
-    {
-        ArgumentNullException.ThrowIfNull(searchModel);
-
-        ArgumentNullException.ThrowIfNull(customer);
-
-        //get customer back in stock subscriptions
-        var subscriptions = await _backInStockSubscriptionService.GetAllSubscriptionsByCustomerIdAsync(customer.Id,
-            pageIndex: searchModel.Page - 1, pageSize: searchModel.PageSize);
-
-        //prepare list model
-        var model = await new CustomerBackInStockSubscriptionListModel().PrepareToGridAsync(searchModel, subscriptions, () =>
-        {
-            return subscriptions.SelectAwait(async subscription =>
-            {
-                //fill in model values from the entity
-                var subscriptionModel = subscription.ToModel<CustomerBackInStockSubscriptionModel>();
-
-                //convert dates to the user time
-                subscriptionModel.CreatedOn =
-                    await _dateTimeHelper.ConvertToUserTimeAsync(subscription.CreatedOnUtc, DateTimeKind.Utc);
-
-                //fill in additional values (not existing in the entity)
-                subscriptionModel.StoreName = (await _storeService.GetStoreByIdAsync(subscription.StoreId))?.Name ?? "Unknown";
-                subscriptionModel.ProductName = (await _productService.GetProductByIdAsync(subscription.ProductId))?.Name ?? "Unknown";
-
-                return subscriptionModel;
-            });
-        });
-
-        return model;
-    }
+    //COMMERCE METHODS REMOVED - Phase C
+    //Removed: PrepareCustomerBackInStockSubscriptionListModelAsync (commerce feature)
 
     /// <summary>
     /// Prepare online customer search model
@@ -1181,83 +776,9 @@ public partial class CustomerModelFactory : ICustomerModelFactory
         return model;
     }
 
-    /// <summary>
-    /// Prepare GDPR request (log) search model
-    /// </summary>
-    /// <param name="searchModel">GDPR request search model</param>
-    /// <returns>
-    /// A task that represents the asynchronous operation
-    /// The task result contains the gDPR request search model
-    /// </returns>
-    public virtual async Task<GdprLogSearchModel> PrepareGdprLogSearchModelAsync(GdprLogSearchModel searchModel)
-    {
-        ArgumentNullException.ThrowIfNull(searchModel);
-
-        //prepare request types
-        await _baseAdminModelFactory.PrepareGdprRequestTypesAsync(searchModel.AvailableRequestTypes);
-
-        //prepare page parameters
-        searchModel.SetGridPageSize();
-
-        return searchModel;
-    }
-
-    /// <summary>
-    /// Prepare paged GDPR request list model
-    /// </summary>
-    /// <param name="searchModel">GDPR request search model</param>
-    /// <returns>
-    /// A task that represents the asynchronous operation
-    /// The task result contains the gDPR request list model
-    /// </returns>
-    public virtual async Task<GdprLogListModel> PrepareGdprLogListModelAsync(GdprLogSearchModel searchModel)
-    {
-        ArgumentNullException.ThrowIfNull(searchModel);
-
-        var customerId = 0;
-        var customerInfo = "";
-        if (!string.IsNullOrEmpty(searchModel.SearchEmail))
-        {
-            var customer = await _customerService.GetCustomerByEmailAsync(searchModel.SearchEmail);
-            if (customer != null)
-                customerId = customer.Id;
-            else
-            {
-                customerInfo = searchModel.SearchEmail;
-            }
-        }
-        //get requests
-        var gdprLog = await _gdprService.GetAllLogAsync(
-            customerId: customerId,
-            customerInfo: customerInfo,
-            requestType: searchModel.SearchRequestTypeId > 0 ? (GdprRequestType?)searchModel.SearchRequestTypeId : null,
-            pageIndex: searchModel.Page - 1,
-            pageSize: searchModel.PageSize);
-
-        //prepare list model
-        var model = await new GdprLogListModel().PrepareToGridAsync(searchModel, gdprLog, () =>
-        {
-            return gdprLog.SelectAwait(async log =>
-            {
-                //fill in model values from the entity
-                var customer = await _customerService.GetCustomerByIdAsync(log.CustomerId);
-
-                var requestModel = log.ToModel<GdprLogModel>();
-
-                //fill in additional values (not existing in the entity)
-                requestModel.CustomerInfo = customer != null && !customer.Deleted && !string.IsNullOrEmpty(customer.Email)
-                    ? customer.Email
-                    : log.CustomerInfo;
-                requestModel.RequestType = await _localizationService.GetLocalizedEnumAsync(log.RequestType);
-
-                requestModel.CreatedOn = await _dateTimeHelper.ConvertToUserTimeAsync(log.CreatedOnUtc, DateTimeKind.Utc);
-
-                return requestModel;
-            });
-        });
-
-        return model;
-    }
+    //COMMERCE/ADDITIONAL FEATURES REMOVED - Phase C
+    //Removed: PrepareGdprLogSearchModelAsync (GDPR feature)
+    //Removed: PrepareGdprLogListModelAsync (GDPR feature)
 
     #endregion
 }

@@ -3,26 +3,29 @@ using System.Text;
 using Nop.Core;
 using Nop.Core.Caching;
 using Nop.Core.Domain;
-using Nop.Core.Domain.Catalog;
 using Nop.Core.Domain.Common;
 using Nop.Core.Domain.Customers;
 using Nop.Core.Domain.Directory;
-using Nop.Core.Domain.Forums;
+//COMMERCE DOMAIN REMOVED - Compile Fix
+//Removed: using Nop.Core.Domain.Forums;
 using Nop.Core.Domain.Localization;
 using Nop.Core.Domain.Media;
 using Nop.Core.Domain.Messages;
-using Nop.Core.Domain.News;
-using Nop.Core.Domain.Orders;
 using Nop.Core.Domain.Security;
-using Nop.Core.Domain.Vendors;
+//COMMERCE DOMAIN/SERVICES REMOVED - Phase B
+//Removed: using Nop.Core.Domain.Catalog;
+//Removed: using Nop.Core.Domain.News;
+//Removed: using Nop.Core.Domain.Orders;
+//Removed: using Nop.Core.Domain.Vendors;
 using Nop.Core.Infrastructure;
 using Nop.Services.Common;
 using Nop.Services.Customers;
 using Nop.Services.Directory;
-using Nop.Services.Forums;
+//COMMERCE SERVICE REMOVED - Compile Fix
+//Removed: using Nop.Services.Forums;
 using Nop.Services.Localization;
 using Nop.Services.Media;
-using Nop.Services.Orders;
+//Removed: using Nop.Services.Orders;
 using Nop.Services.Security;
 using Nop.Services.Themes;
 using Nop.Web.Framework.Themes;
@@ -40,14 +43,16 @@ public partial class CommonModelFactory : ICommonModelFactory
     #region Fields
 
     protected readonly CaptchaSettings _captchaSettings;
-    protected readonly CatalogSettings _catalogSettings;
+    //COMMERCE SETTINGS/SERVICES REMOVED - Phase B
+    //Removed: protected readonly CatalogSettings _catalogSettings;
     protected readonly CommonSettings _commonSettings;
     protected readonly CurrencySettings _currencySettings;
     protected readonly CustomerSettings _customerSettings;
-    protected readonly ForumSettings _forumSettings;
+    //COMMERCE SETTINGS REMOVED - Compile Fix
+    //Removed: protected readonly ForumSettings _forumSettings;
     protected readonly ICurrencyService _currencyService;
     protected readonly ICustomerService _customerService;
-    protected readonly IForumService _forumService;
+    //Removed: protected readonly IForumService _forumService;
     protected readonly IGenericAttributeService _genericAttributeService;
     protected readonly IHttpContextAccessor _httpContextAccessor;
     protected readonly ILanguageService _languageService;
@@ -56,7 +61,7 @@ public partial class CommonModelFactory : ICommonModelFactory
     protected readonly INopHtmlHelper _nopHtmlHelper;
     protected readonly IPermissionService _permissionService;
     protected readonly IPictureService _pictureService;
-    protected readonly IShoppingCartService _shoppingCartService;
+    //Removed: protected readonly IShoppingCartService _shoppingCartService;
     protected readonly IStaticCacheManager _staticCacheManager;
     protected readonly IStoreContext _storeContext;
     protected readonly IThemeContext _themeContext;
@@ -66,7 +71,8 @@ public partial class CommonModelFactory : ICommonModelFactory
     protected readonly LocalizationSettings _localizationSettings;
     protected readonly MediaSettings _mediaSettings;
     protected readonly MessagesSettings _messagesSettings;
-    protected readonly NewsSettings _newsSettings;
+    //COMMERCE SETTINGS REMOVED - Phase B
+    //Removed: protected readonly NewsSettings _newsSettings;
     protected readonly RobotsTxtSettings _robotsTxtSettings;
     protected readonly SitemapXmlSettings _sitemapXmlSettings;
     protected readonly StoreInformationSettings _storeInformationSettings;
@@ -76,14 +82,16 @@ public partial class CommonModelFactory : ICommonModelFactory
     #region Ctor
 
     public CommonModelFactory(CaptchaSettings captchaSettings,
-        CatalogSettings catalogSettings,
+        //COMMERCE SETTINGS/SERVICES REMOVED - Phase B
+        //Removed: CatalogSettings catalogSettings,
         CommonSettings commonSettings,
         CurrencySettings currencySettings,
         CustomerSettings customerSettings,
-        ForumSettings forumSettings,
+        //COMMERCE SETTINGS REMOVED - Compile Fix
+        //Removed: ForumSettings forumSettings,
         ICurrencyService currencyService,
         ICustomerService customerService,
-        IForumService forumService,
+        //Removed: IForumService forumService,
         IGenericAttributeService genericAttributeService,
         IHttpContextAccessor httpContextAccessor,
         ILanguageService languageService,
@@ -92,7 +100,7 @@ public partial class CommonModelFactory : ICommonModelFactory
         INopHtmlHelper nopHtmlHelper,
         IPermissionService permissionService,
         IPictureService pictureService,
-        IShoppingCartService shoppingCartService,
+        //Removed: IShoppingCartService shoppingCartService,
         IStaticCacheManager staticCacheManager,
         IStoreContext storeContext,
         IThemeContext themeContext,
@@ -102,20 +110,23 @@ public partial class CommonModelFactory : ICommonModelFactory
         LocalizationSettings localizationSettings,
         MediaSettings mediaSettings,
         MessagesSettings messagesSettings,
-        NewsSettings newsSettings,
+        //COMMERCE SETTINGS REMOVED - Phase B
+        //Removed: NewsSettings newsSettings,
         RobotsTxtSettings robotsTxtSettings,
         SitemapXmlSettings sitemapXmlSettings,
         StoreInformationSettings storeInformationSettings)
     {
         _captchaSettings = captchaSettings;
-        _catalogSettings = catalogSettings;
+        //COMMERCE SETTINGS/SERVICES REMOVED - Phase B
+        //Removed: _catalogSettings = catalogSettings;
         _commonSettings = commonSettings;
         _currencySettings = currencySettings;
         _customerSettings = customerSettings;
-        _forumSettings = forumSettings;
+        //COMMERCE SETTINGS REMOVED - Compile Fix
+        //Removed: _forumSettings = forumSettings;
         _currencyService = currencyService;
         _customerService = customerService;
-        _forumService = forumService;
+        //Removed: _forumService = forumService;
         _genericAttributeService = genericAttributeService;
         _httpContextAccessor = httpContextAccessor;
         _languageService = languageService;
@@ -124,7 +135,7 @@ public partial class CommonModelFactory : ICommonModelFactory
         _nopHtmlHelper = nopHtmlHelper;
         _permissionService = permissionService;
         _pictureService = pictureService;
-        _shoppingCartService = shoppingCartService;
+        //Removed: _shoppingCartService = shoppingCartService;
         _staticCacheManager = staticCacheManager;
         _storeContext = storeContext;
         _themeContext = themeContext;
@@ -134,7 +145,8 @@ public partial class CommonModelFactory : ICommonModelFactory
         _mediaSettings = mediaSettings;
         _messagesSettings = messagesSettings;
         _localizationSettings = localizationSettings;
-        _newsSettings = newsSettings;
+        //COMMERCE SETTINGS REMOVED - Phase B
+        //Removed: _newsSettings = newsSettings;
         _robotsTxtSettings = robotsTxtSettings;
         _sitemapXmlSettings = sitemapXmlSettings;
         _storeInformationSettings = storeInformationSettings;
@@ -166,21 +178,9 @@ public partial class CommonModelFactory : ICommonModelFactory
     /// </returns>
     protected virtual async Task<int> GetUnreadPrivateMessagesAsync()
     {
-        var result = 0;
-        var customer = await _workContext.GetCurrentCustomerAsync();
-        if (_forumSettings.AllowPrivateMessages && !await _customerService.IsGuestAsync(customer))
-        {
-            var store = await _storeContext.GetCurrentStoreAsync();
-            var privateMessages = await _forumService.GetAllPrivateMessagesAsync(store.Id,
-                0, customer.Id, false, null, false, string.Empty, 0, 1);
-
-            if (privateMessages.TotalCount > 0)
-            {
-                result = privateMessages.TotalCount;
-            }
-        }
-
-        return result;
+        //COMMERCE FEATURE REMOVED - Compile Fix
+        //Private messages (forums) removed
+        return 0;
     }
 
     #endregion
@@ -295,22 +295,8 @@ public partial class CommonModelFactory : ICommonModelFactory
         return model;
     }
 
-    /// <summary>
-    /// Prepare the tax type selector model
-    /// </summary>
-    /// <returns>
-    /// A task that represents the asynchronous operation
-    /// The task result contains the ax type selector model
-    /// </returns>
-    public virtual async Task<TaxTypeSelectorModel> PrepareTaxTypeSelectorModelAsync()
-    {
-        var model = new TaxTypeSelectorModel
-        {
-            CurrentTaxType = await _workContext.GetTaxDisplayTypeAsync()
-        };
-
-        return model;
-    }
+    //COMMERCE METHOD REMOVED - Phase B
+    //Removed: PrepareTaxTypeSelectorModelAsync (tax type selector)
 
     /// <summary>
     /// Prepare the header links model
@@ -324,43 +310,26 @@ public partial class CommonModelFactory : ICommonModelFactory
         var customer = await _workContext.GetCurrentCustomerAsync();
         var store = await _storeContext.GetCurrentStoreAsync();
 
-        var unreadMessageCount = await GetUnreadPrivateMessagesAsync();
+        //COMMERCE FEATURE REMOVED - Compile Fix
+        //Private messages (forums) removed
+        var unreadMessageCount = 0;
         var unreadMessage = string.Empty;
         var alertMessage = string.Empty;
-        if (unreadMessageCount > 0)
-        {
-            unreadMessage = string.Format(await _localizationService.GetResourceAsync("PrivateMessages.TotalUnread"), unreadMessageCount);
-
-            //notifications here
-            if (_forumSettings.ShowAlertForPM &&
-                !await _genericAttributeService.GetAttributeAsync<bool>(customer, NopCustomerDefaults.NotifiedAboutNewPrivateMessagesAttribute, store.Id))
-            {
-                await _genericAttributeService.SaveAttributeAsync(customer, NopCustomerDefaults.NotifiedAboutNewPrivateMessagesAttribute, true, store.Id);
-                alertMessage = string.Format(await _localizationService.GetResourceAsync("PrivateMessages.YouHaveUnreadPM"), unreadMessageCount);
-            }
-        }
 
         var model = new HeaderLinksModel
         {
             RegistrationType = _customerSettings.UserRegistrationType,
             IsAuthenticated = await _customerService.IsRegisteredAsync(customer),
             CustomerName = await _customerService.IsRegisteredAsync(customer) ? await _customerService.FormatUsernameAsync(customer) : string.Empty,
-            ShoppingCartEnabled = await _permissionService.AuthorizeAsync(StandardPermission.PublicStore.ENABLE_SHOPPING_CART),
+            //COMMERCE PERMISSIONS REMOVED - Phase B
+            //Removed: ShoppingCartEnabled, WishlistEnabled
             UsePopupNotifications = _messagesSettings.UsePopupNotifications,
-            WishlistEnabled = await _permissionService.AuthorizeAsync(StandardPermission.PublicStore.ENABLE_WISHLIST),
-            AllowPrivateMessages = await _customerService.IsRegisteredAsync(customer) && _forumSettings.AllowPrivateMessages,
+            AllowPrivateMessages = false, //COMMERCE FEATURE REMOVED - forums removed
             UnreadPrivateMessages = unreadMessage,
             AlertMessage = alertMessage,
         };
-        //performance optimization (use "HasShoppingCartItems" property)
-        if (customer.HasShoppingCartItems)
-        {
-            model.ShoppingCartItems = (await _shoppingCartService.GetShoppingCartAsync(customer, ShoppingCartType.ShoppingCart, store.Id))
-                .Sum(item => item.Quantity);
-
-            model.WishlistItems = (await _shoppingCartService.GetShoppingCartAsync(customer, ShoppingCartType.Wishlist, store.Id))
-                .Sum(item => item.Quantity);
-        }
+        //COMMERCE SHOPPING CART CODE REMOVED - Phase B
+        //Removed: ShoppingCartItems, WishlistItems calculation
 
         return model;
     }
@@ -403,7 +372,8 @@ public partial class CommonModelFactory : ICommonModelFactory
             YoutubeLink = _storeInformationSettings.YoutubeLink,
             InstagramLink = _storeInformationSettings.InstagramLink,
             WorkingLanguageId = (await _workContext.GetWorkingLanguageAsync()).Id,
-            NewsEnabled = _newsSettings.Enabled,
+            //COMMERCE SETTING REMOVED - Phase B
+            //Removed: NewsEnabled
         };
 
         return model;
@@ -422,7 +392,8 @@ public partial class CommonModelFactory : ICommonModelFactory
         {
             StoreName = await _localizationService.GetLocalizedAsync(await _storeContext.GetCurrentStoreAsync(), x => x.Name),
             HidePoweredByNopCommerce = _storeInformationSettings.HidePoweredByNopCommerce,
-            DisplayTaxShippingInfoFooter = _catalogSettings.DisplayTaxShippingInfoFooter,
+            //COMMERCE SETTING REMOVED - Phase B
+            //Removed: DisplayTaxShippingInfoFooter
             IsHomePage = await IsHomePageAsync()
         };
     }
@@ -453,36 +424,8 @@ public partial class CommonModelFactory : ICommonModelFactory
         return model;
     }
 
-    /// <summary>
-    /// Prepare the contact vendor model
-    /// </summary>
-    /// <param name="model">Contact vendor model</param>
-    /// <param name="vendor">Vendor</param>
-    /// <param name="excludeProperties">Whether to exclude populating of model properties from the entity</param>
-    /// <returns>
-    /// A task that represents the asynchronous operation
-    /// The task result contains the contact vendor model
-    /// </returns>
-    public virtual async Task<ContactVendorModel> PrepareContactVendorModelAsync(ContactVendorModel model, Vendor vendor, bool excludeProperties)
-    {
-        ArgumentNullException.ThrowIfNull(model);
-
-        ArgumentNullException.ThrowIfNull(vendor);
-
-        if (!excludeProperties)
-        {
-            var customer = await _workContext.GetCurrentCustomerAsync();
-            model.Email = customer.Email;
-            model.FullName = await _customerService.GetCustomerFullNameAsync(customer);
-        }
-
-        model.SubjectEnabled = _commonSettings.SubjectFieldOnContactUsForm;
-        model.DisplayCaptcha = _captchaSettings.Enabled && _captchaSettings.ShowOnContactUsPage;
-        model.VendorId = vendor.Id;
-        model.VendorName = await _localizationService.GetLocalizedAsync(vendor, x => x.Name);
-
-        return model;
-    }
+    //COMMERCE METHOD REMOVED - Phase B
+    //Removed: PrepareContactVendorModelAsync (contact vendor functionality)
 
     /// <summary>
     /// Prepare the store theme selector model

@@ -1,28 +1,14 @@
 ﻿using Microsoft.AspNetCore.Mvc.Rendering;
 using Nop.Core.Caching;
-using Nop.Core.Domain.Catalog;
-using Nop.Core.Domain.Discounts;
-using Nop.Core.Domain.Gdpr;
-using Nop.Core.Domain.Orders;
-using Nop.Core.Domain.Payments;
-using Nop.Core.Domain.Shipping;
-using Nop.Core.Domain.Tax;
 using Nop.Core.Domain.Translation;
 using Nop.Services;
-using Nop.Services.Catalog;
 using Nop.Services.Customers;
 using Nop.Services.Directory;
 using Nop.Services.Helpers;
 using Nop.Services.Localization;
 using Nop.Services.Logging;
 using Nop.Services.Messages;
-using Nop.Services.Plugins;
-using Nop.Services.Shipping;
-using Nop.Services.Shipping.Date;
 using Nop.Services.Stores;
-using Nop.Services.Tax;
-using Nop.Services.Topics;
-using Nop.Services.Vendors;
 using Nop.Web.Areas.Admin.Infrastructure.Cache;
 using Nop.Web.Framework.Models.Translation;
 using LogLevel = Nop.Core.Domain.Logging.LogLevel;
@@ -36,86 +22,52 @@ public partial class BaseAdminModelFactory : IBaseAdminModelFactory
 {
     #region Fields
 
-    protected readonly ICategoryService _categoryService;
-    protected readonly ICategoryTemplateService _categoryTemplateService;
     protected readonly ICountryService _countryService;
     protected readonly ICurrencyService _currencyService;
     protected readonly ICustomerActivityService _customerActivityService;
     protected readonly ICustomerService _customerService;
-    protected readonly IDateRangeService _dateRangeService;
     protected readonly IDateTimeHelper _dateTimeHelper;
     protected readonly IEmailAccountService _emailAccountService;
     protected readonly ILanguageService _languageService;
     protected readonly ILocalizationService _localizationService;
-    protected readonly IManufacturerService _manufacturerService;
-    protected readonly IManufacturerTemplateService _manufacturerTemplateService;
     protected readonly INewsLetterSubscriptionTypeService _newsLetterSubscriptionTypeService;
-    protected readonly IPluginService _pluginService;
-    protected readonly IProductTemplateService _productTemplateService;
-    protected readonly ISpecificationAttributeService _specificationAttributeService;
     protected readonly IStateProvinceService _stateProvinceService;
     protected readonly IStaticCacheManager _staticCacheManager;
     protected readonly IStoreService _storeService;
-    protected readonly ITaxCategoryService _taxCategoryService;
-    protected readonly ITopicTemplateService _topicTemplateService;
-    protected readonly IVendorService _vendorService;
-    protected readonly IWarehouseService _warehouseService;
     protected readonly TranslationSettings _translationSettings;
 
     #endregion
 
     #region Ctor
 
-    public BaseAdminModelFactory(ICategoryService categoryService,
-        ICategoryTemplateService categoryTemplateService,
+    public BaseAdminModelFactory(
         ICountryService countryService,
         ICurrencyService currencyService,
         ICustomerActivityService customerActivityService,
         ICustomerService customerService,
-        IDateRangeService dateRangeService,
         IDateTimeHelper dateTimeHelper,
         IEmailAccountService emailAccountService,
         ILanguageService languageService,
         ILocalizationService localizationService,
-        IManufacturerService manufacturerService,
-        IManufacturerTemplateService manufacturerTemplateService,
         INewsLetterSubscriptionTypeService newsLetterSubscriptionTypeService,
-        IPluginService pluginService,
-        IProductTemplateService productTemplateService,
-        ISpecificationAttributeService specificationAttributeService,
         IStateProvinceService stateProvinceService,
         IStaticCacheManager staticCacheManager,
         IStoreService storeService,
-        ITaxCategoryService taxCategoryService,
-        ITopicTemplateService topicTemplateService,
-        IVendorService vendorService,
-        IWarehouseService warehouseService,
         TranslationSettings translationSettings)
     {
-        _categoryService = categoryService;
-        _categoryTemplateService = categoryTemplateService;
+
         _countryService = countryService;
         _currencyService = currencyService;
         _customerActivityService = customerActivityService;
         _customerService = customerService;
-        _dateRangeService = dateRangeService;
         _dateTimeHelper = dateTimeHelper;
         _emailAccountService = emailAccountService;
         _languageService = languageService;
         _localizationService = localizationService;
-        _manufacturerService = manufacturerService;
-        _manufacturerTemplateService = manufacturerTemplateService;
         _newsLetterSubscriptionTypeService = newsLetterSubscriptionTypeService;
-        _pluginService = pluginService;
-        _productTemplateService = productTemplateService;
-        _specificationAttributeService = specificationAttributeService;
         _stateProvinceService = stateProvinceService;
         _staticCacheManager = staticCacheManager;
         _storeService = storeService;
-        _taxCategoryService = taxCategoryService;
-        _topicTemplateService = topicTemplateService;
-        _vendorService = vendorService;
-        _warehouseService = warehouseService;
         _translationSettings = translationSettings;
     }
 
@@ -146,98 +98,8 @@ public partial class BaseAdminModelFactory : IBaseAdminModelFactory
         items.Insert(0, new SelectListItem { Text = defaultItemText, Value = defaultItemValue });
     }
 
-    /// <summary>
-    /// Get category list
-    /// </summary>
-    /// <returns>
-    /// A task that represents the asynchronous operation
-    /// The task result contains the category list
-    /// </returns>
-    protected virtual async Task<List<SelectListItem>> GetCategoryListAsync()
-    {
-        var categories = await _staticCacheManager.GetAsync(NopModelCacheDefaults.CategoriesListKey, async () => await _categoryService.GetAllCategoriesAsync(showHidden: true));
-
-        var result = new List<SelectListItem>();
-        foreach (var category in categories)
-        {
-            if (!await _categoryService.CanVendorAddProductsAsync(category, categories))
-                continue;
-
-            result.Add(new SelectListItem
-            {
-                Text = await _categoryService.GetFormattedBreadCrumbAsync(category, categories),
-                Value = category.Id.ToString()
-            });
-        }
-
-        return result;
-    }
-
-    /// <summary>
-    /// Get manufacturer list
-    /// </summary>
-    /// <returns>
-    /// A task that represents the asynchronous operation
-    /// The task result contains the manufacturer list
-    /// </returns>
-    protected virtual async Task<List<SelectListItem>> GetManufacturerListAsync()
-    {
-        var listItems = await _staticCacheManager.GetAsync(NopModelCacheDefaults.ManufacturersListKey, async () =>
-        {
-            var manufacturers = await _manufacturerService.GetAllManufacturersAsync(showHidden: true);
-            return manufacturers.Select(m => new SelectListItem
-            {
-                Text = m.Name,
-                Value = m.Id.ToString()
-            });
-        });
-
-        var result = new List<SelectListItem>();
-        //clone the list to ensure that "selected" property is not set
-        foreach (var item in listItems)
-        {
-            result.Add(new SelectListItem
-            {
-                Text = item.Text,
-                Value = item.Value
-            });
-        }
-
-        return result;
-    }
-
-    /// <summary>
-    /// Get vendor list
-    /// </summary>
-    /// <returns>
-    /// A task that represents the asynchronous operation
-    /// The task result contains the vendor list
-    /// </returns>
-    protected virtual async Task<List<SelectListItem>> GetVendorListAsync()
-    {
-        var listItems = await _staticCacheManager.GetAsync(NopModelCacheDefaults.VendorsListKey, async () =>
-        {
-            var vendors = await _vendorService.GetAllVendorsAsync(showHidden: true);
-            return vendors.Select(v => new SelectListItem
-            {
-                Text = v.Name,
-                Value = v.Id.ToString()
-            });
-        });
-
-        var result = new List<SelectListItem>();
-        //clone the list to ensure that "selected" property is not set
-        foreach (var item in listItems)
-        {
-            result.Add(new SelectListItem
-            {
-                Text = item.Text,
-                Value = item.Value
-            });
-        }
-
-        return result;
-    }
+    //COMMERCE UTILITY REMOVED - Phase C
+    //Removed: GetVendorListAsync (commerce feature)
 
     #endregion
 
@@ -265,71 +127,10 @@ public partial class BaseAdminModelFactory : IBaseAdminModelFactory
         await PrepareDefaultItemAsync(items, withSpecialDefaultItem, defaultItemText);
     }
 
-    /// <summary>
-    /// Prepare available order statuses
-    /// </summary>
-    /// <param name="items">Order status items</param>
-    /// <param name="withSpecialDefaultItem">Whether to insert the first special item for the default value</param>
-    /// <param name="defaultItemText">Default item text; pass null to use default value of the default item text</param>
-    /// <returns>A task that represents the asynchronous operation</returns>
-    public virtual async Task PrepareOrderStatusesAsync(IList<SelectListItem> items, bool withSpecialDefaultItem = true, string defaultItemText = null)
-    {
-        ArgumentNullException.ThrowIfNull(items);
-
-        //prepare available order statuses
-        var availableStatusItems = await OrderStatus.Pending.ToSelectListAsync(false);
-        foreach (var statusItem in availableStatusItems)
-        {
-            items.Add(statusItem);
-        }
-
-        //insert special item for the default value
-        await PrepareDefaultItemAsync(items, withSpecialDefaultItem, defaultItemText);
-    }
-
-    /// <summary>
-    /// Prepare available payment statuses
-    /// </summary>
-    /// <param name="items">Payment status items</param>
-    /// <param name="withSpecialDefaultItem">Whether to insert the first special item for the default value</param>
-    /// <param name="defaultItemText">Default item text; pass null to use default value of the default item text</param>
-    /// <returns>A task that represents the asynchronous operation</returns>
-    public virtual async Task PreparePaymentStatusesAsync(IList<SelectListItem> items, bool withSpecialDefaultItem = true, string defaultItemText = null)
-    {
-        ArgumentNullException.ThrowIfNull(items);
-
-        //prepare available payment statuses
-        var availableStatusItems = await PaymentStatus.Pending.ToSelectListAsync(false);
-        foreach (var statusItem in availableStatusItems)
-        {
-            items.Add(statusItem);
-        }
-
-        //insert special item for the default value
-        await PrepareDefaultItemAsync(items, withSpecialDefaultItem, defaultItemText);
-    }
-
-    /// <summary>
-    /// Prepare available shipping statuses
-    /// </summary>
-    /// <param name="items">Shipping status items</param>
-    /// <param name="withSpecialDefaultItem">Whether to insert the first special item for the default value</param>
-    /// <param name="defaultItemText">Default item text; pass null to use default value of the default item text</param>
-    /// <returns>A task that represents the asynchronous operation</returns>
-    public virtual async Task PrepareShippingStatusesAsync(IList<SelectListItem> items, bool withSpecialDefaultItem = true, string defaultItemText = null)
-    {
-        ArgumentNullException.ThrowIfNull(items);
-
-        //prepare available shipping statuses
-        var availableStatusItems = await ShippingStatus.NotYetShipped.ToSelectListAsync(false);
-        foreach (var statusItem in availableStatusItems)
-        {
-            items.Add(statusItem);
-        }
-
-        //insert special item for the default value
-        await PrepareDefaultItemAsync(items, withSpecialDefaultItem, defaultItemText);
-    }
+    //COMMERCE METHODS REMOVED - Phase C
+    //Removed: PrepareOrderStatusesAsync (commerce feature)
+    //Removed: PreparePaymentStatusesAsync (commerce feature)
+    //Removed: PrepareShippingStatusesAsync (commerce feature)
 
     /// <summary>
     /// Prepare available countries
@@ -495,138 +296,13 @@ public partial class BaseAdminModelFactory : IBaseAdminModelFactory
         await PrepareDefaultItemAsync(items, withSpecialDefaultItem, defaultItemText);
     }
 
-    /// <summary>
-    /// Prepare available tax categories
-    /// </summary>
-    /// <param name="items">Tax category items</param>
-    /// <param name="withSpecialDefaultItem">Whether to insert the first special item for the default value</param>
-    /// <param name="defaultItemText">Default item text; pass null to use default value of the default item text</param>
-    /// <returns>A task that represents the asynchronous operation</returns>
-    public virtual async Task PrepareTaxCategoriesAsync(IList<SelectListItem> items, bool withSpecialDefaultItem = true, string defaultItemText = null)
-    {
-        ArgumentNullException.ThrowIfNull(items);
-
-        //prepare available tax categories
-        var availableTaxCategories = await _taxCategoryService.GetAllTaxCategoriesAsync();
-        foreach (var taxCategory in availableTaxCategories)
-        {
-            items.Add(new SelectListItem { Value = taxCategory.Id.ToString(), Text = taxCategory.Name });
-        }
-
-        //insert special item for the default value
-        await PrepareDefaultItemAsync(items, withSpecialDefaultItem,
-            defaultItemText ?? await _localizationService.GetResourceAsync("Admin.Configuration.Settings.Tax.TaxCategories.None"));
-    }
-
-    /// <summary>
-    /// Prepare available categories
-    /// </summary>
-    /// <param name="items">Category items</param>
-    /// <param name="withSpecialDefaultItem">Whether to insert the first special item for the default value</param>
-    /// <param name="defaultItemText">Default item text; pass null to use default value of the default item text</param>
-    /// <returns>A task that represents the asynchronous operation</returns>
-    public virtual async Task PrepareCategoriesAsync(IList<SelectListItem> items, bool withSpecialDefaultItem = true, string defaultItemText = null)
-    {
-        ArgumentNullException.ThrowIfNull(items);
-
-        //prepare available categories
-        var availableCategoryItems = await GetCategoryListAsync();
-        foreach (var categoryItem in availableCategoryItems)
-        {
-            items.Add(categoryItem);
-        }
-
-        //insert special item for the default value
-        await PrepareDefaultItemAsync(items, withSpecialDefaultItem, defaultItemText);
-    }
-
-    /// <summary>
-    /// Prepare available manufacturers
-    /// </summary>
-    /// <param name="items">Manufacturer items</param>
-    /// <param name="withSpecialDefaultItem">Whether to insert the first special item for the default value</param>
-    /// <param name="defaultItemText">Default item text; pass null to use default value of the default item text</param>
-    /// <returns>A task that represents the asynchronous operation</returns>
-    public virtual async Task PrepareManufacturersAsync(IList<SelectListItem> items, bool withSpecialDefaultItem = true, string defaultItemText = null)
-    {
-        ArgumentNullException.ThrowIfNull(items);
-
-        //prepare available manufacturers
-        var availableManufacturerItems = await GetManufacturerListAsync();
-        foreach (var manufacturerItem in availableManufacturerItems)
-        {
-            items.Add(manufacturerItem);
-        }
-
-        //insert special item for the default value
-        await PrepareDefaultItemAsync(items, withSpecialDefaultItem, defaultItemText);
-    }
-
-    /// <summary>
-    /// Prepare available vendors
-    /// </summary>
-    /// <param name="items">Vendor items</param>
-    /// <param name="withSpecialDefaultItem">Whether to insert the first special item for the default value</param>
-    /// <param name="defaultItemText">Default item text; pass null to use default value of the default item text</param>
-    /// <returns>A task that represents the asynchronous operation</returns>
-    public virtual async Task PrepareVendorsAsync(IList<SelectListItem> items, bool withSpecialDefaultItem = true, string defaultItemText = null)
-    {
-        ArgumentNullException.ThrowIfNull(items);
-
-        //prepare available vendors
-        var availableVendorItems = await GetVendorListAsync();
-        foreach (var vendorItem in availableVendorItems)
-        {
-            items.Add(vendorItem);
-        }
-
-        //insert special item for the default value
-        await PrepareDefaultItemAsync(items, withSpecialDefaultItem, defaultItemText);
-    }
-
-    /// <summary>
-    /// Prepare available product types
-    /// </summary>
-    /// <param name="items">Product type items</param>
-    /// <param name="withSpecialDefaultItem">Whether to insert the first special item for the default value</param>
-    /// <param name="defaultItemText">Default item text; pass null to use default value of the default item text</param>
-    /// <returns>A task that represents the asynchronous operation</returns>
-    public virtual async Task PrepareProductTypesAsync(IList<SelectListItem> items, bool withSpecialDefaultItem = true, string defaultItemText = null)
-    {
-        ArgumentNullException.ThrowIfNull(items);
-
-        //prepare available product types
-        var availableProductTypeItems = await ProductType.SimpleProduct.ToSelectListAsync(false);
-        foreach (var productTypeItem in availableProductTypeItems)
-        {
-            items.Add(productTypeItem);
-        }
-
-        //insert special item for the default value
-        await PrepareDefaultItemAsync(items, withSpecialDefaultItem, defaultItemText);
-    }
-
-    /// <summary>
-    /// Prepare available category templates
-    /// </summary>
-    /// <param name="items">Category template items</param>
-    /// <param name="withSpecialDefaultItem">Whether to insert the first special item for the default value</param>
-    /// <param name="defaultItemText">Default item text; pass null to use default value of the default item text</param>
-    /// <returns>A task that represents the asynchronous operation</returns>
-    public virtual async Task PrepareCategoryTemplatesAsync(IList<SelectListItem> items, bool withSpecialDefaultItem = true, string defaultItemText = null)
-    {
-        ArgumentNullException.ThrowIfNull(items);
-
-        //prepare available category templates
-        var availableTemplates = await _categoryTemplateService.GetAllCategoryTemplatesAsync();
-        foreach (var template in availableTemplates)
-        {
-            items.Add(new SelectListItem { Value = template.Id.ToString(), Text = template.Name });
-        }
-
-        //insert special item for the default value
-        await PrepareDefaultItemAsync(items, withSpecialDefaultItem, defaultItemText);
-    }
+    //COMMERCE METHODS REMOVED - Phase C
+    //Removed: PrepareTaxCategoriesAsync (commerce feature)
+    //Removed: PrepareCategoriesAsync (commerce feature)
+    //Removed: PrepareManufacturersAsync (commerce feature)
+    //Removed: PrepareVendorsAsync (commerce feature)
+    //Removed: PrepareProductTypesAsync (commerce feature)
+    //Removed: PrepareCategoryTemplatesAsync (commerce feature)
 
     /// <summary>
     /// Prepare available time zones
@@ -650,49 +326,9 @@ public partial class BaseAdminModelFactory : IBaseAdminModelFactory
         await PrepareDefaultItemAsync(items, withSpecialDefaultItem, defaultItemText);
     }
 
-    /// <summary>
-    /// Prepare available shopping cart types
-    /// </summary>
-    /// <param name="items">Shopping cart type items</param>
-    /// <param name="withSpecialDefaultItem">Whether to insert the first special item for the default value</param>
-    /// <param name="defaultItemText">Default item text; pass null to use default value of the default item text</param>
-    /// <returns>A task that represents the asynchronous operation</returns>
-    public virtual async Task PrepareShoppingCartTypesAsync(IList<SelectListItem> items, bool withSpecialDefaultItem = true, string defaultItemText = null)
-    {
-        ArgumentNullException.ThrowIfNull(items);
-
-        //prepare available shopping cart types
-        var availableShoppingCartTypeItems = await ShoppingCartType.ShoppingCart.ToSelectListAsync(false);
-        foreach (var shoppingCartTypeItem in availableShoppingCartTypeItems)
-        {
-            items.Add(shoppingCartTypeItem);
-        }
-
-        //insert special item for the default value
-        await PrepareDefaultItemAsync(items, withSpecialDefaultItem, defaultItemText);
-    }
-
-    /// <summary>
-    /// Prepare available tax display types
-    /// </summary>
-    /// <param name="items">Tax display type items</param>
-    /// <param name="withSpecialDefaultItem">Whether to insert the first special item for the default value</param>
-    /// <param name="defaultItemText">Default item text; pass null to use default value of the default item text</param>
-    /// <returns>A task that represents the asynchronous operation</returns>
-    public virtual async Task PrepareTaxDisplayTypesAsync(IList<SelectListItem> items, bool withSpecialDefaultItem = true, string defaultItemText = null)
-    {
-        ArgumentNullException.ThrowIfNull(items);
-
-        //prepare available tax display types
-        var availableTaxDisplayTypeItems = await TaxDisplayType.ExcludingTax.ToSelectListAsync(false);
-        foreach (var taxDisplayTypeItem in availableTaxDisplayTypeItems)
-        {
-            items.Add(taxDisplayTypeItem);
-        }
-
-        //insert special item for the default value
-        await PrepareDefaultItemAsync(items, withSpecialDefaultItem, defaultItemText);
-    }
+    //COMMERCE METHODS REMOVED - Phase C
+    //Removed: PrepareShoppingCartTypesAsync (commerce feature)
+    //Removed: PrepareTaxDisplayTypesAsync (commerce feature)
 
     /// <summary>
     /// Prepare available currencies
@@ -716,27 +352,8 @@ public partial class BaseAdminModelFactory : IBaseAdminModelFactory
         await PrepareDefaultItemAsync(items, withSpecialDefaultItem, defaultItemText);
     }
 
-    /// <summary>
-    /// Prepare available discount types
-    /// </summary>
-    /// <param name="items">Discount type items</param>
-    /// <param name="withSpecialDefaultItem">Whether to insert the first special item for the default value</param>
-    /// <param name="defaultItemText">Default item text; pass null to use default value of the default item text</param>
-    /// <returns>A task that represents the asynchronous operation</returns>
-    public virtual async Task PrepareDiscountTypesAsync(IList<SelectListItem> items, bool withSpecialDefaultItem = true, string defaultItemText = null)
-    {
-        ArgumentNullException.ThrowIfNull(items);
-
-        //prepare available discount types
-        var availableDiscountTypeItems = await DiscountType.AssignedToOrderTotal.ToSelectListAsync(false);
-        foreach (var discountTypeItem in availableDiscountTypeItems)
-        {
-            items.Add(discountTypeItem);
-        }
-
-        //insert special item for the default value
-        await PrepareDefaultItemAsync(items, withSpecialDefaultItem, defaultItemText);
-    }
+    //COMMERCE METHODS REMOVED - Phase C
+    //Removed: PrepareDiscountTypesAsync (commerce feature)
 
     /// <summary>
     /// Prepare available log levels
@@ -760,50 +377,8 @@ public partial class BaseAdminModelFactory : IBaseAdminModelFactory
         await PrepareDefaultItemAsync(items, withSpecialDefaultItem, defaultItemText);
     }
 
-    /// <summary>
-    /// Prepare available manufacturer templates
-    /// </summary>
-    /// <param name="items">Manufacturer template items</param>
-    /// <param name="withSpecialDefaultItem">Whether to insert the first special item for the default value</param>
-    /// <param name="defaultItemText">Default item text; pass null to use default value of the default item text</param>
-    /// <returns>A task that represents the asynchronous operation</returns>
-    public virtual async Task PrepareManufacturerTemplatesAsync(IList<SelectListItem> items,
-        bool withSpecialDefaultItem = true, string defaultItemText = null)
-    {
-        ArgumentNullException.ThrowIfNull(items);
-
-        //prepare available manufacturer templates
-        var availableTemplates = await _manufacturerTemplateService.GetAllManufacturerTemplatesAsync();
-        foreach (var template in availableTemplates)
-        {
-            items.Add(new SelectListItem { Value = template.Id.ToString(), Text = template.Name });
-        }
-
-        //insert special item for the default value
-        await PrepareDefaultItemAsync(items, withSpecialDefaultItem, defaultItemText);
-    }
-
-    /// <summary>
-    /// Prepare available load plugin modes
-    /// </summary>
-    /// <param name="items">Load plugin mode items</param>
-    /// <param name="withSpecialDefaultItem">Whether to insert the first special item for the default value</param>
-    /// <param name="defaultItemText">Default item text; pass null to use default value of the default item text</param>
-    /// <returns>A task that represents the asynchronous operation</returns>
-    public virtual async Task PrepareLoadPluginModesAsync(IList<SelectListItem> items, bool withSpecialDefaultItem = true, string defaultItemText = null)
-    {
-        ArgumentNullException.ThrowIfNull(items);
-
-        //prepare available load plugin modes
-        var availableLoadPluginModeItems = await LoadPluginsMode.All.ToSelectListAsync(false);
-        foreach (var loadPluginModeItem in availableLoadPluginModeItems)
-        {
-            items.Add(loadPluginModeItem);
-        }
-
-        //insert special item for the default value
-        await PrepareDefaultItemAsync(items, withSpecialDefaultItem, defaultItemText);
-    }
+    //COMMERCE METHODS REMOVED - Phase C
+    //Removed: PrepareManufacturerTemplatesAsync (commerce feature)
 
     /// <summary>
     /// Prepare available plugin groups
@@ -816,196 +391,21 @@ public partial class BaseAdminModelFactory : IBaseAdminModelFactory
     {
         ArgumentNullException.ThrowIfNull(items);
 
-        //prepare available plugin groups
-        var availablePluginGroups = (await _pluginService.GetPluginDescriptorsAsync<IPlugin>(LoadPluginsMode.All))
-            .Select(plugin => plugin.Group).Distinct().OrderBy(groupName => groupName).ToList();
-        foreach (var group in availablePluginGroups)
-            items.Add(new SelectListItem { Value = @group, Text = @group });
-
+        // Plugin functionality removed - no plugin groups available
         //insert special item for the default value
         await PrepareDefaultItemAsync(items, withSpecialDefaultItem, defaultItemText);
     }
 
-    /// <summary>
-    /// Prepare available return request statuses
-    /// </summary>
-    /// <param name="items">Return request status items</param>
-    /// <param name="withSpecialDefaultItem">Whether to insert the first special item for the default value</param>
-    /// <param name="defaultItemText">Default item text; pass null to use default value of the default item text</param>
-    /// <returns>A task that represents the asynchronous operation</returns>
-    public virtual async Task PrepareReturnRequestStatusesAsync(IList<SelectListItem> items,
-        bool withSpecialDefaultItem = true, string defaultItemText = null)
-    {
-        ArgumentNullException.ThrowIfNull(items);
+    //COMMERCE METHODS REMOVED - Phase C
+    //Removed: PrepareReturnRequestStatusesAsync (commerce feature)
+    //Removed: PrepareProductTemplatesAsync (commerce feature)
 
-        //prepare available return request statuses
-        var availableStatusItems = await ReturnRequestStatus.Pending.ToSelectListAsync(false);
-        foreach (var statusItem in availableStatusItems)
-        {
-            items.Add(statusItem);
-        }
-
-        //insert special item for the default value
-        await PrepareDefaultItemAsync(items, withSpecialDefaultItem, defaultItemText);
-    }
-
-    /// <summary>
-    /// Prepare available product templates
-    /// </summary>
-    /// <param name="items">Product template items</param>
-    /// <param name="withSpecialDefaultItem">Whether to insert the first special item for the default value</param>
-    /// <param name="defaultItemText">Default item text; pass null to use default value of the default item text</param>
-    /// <returns>A task that represents the asynchronous operation</returns>
-    public virtual async Task PrepareProductTemplatesAsync(IList<SelectListItem> items, bool withSpecialDefaultItem = true, string defaultItemText = null)
-    {
-        ArgumentNullException.ThrowIfNull(items);
-
-        //prepare available product templates
-        var availableTemplates = await _productTemplateService.GetAllProductTemplatesAsync();
-        foreach (var template in availableTemplates)
-        {
-            items.Add(new SelectListItem { Value = template.Id.ToString(), Text = template.Name });
-        }
-
-        //insert special item for the default value
-        await PrepareDefaultItemAsync(items, withSpecialDefaultItem, defaultItemText);
-    }
-
-    /// <summary>
-    /// Prepare available topic templates
-    /// </summary>
-    /// <param name="items">Topic template items</param>
-    /// <param name="withSpecialDefaultItem">Whether to insert the first special item for the default value</param>
-    /// <param name="defaultItemText">Default item text; pass null to use default value of the default item text</param>
-    /// <returns>A task that represents the asynchronous operation</returns>
-    public virtual async Task PrepareTopicTemplatesAsync(IList<SelectListItem> items, bool withSpecialDefaultItem = true, string defaultItemText = null)
-    {
-        ArgumentNullException.ThrowIfNull(items);
-
-        //prepare available topic templates
-        var availableTemplates = await _topicTemplateService.GetAllTopicTemplatesAsync();
-        foreach (var template in availableTemplates)
-        {
-            items.Add(new SelectListItem { Value = template.Id.ToString(), Text = template.Name });
-        }
-
-        //insert special item for the default value
-        await PrepareDefaultItemAsync(items, withSpecialDefaultItem, defaultItemText);
-    }
-
-    /// <summary>
-    /// Prepare available warehouses
-    /// </summary>
-    /// <param name="items">Warehouse items</param>
-    /// <param name="withSpecialDefaultItem">Whether to insert the first special item for the default value</param>
-    /// <param name="defaultItemText">Default item text; pass null to use default value of the default item text</param>
-    /// <returns>A task that represents the asynchronous operation</returns>
-    public virtual async Task PrepareWarehousesAsync(IList<SelectListItem> items, bool withSpecialDefaultItem = true, string defaultItemText = null)
-    {
-        ArgumentNullException.ThrowIfNull(items);
-
-        //prepare available warehouses
-        var availableWarehouses = await _warehouseService.GetAllWarehousesAsync();
-        foreach (var warehouse in availableWarehouses)
-        {
-            items.Add(new SelectListItem { Value = warehouse.Id.ToString(), Text = warehouse.Name });
-        }
-
-        //insert special item for the default value
-        await PrepareDefaultItemAsync(items, withSpecialDefaultItem, defaultItemText);
-    }
-
-    /// <summary>
-    /// Prepare available delivery dates
-    /// </summary>
-    /// <param name="items">Delivery date items</param>
-    /// <param name="withSpecialDefaultItem">Whether to insert the first special item for the default value</param>
-    /// <param name="defaultItemText">Default item text; pass null to use default value of the default item text</param>
-    /// <returns>A task that represents the asynchronous operation</returns>
-    public virtual async Task PrepareDeliveryDatesAsync(IList<SelectListItem> items, bool withSpecialDefaultItem = true, string defaultItemText = null)
-    {
-        ArgumentNullException.ThrowIfNull(items);
-
-        //prepare available delivery dates
-        var availableDeliveryDates = await _dateRangeService.GetAllDeliveryDatesAsync();
-        foreach (var date in availableDeliveryDates)
-        {
-            items.Add(new SelectListItem { Value = date.Id.ToString(), Text = date.Name });
-        }
-
-        //insert special item for the default value
-        await PrepareDefaultItemAsync(items, withSpecialDefaultItem, defaultItemText);
-    }
-
-    /// <summary>
-    /// Prepare available product availability ranges
-    /// </summary>
-    /// <param name="items">Product availability range items</param>
-    /// <param name="withSpecialDefaultItem">Whether to insert the first special item for the default value</param>
-    /// <param name="defaultItemText">Default item text; pass null to use default value of the default item text</param>
-    /// <returns>A task that represents the asynchronous operation</returns>
-    public virtual async Task PrepareProductAvailabilityRangesAsync(IList<SelectListItem> items,
-        bool withSpecialDefaultItem = true, string defaultItemText = null)
-    {
-        ArgumentNullException.ThrowIfNull(items);
-
-        //prepare available product availability ranges
-        var availableProductAvailabilityRanges = await _dateRangeService.GetAllProductAvailabilityRangesAsync();
-        foreach (var range in availableProductAvailabilityRanges)
-        {
-            items.Add(new SelectListItem { Value = range.Id.ToString(), Text = range.Name });
-        }
-
-        //insert special item for the default value
-        await PrepareDefaultItemAsync(items, withSpecialDefaultItem, defaultItemText);
-    }
-
-    /// <summary>
-    /// Prepare available GDPR request types
-    /// </summary>
-    /// <param name="items">Request type items</param>
-    /// <param name="withSpecialDefaultItem">Whether to insert the first special item for the default value</param>
-    /// <param name="defaultItemText">Default item text; pass null to use default value of the default item text</param>
-    /// <returns>A task that represents the asynchronous operation</returns>
-    public virtual async Task PrepareGdprRequestTypesAsync(IList<SelectListItem> items, bool withSpecialDefaultItem = true, string defaultItemText = null)
-    {
-        ArgumentNullException.ThrowIfNull(items);
-
-        //prepare available request types
-        var gdprRequestTypeItems = await GdprRequestType.ConsentAgree.ToSelectListAsync(false);
-        foreach (var gdprRequestTypeItem in gdprRequestTypeItems)
-        {
-            items.Add(gdprRequestTypeItem);
-        }
-
-        //insert special item for the default value
-        await PrepareDefaultItemAsync(items, withSpecialDefaultItem, defaultItemText);
-    }
-
-    /// <summary>
-    /// Prepare available specification attribute groups
-    /// </summary>
-    /// <param name="items">Specification attributes</param>
-    /// <param name="withSpecialDefaultItem">Whether to insert the first special item for the default value</param>
-    /// <param name="defaultItemText">Default item text; pass null to use default value of the default item text</param>
-    /// <returns>A task that represents the asynchronous operation</returns>
-    public virtual async Task PrepareSpecificationAttributeGroupsAsync(IList<SelectListItem> items, bool withSpecialDefaultItem = true, string defaultItemText = null)
-    {
-        ArgumentNullException.ThrowIfNull(items);
-
-        //prepare available specification attribute groups
-        var availableSpecificationAttributeGroups = await _specificationAttributeService.GetSpecificationAttributeGroupsAsync();
-        foreach (var group in availableSpecificationAttributeGroups)
-        {
-            items.Add(new SelectListItem { Value = group.Id.ToString(), Text = group.Name });
-        }
-
-        // use empty string for nullable field
-        var defaultItemValue = string.Empty;
-
-        //insert special item for the default value
-        await PrepareDefaultItemAsync(items, withSpecialDefaultItem, defaultItemText, defaultItemValue);
-    }    
+    //COMMERCE METHODS REMOVED - Phase C
+    //Removed: PrepareWarehousesAsync (commerce feature)
+    //Removed: PrepareDeliveryDatesAsync (commerce feature)
+    //Removed: PrepareProductAvailabilityRangesAsync (commerce feature)
+    //Removed: PrepareGdprRequestTypesAsync (commerce-driven GDPR feature)
+    //Removed: PrepareSpecificationAttributeGroupsAsync (commerce feature)
 
     /// <summary>
     /// Prepare translation supported model

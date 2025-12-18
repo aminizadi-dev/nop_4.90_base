@@ -1,12 +1,11 @@
 ﻿using Newtonsoft.Json;
-using Nop.Services.Plugins;
 
 namespace Nop.Services.Themes;
 
 /// <summary>
 /// Represents a theme descriptor
 /// </summary>
-public partial class ThemeDescriptor : IDescriptor
+public partial class ThemeDescriptor
 {
     /// <summary>
     /// Gets or sets the theme system name

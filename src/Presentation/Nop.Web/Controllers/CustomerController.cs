@@ -3,36 +3,35 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Primitives;
 using Nop.Core;
 using Nop.Core.Domain;
-using Nop.Core.Domain.Catalog;
+//COMMERCE DOMAIN REMOVED - Compile Fix
+//Removed: using Nop.Core.Domain.Catalog;
 using Nop.Core.Domain.Common;
 using Nop.Core.Domain.Customers;
-using Nop.Core.Domain.Forums;
-using Nop.Core.Domain.Gdpr;
+//Removed: using Nop.Core.Domain.Forums;
+//Removed: using Nop.Core.Domain.Gdpr;
 using Nop.Core.Domain.Localization;
 using Nop.Core.Domain.Media;
 using Nop.Core.Domain.Security;
-using Nop.Core.Domain.Tax;
+//Removed: using Nop.Core.Domain.Tax;
 using Nop.Core.Events;
 using Nop.Core.Http;
 using Nop.Core.Http.Extensions;
-using Nop.Services.Attributes;
 using Nop.Services.Authentication;
-using Nop.Services.Authentication.External;
-using Nop.Services.Authentication.MultiFactor;
-using Nop.Services.Catalog;
+//COMMERCE SERVICES REMOVED - Compile Fix
+//Removed: using Nop.Services.Catalog;
 using Nop.Services.Common;
 using Nop.Services.Customers;
 using Nop.Services.Directory;
-using Nop.Services.ExportImport;
-using Nop.Services.Gdpr;
+//Removed: using Nop.Services.ExportImport;
+//Removed: using Nop.Services.Gdpr;
 using Nop.Services.Helpers;
 using Nop.Services.Localization;
 using Nop.Services.Logging;
 using Nop.Services.Media;
 using Nop.Services.Messages;
-using Nop.Services.Orders;
+//Removed: using Nop.Services.Orders;
 using Nop.Services.Security;
-using Nop.Services.Tax;
+//Removed: using Nop.Services.Tax;
 using Nop.Web.Factories;
 using Nop.Web.Framework;
 using Nop.Web.Framework.Controllers;
@@ -52,14 +51,9 @@ public partial class CustomerController : BasePublicController
     protected readonly CaptchaSettings _captchaSettings;
     protected readonly CustomerSettings _customerSettings;
     protected readonly DateTimeSettings _dateTimeSettings;
-    protected readonly ForumSettings _forumSettings;
-    protected readonly GdprSettings _gdprSettings;
     protected readonly HtmlEncoder _htmlEncoder;
     protected readonly IAddressModelFactory _addressModelFactory;
     protected readonly IAddressService _addressService;
-    protected readonly IAttributeParser<AddressAttribute, AddressAttributeValue> _addressAttributeParser;
-    protected readonly IAttributeParser<CustomerAttribute, CustomerAttributeValue> _customerAttributeParser;
-    protected readonly IAttributeService<CustomerAttribute, CustomerAttributeValue> _customerAttributeService;
     protected readonly IAuthenticationService _authenticationService;
     protected readonly ICountryService _countryService;
     protected readonly ICurrencyService _currencyService;
@@ -69,31 +63,19 @@ public partial class CustomerController : BasePublicController
     protected readonly ICustomerService _customerService;
     protected readonly IDownloadService _downloadService;
     protected readonly IEventPublisher _eventPublisher;
-    protected readonly IExportManager _exportManager;
-    protected readonly IExternalAuthenticationService _externalAuthenticationService;
-    protected readonly IGdprService _gdprService;
     protected readonly IGenericAttributeService _genericAttributeService;
-    protected readonly IGiftCardService _giftCardService;
     protected readonly ILocalizationService _localizationService;
     protected readonly ILogger _logger;
-    protected readonly IMultiFactorAuthenticationPluginManager _multiFactorAuthenticationPluginManager;
     protected readonly INewsLetterSubscriptionService _newsLetterSubscriptionService;
     protected readonly INotificationService _notificationService;
-    protected readonly IOrderService _orderService;
     protected readonly IPermissionService _permissionService;
     protected readonly IPictureService _pictureService;
-    protected readonly IPriceFormatter _priceFormatter;
-    protected readonly IProductService _productService;
     protected readonly IStateProvinceService _stateProvinceService;
     protected readonly IStoreContext _storeContext;
-    protected readonly ITaxService _taxService;
     protected readonly IWorkContext _workContext;
-    protected readonly IWorkflowMessageService _workflowMessageService;
     protected readonly LocalizationSettings _localizationSettings;
     protected readonly MediaSettings _mediaSettings;
     protected readonly MultiFactorAuthenticationSettings _multiFactorAuthenticationSettings;
-    protected readonly StoreInformationSettings _storeInformationSettings;
-    protected readonly TaxSettings _taxSettings;
     private static readonly char[] _separator = [','];
 
     #endregion
@@ -104,14 +86,12 @@ public partial class CustomerController : BasePublicController
         CaptchaSettings captchaSettings,
         CustomerSettings customerSettings,
         DateTimeSettings dateTimeSettings,
-        ForumSettings forumSettings,
-        GdprSettings gdprSettings,
+        //COMMERCE SETTINGS REMOVED - Compile Fix
+        //Removed: ForumSettings forumSettings,
+        //Removed: GdprSettings gdprSettings,
         HtmlEncoder htmlEncoder,
         IAddressModelFactory addressModelFactory,
         IAddressService addressService,
-        IAttributeParser<AddressAttribute, AddressAttributeValue> addressAttributeParser,
-        IAttributeParser<CustomerAttribute, CustomerAttributeValue> customerAttributeParser,
-        IAttributeService<CustomerAttribute, CustomerAttributeValue> customerAttributeService,
         IAuthenticationService authenticationService,
         ICountryService countryService,
         ICurrencyService currencyService,
@@ -121,44 +101,30 @@ public partial class CustomerController : BasePublicController
         ICustomerService customerService,
         IDownloadService downloadService,
         IEventPublisher eventPublisher,
-        IExportManager exportManager,
-        IExternalAuthenticationService externalAuthenticationService,
-        IGdprService gdprService,
+        //Removed: IGdprService gdprService,
         IGenericAttributeService genericAttributeService,
-        IGiftCardService giftCardService,
+        //Removed: IGiftCardService giftCardService,
         ILocalizationService localizationService,
         ILogger logger,
-        IMultiFactorAuthenticationPluginManager multiFactorAuthenticationPluginManager,
         INewsLetterSubscriptionService newsLetterSubscriptionService,
         INotificationService notificationService,
-        IOrderService orderService,
         IPermissionService permissionService,
         IPictureService pictureService,
-        IPriceFormatter priceFormatter,
-        IProductService productService,
         IStateProvinceService stateProvinceService,
         IStoreContext storeContext,
-        ITaxService taxService,
         IWorkContext workContext,
-        IWorkflowMessageService workflowMessageService,
         LocalizationSettings localizationSettings,
         MediaSettings mediaSettings,
-        MultiFactorAuthenticationSettings multiFactorAuthenticationSettings,
-        StoreInformationSettings storeInformationSettings,
-        TaxSettings taxSettings)
+        MultiFactorAuthenticationSettings multiFactorAuthenticationSettings
+        )
     {
         _addressSettings = addressSettings;
         _captchaSettings = captchaSettings;
         _customerSettings = customerSettings;
         _dateTimeSettings = dateTimeSettings;
-        _forumSettings = forumSettings;
-        _gdprSettings = gdprSettings;
         _htmlEncoder = htmlEncoder;
         _addressModelFactory = addressModelFactory;
         _addressService = addressService;
-        _addressAttributeParser = addressAttributeParser;
-        _customerAttributeParser = customerAttributeParser;
-        _customerAttributeService = customerAttributeService;
         _authenticationService = authenticationService;
         _countryService = countryService;
         _currencyService = currencyService;
@@ -168,245 +134,24 @@ public partial class CustomerController : BasePublicController
         _customerService = customerService;
         _downloadService = downloadService;
         _eventPublisher = eventPublisher;
-        _exportManager = exportManager;
-        _externalAuthenticationService = externalAuthenticationService;
-        _gdprService = gdprService;
         _genericAttributeService = genericAttributeService;
-        _giftCardService = giftCardService;
         _localizationService = localizationService;
         _logger = logger;
-        _multiFactorAuthenticationPluginManager = multiFactorAuthenticationPluginManager;
         _newsLetterSubscriptionService = newsLetterSubscriptionService;
         _notificationService = notificationService;
-        _orderService = orderService;
         _permissionService = permissionService;
         _pictureService = pictureService;
-        _priceFormatter = priceFormatter;
-        _productService = productService;
         _stateProvinceService = stateProvinceService;
         _storeContext = storeContext;
-        _taxService = taxService;
         _workContext = workContext;
-        _workflowMessageService = workflowMessageService;
         _localizationSettings = localizationSettings;
         _mediaSettings = mediaSettings;
         _multiFactorAuthenticationSettings = multiFactorAuthenticationSettings;
-        _storeInformationSettings = storeInformationSettings;
-        _taxSettings = taxSettings;
     }
 
     #endregion
 
     #region Utilities
-
-    protected virtual void ValidateRequiredConsents(List<GdprConsent> consents, IFormCollection form)
-    {
-        foreach (var consent in consents)
-        {
-            var controlId = $"consent{consent.Id}";
-            var cbConsent = form[controlId];
-            if (StringValues.IsNullOrEmpty(cbConsent) || !cbConsent.ToString().Equals("on"))
-            {
-                ModelState.AddModelError("", consent.RequiredMessage);
-            }
-        }
-    }
-
-    protected virtual async Task<string> ParseSelectedProviderAsync(IFormCollection form)
-    {
-        ArgumentNullException.ThrowIfNull(form);
-
-        if (!form.TryGetValue("mfa_provider", out var curProvider) || StringValues.IsNullOrEmpty(curProvider))
-            return string.Empty;
-
-        var selectedProvider = curProvider.ToString();
-        if (string.IsNullOrEmpty(selectedProvider))
-            return string.Empty;
-
-        var store = await _storeContext.GetCurrentStoreAsync();
-        var customer = await _workContext.GetCurrentCustomerAsync();
-        var multiFactorAuthenticationProviders = await _multiFactorAuthenticationPluginManager
-            .LoadActivePluginsAsync(customer, store.Id);
-        
-        var isValidProvider = multiFactorAuthenticationProviders
-            .Any(p => p.PluginDescriptor.SystemName.Equals(selectedProvider, StringComparison.InvariantCultureIgnoreCase));
-
-        return isValidProvider ? selectedProvider : string.Empty;
-    }
-
-    protected virtual async Task<string> ParseCustomCustomerAttributesAsync(IFormCollection form)
-    {
-        ArgumentNullException.ThrowIfNull(form);
-
-        var attributesXml = "";
-        var attributes = await _customerAttributeService.GetAllAttributesAsync();
-        foreach (var attribute in attributes)
-        {
-            var controlId = $"{NopCustomerServicesDefaults.CustomerAttributePrefix}{attribute.Id}";
-            switch (attribute.AttributeControlType)
-            {
-                case AttributeControlType.DropdownList:
-                case AttributeControlType.RadioList:
-                {
-                    var ctrlAttributes = form[controlId];
-                    if (!StringValues.IsNullOrEmpty(ctrlAttributes))
-                    {
-                        var selectedAttributeId = int.Parse(ctrlAttributes);
-                        if (selectedAttributeId > 0)
-                            attributesXml = _customerAttributeParser.AddAttribute(attributesXml,
-                                attribute, selectedAttributeId.ToString());
-                    }
-                }
-                    break;
-                case AttributeControlType.Checkboxes:
-                {
-                    var cblAttributes = form[controlId];
-                    if (!StringValues.IsNullOrEmpty(cblAttributes))
-                    {
-                        foreach (var item in cblAttributes.ToString().Split(_separator, StringSplitOptions.RemoveEmptyEntries))
-                        {
-                            var selectedAttributeId = int.Parse(item);
-                            if (selectedAttributeId > 0)
-                                attributesXml = _customerAttributeParser.AddAttribute(attributesXml,
-                                    attribute, selectedAttributeId.ToString());
-                        }
-                    }
-                }
-                    break;
-                case AttributeControlType.ReadonlyCheckboxes:
-                {
-                    //load read-only (already server-side selected) values
-                    var attributeValues = await _customerAttributeService.GetAttributeValuesAsync(attribute.Id);
-                    foreach (var selectedAttributeId in attributeValues
-                                 .Where(v => v.IsPreSelected)
-                                 .Select(v => v.Id)
-                                 .ToList())
-                    {
-                        attributesXml = _customerAttributeParser.AddAttribute(attributesXml,
-                            attribute, selectedAttributeId.ToString());
-                    }
-                }
-                    break;
-                case AttributeControlType.TextBox:
-                case AttributeControlType.MultilineTextbox:
-                {
-                    var ctrlAttributes = form[controlId];
-                    if (!StringValues.IsNullOrEmpty(ctrlAttributes))
-                    {
-                        var enteredText = ctrlAttributes.ToString().Trim();
-                        attributesXml = _customerAttributeParser.AddAttribute(attributesXml,
-                            attribute, enteredText);
-                    }
-                }
-                    break;
-                case AttributeControlType.Datepicker:
-                case AttributeControlType.ColorSquares:
-                case AttributeControlType.ImageSquares:
-                case AttributeControlType.FileUpload:
-                //not supported customer attributes
-                default:
-                    break;
-            }
-        }
-
-        return attributesXml;
-    }
-
-    protected virtual async Task LogGdprAsync(Customer customer, CustomerInfoModel oldCustomerInfoModel,
-        CustomerInfoModel newCustomerInfoModel, IFormCollection form)
-    {
-        try
-        {
-            //consents
-            var consents = (await _gdprService.GetAllConsentsAsync()).Where(consent => consent.DisplayOnCustomerInfoPage).ToList();
-            foreach (var consent in consents)
-            {
-                var previousConsentValue = await _gdprService.IsConsentAcceptedAsync(consent.Id, customer.Id);
-                var controlId = $"consent{consent.Id}";
-                var cbConsent = form[controlId];
-                if (!StringValues.IsNullOrEmpty(cbConsent) && cbConsent.ToString().Equals("on"))
-                {
-                    //agree
-                    if (!previousConsentValue.HasValue || !previousConsentValue.Value)
-                    {
-                        await _gdprService.InsertLogAsync(customer, consent.Id, GdprRequestType.ConsentAgree, consent.Message);
-                    }
-                }
-                else
-                {
-                    //disagree
-                    if (!previousConsentValue.HasValue || previousConsentValue.Value)
-                    {
-                        await _gdprService.InsertLogAsync(customer, consent.Id, GdprRequestType.ConsentDisagree, consent.Message);
-                    }
-                }
-            }
-
-            //newsletter subscriptions
-            if (_gdprSettings.LogNewsletterConsent)
-            {
-                var oldNewsletter = oldCustomerInfoModel.NewsLetterSubscriptions.Any(subscriptionModel => subscriptionModel.IsActive);
-                var newNewsletter = newCustomerInfoModel.NewsLetterSubscriptions.Any(subscriptionModel => subscriptionModel.IsActive);
-                if (oldNewsletter && !newNewsletter)
-                    await _gdprService.InsertLogAsync(customer, 0, GdprRequestType.ConsentDisagree, await _localizationService.GetResourceAsync("Gdpr.Consent.Newsletter"));
-                if (!oldNewsletter && newNewsletter)
-                    await _gdprService.InsertLogAsync(customer, 0, GdprRequestType.ConsentAgree, await _localizationService.GetResourceAsync("Gdpr.Consent.Newsletter"));
-            }
-
-            //user profile changes
-            if (!_gdprSettings.LogUserProfileChanges)
-                return;
-
-            if (oldCustomerInfoModel.Gender != newCustomerInfoModel.Gender)
-                await _gdprService.InsertLogAsync(customer, 0, GdprRequestType.ProfileChanged, $"{await _localizationService.GetResourceAsync("Account.Fields.Gender")} = {newCustomerInfoModel.Gender}");
-
-            if (oldCustomerInfoModel.FirstName != newCustomerInfoModel.FirstName)
-                await _gdprService.InsertLogAsync(customer, 0, GdprRequestType.ProfileChanged, $"{await _localizationService.GetResourceAsync("Account.Fields.FirstName")} = {newCustomerInfoModel.FirstName}");
-
-            if (oldCustomerInfoModel.LastName != newCustomerInfoModel.LastName)
-                await _gdprService.InsertLogAsync(customer, 0, GdprRequestType.ProfileChanged, $"{await _localizationService.GetResourceAsync("Account.Fields.LastName")} = {newCustomerInfoModel.LastName}");
-
-            if (oldCustomerInfoModel.ParseDateOfBirth() != newCustomerInfoModel.ParseDateOfBirth())
-                await _gdprService.InsertLogAsync(customer, 0, GdprRequestType.ProfileChanged, $"{await _localizationService.GetResourceAsync("Account.Fields.DateOfBirth")} = {newCustomerInfoModel.ParseDateOfBirth()}");
-
-            if (oldCustomerInfoModel.Email != newCustomerInfoModel.Email)
-                await _gdprService.InsertLogAsync(customer, 0, GdprRequestType.ProfileChanged, $"{await _localizationService.GetResourceAsync("Account.Fields.Email")} = {newCustomerInfoModel.Email}");
-
-            if (oldCustomerInfoModel.Company != newCustomerInfoModel.Company)
-                await _gdprService.InsertLogAsync(customer, 0, GdprRequestType.ProfileChanged, $"{await _localizationService.GetResourceAsync("Account.Fields.Company")} = {newCustomerInfoModel.Company}");
-
-            if (oldCustomerInfoModel.StreetAddress != newCustomerInfoModel.StreetAddress)
-                await _gdprService.InsertLogAsync(customer, 0, GdprRequestType.ProfileChanged, $"{await _localizationService.GetResourceAsync("Account.Fields.StreetAddress")} = {newCustomerInfoModel.StreetAddress}");
-
-            if (oldCustomerInfoModel.StreetAddress2 != newCustomerInfoModel.StreetAddress2)
-                await _gdprService.InsertLogAsync(customer, 0, GdprRequestType.ProfileChanged, $"{await _localizationService.GetResourceAsync("Account.Fields.StreetAddress2")} = {newCustomerInfoModel.StreetAddress2}");
-
-            if (oldCustomerInfoModel.ZipPostalCode != newCustomerInfoModel.ZipPostalCode)
-                await _gdprService.InsertLogAsync(customer, 0, GdprRequestType.ProfileChanged, $"{await _localizationService.GetResourceAsync("Account.Fields.ZipPostalCode")} = {newCustomerInfoModel.ZipPostalCode}");
-
-            if (oldCustomerInfoModel.City != newCustomerInfoModel.City)
-                await _gdprService.InsertLogAsync(customer, 0, GdprRequestType.ProfileChanged, $"{await _localizationService.GetResourceAsync("Account.Fields.City")} = {newCustomerInfoModel.City}");
-
-            if (oldCustomerInfoModel.County != newCustomerInfoModel.County)
-                await _gdprService.InsertLogAsync(customer, 0, GdprRequestType.ProfileChanged, $"{await _localizationService.GetResourceAsync("Account.Fields.County")} = {newCustomerInfoModel.County}");
-
-            if (oldCustomerInfoModel.CountryId != newCustomerInfoModel.CountryId)
-            {
-                var countryName = (await _countryService.GetCountryByIdAsync(newCustomerInfoModel.CountryId))?.Name;
-                await _gdprService.InsertLogAsync(customer, 0, GdprRequestType.ProfileChanged, $"{await _localizationService.GetResourceAsync("Account.Fields.Country")} = {countryName}");
-            }
-
-            if (oldCustomerInfoModel.StateProvinceId != newCustomerInfoModel.StateProvinceId)
-            {
-                var stateProvinceName = (await _stateProvinceService.GetStateProvinceByIdAsync(newCustomerInfoModel.StateProvinceId))?.Name;
-                await _gdprService.InsertLogAsync(customer, 0, GdprRequestType.ProfileChanged, $"{await _localizationService.GetResourceAsync("Account.Fields.StateProvince")} = {stateProvinceName}");
-            }
-        }
-        catch (Exception exception)
-        {
-            await _logger.ErrorAsync(exception.Message, exception, customer);
-        }
-    }
 
     #endregion
 
@@ -503,8 +248,6 @@ public partial class CustomerController : BasePublicController
                 var customer = _customerSettings.UsernamesEnabled
                         ? await _customerService.GetCustomerByUsernameAsync(customerUserName)
                         : await _customerService.GetCustomerByEmailAsync(customerEmail);
-
-                await _workflowMessageService.SendCustomerFailedLoginAttemptNotificationAsync(customer, customer.LanguageId ?? 0);
             }
 
             await _customerActivityService.InsertActivityAsync("PublicStore.FailedLogin",
@@ -513,43 +256,6 @@ public partial class CustomerController : BasePublicController
 
         //If we got this far, something failed, redisplay form
         model = await _customerModelFactory.PrepareLoginModelAsync(model.CheckoutAsGuest);
-        return View(model);
-    }
-
-    /// <summary>
-    /// The entry point for injecting a plugin component of type "MultiFactorAuth"
-    /// </summary>
-    /// <returns>
-    /// A task that represents the asynchronous operation
-    /// The task result contains the user verification page for Multi-factor authentication. Served by an authentication provider.
-    /// </returns>
-    [CheckAccessClosedStore(ignore: true)]
-    [CheckAccessPublicStore(ignore: true)]
-    public virtual async Task<IActionResult> MultiFactorVerification()
-    {
-        if (!await _multiFactorAuthenticationPluginManager.HasActivePluginsAsync())
-            return RedirectToRoute(NopRouteNames.General.LOGIN);
-
-        var customerMultiFactorAuthenticationInfo = await HttpContext.Session.GetAsync<CustomerMultiFactorAuthenticationInfo>(
-            NopCustomerDefaults.CustomerMultiFactorAuthenticationInfo);
-        var userName = customerMultiFactorAuthenticationInfo?.UserName;
-        if (string.IsNullOrEmpty(userName))
-            return RedirectToRoute(NopRouteNames.General.HOMEPAGE);
-
-        var customer = _customerSettings.UsernamesEnabled ? await _customerService.GetCustomerByUsernameAsync(userName) : await _customerService.GetCustomerByEmailAsync(userName);
-        if (customer == null)
-            return RedirectToRoute(NopRouteNames.General.HOMEPAGE);
-
-        if (!await _permissionService.AuthorizeAsync(StandardPermission.Security.ENABLE_MULTI_FACTOR_AUTHENTICATION, customer))
-            return RedirectToRoute(NopRouteNames.General.HOMEPAGE);
-
-        var selectedProvider = await _genericAttributeService.GetAttributeAsync<string>(customer, NopCustomerDefaults.SelectedMultiFactorAuthenticationProviderAttribute);
-        if (string.IsNullOrEmpty(selectedProvider))
-            return RedirectToRoute(NopRouteNames.General.HOMEPAGE);
-
-        var model = new MultiFactorAuthenticationProviderModel();
-        model = await _customerModelFactory.PrepareMultiFactorAuthenticationProviderModelAsync(model, selectedProvider, true);
-
         return View(model);
     }
 
@@ -590,18 +296,6 @@ public partial class CustomerController : BasePublicController
 
         //raise logged out event       
         await _eventPublisher.PublishAsync(new CustomerLoggedOutEvent(customer));
-
-        //EU Cookie
-        if (_storeInformationSettings.DisplayEuCookieLawWarning)
-        {
-            //the cookie law message should not pop up immediately after logout.
-            //otherwise, the user will have to click it again...
-            //and thus next visitor will not click it... so violation for that cookie law..
-            //the only good solution in this case is to store a temporary variable
-            //indicating that the EU cookie popup window should not be displayed on the next page open (after logout redirection to homepage)
-            //but it'll be displayed for further page loads
-            TempData[$"{NopCookieDefaults.Prefix}{NopCookieDefaults.IgnoreEuCookieLawWarning}"] = true;
-        }
 
         return RedirectToRoute(NopRouteNames.General.HOMEPAGE);
     }
@@ -650,9 +344,9 @@ public partial class CustomerController : BasePublicController
                 await _genericAttributeService.SaveAttributeAsync(customer,
                     NopCustomerDefaults.PasswordRecoveryTokenDateGeneratedAttribute, generatedDateTime);
 
-                //send email
-                await _workflowMessageService.SendCustomerPasswordRecoveryMessageAsync(customer,
-                    (await _workContext.GetWorkingLanguageAsync()).Id);
+                ////send email
+                //await _workflowMessageService.SendCustomerPasswordRecoveryMessageAsync(customer,
+                //    (await _workContext.GetWorkingLanguageAsync()).Id);
 
                 _notificationService.SuccessNotification(await _localizationService.GetResourceAsync("Account.PasswordRecovery.EmailHasBeenSent"));
             }
@@ -813,27 +507,10 @@ public partial class CustomerController : BasePublicController
 
         customer.RegisteredInStoreId = store.Id;
 
-        //custom customer attributes
-        var customerAttributesXml = await ParseCustomCustomerAttributesAsync(form);
-        var customerAttributeWarnings = await _customerAttributeParser.GetAttributeWarningsAsync(customerAttributesXml);
-        foreach (var error in customerAttributeWarnings)
-        {
-            ModelState.AddModelError("", error);
-        }
-
         //validate CAPTCHA
         if (_captchaSettings.Enabled && _captchaSettings.ShowOnRegistrationPage && !captchaValid)
         {
             ModelState.AddModelError("", await _localizationService.GetResourceAsync("Common.WrongCaptchaMessage"));
-        }
-
-        //GDPR
-        if (_gdprSettings.GdprEnabled)
-        {
-            var consents = (await _gdprService
-                .GetAllConsentsAsync()).Where(consent => consent.DisplayDuringRegistration && consent.IsRequired).ToList();
-
-            ValidateRequiredConsents(consents, form);
         }
 
         if (ModelState.IsValid)
@@ -855,18 +532,6 @@ public partial class CustomerController : BasePublicController
                 //properties
                 if (_dateTimeSettings.AllowCustomersToSetTimeZone)
                     customer.TimeZoneId = model.TimeZoneId;
-
-                //VAT number
-                if (_taxSettings.EuVatEnabled)
-                {
-                    customer.VatNumber = model.VatNumber;
-
-                    var (vatNumberStatus, _, vatAddress) = await _taxService.GetVatNumberStatusAsync(model.VatNumber);
-                    customer.VatNumberStatusId = (int)vatNumberStatus;
-                    //send VAT number admin notification
-                    if (!string.IsNullOrEmpty(model.VatNumber) && _taxSettings.EuVatEmailAdminWhenNewVatSubmitted)
-                        await _workflowMessageService.SendNewVatSubmittedStoreOwnerNotificationAsync(customer, model.VatNumber, vatAddress, _localizationSettings.DefaultAdminLanguageId);
-                }
 
                 //form fields
                 if (_customerSettings.GenderEnabled)
@@ -898,8 +563,8 @@ public partial class CustomerController : BasePublicController
                 if (_customerSettings.FaxEnabled)
                     customer.Fax = model.Fax;
 
-                //save customer attributes
-                customer.CustomCustomerAttributesXML = customerAttributesXml;
+                //COMMERCE/ADDITIONAL FEATURES REMOVED - Phase C
+                //Removed: customer.CustomCustomerAttributesXML = customerAttributesXml;
                 await _customerService.UpdateCustomerAsync(customer);
 
                 //newsletter subscriptions
@@ -960,44 +625,6 @@ public partial class CustomerController : BasePublicController
                             anyNewSubscriptions = true;
                         }
                     }
-
-                    //GDPR
-                    if (anyNewSubscriptions && _gdprSettings.GdprEnabled && _gdprSettings.LogNewsletterConsent)
-                    {
-                        var consentMessage = await _localizationService.GetResourceAsync("Gdpr.Consent.Newsletter");
-                        await _gdprService.InsertLogAsync(customer, 0, GdprRequestType.ConsentAgree, consentMessage);
-                    }
-                }
-
-                if (_customerSettings.AcceptPrivacyPolicyEnabled)
-                {
-                    //privacy policy is required
-                    //GDPR
-                    if (_gdprSettings.GdprEnabled && _gdprSettings.LogPrivacyPolicyConsent)
-                    {
-                        await _gdprService.InsertLogAsync(customer, 0, GdprRequestType.ConsentAgree, await _localizationService.GetResourceAsync("Gdpr.Consent.PrivacyPolicy"));
-                    }
-                }
-
-                //GDPR
-                if (_gdprSettings.GdprEnabled)
-                {
-                    var consents = (await _gdprService.GetAllConsentsAsync()).Where(consent => consent.DisplayDuringRegistration).ToList();
-                    foreach (var consent in consents)
-                    {
-                        var controlId = $"consent{consent.Id}";
-                        var cbConsent = form[controlId];
-                        if (!StringValues.IsNullOrEmpty(cbConsent) && cbConsent.ToString().Equals("on"))
-                        {
-                            //agree
-                            await _gdprService.InsertLogAsync(customer, consent.Id, GdprRequestType.ConsentAgree, consent.Message);
-                        }
-                        else
-                        {
-                            //disagree
-                            await _gdprService.InsertLogAsync(customer, consent.Id, GdprRequestType.ConsentDisagree, consent.Message);
-                        }
-                    }
                 }
 
                 //insert default address (if possible)
@@ -1042,11 +669,6 @@ public partial class CustomerController : BasePublicController
                     await _customerService.UpdateCustomerAsync(customer);
                 }
 
-                //notifications
-                if (_customerSettings.NotifyNewCustomerRegistration)
-                    await _workflowMessageService.SendCustomerRegisteredStoreOwnerNotificationMessageAsync(customer,
-                        _localizationSettings.DefaultAdminLanguageId);
-
                 //raise event       
                 await _eventPublisher.PublishAsync(new CustomerRegisteredEvent(customer));
 
@@ -1055,7 +677,6 @@ public partial class CustomerController : BasePublicController
                     case UserRegistrationType.EmailValidation:
                         //email validation message
                         await _genericAttributeService.SaveAttributeAsync(customer, NopCustomerDefaults.AccountActivationTokenAttribute, Guid.NewGuid().ToString());
-                        await _workflowMessageService.SendCustomerEmailValidationMessageAsync(customer, language.Id);
 
                         //result
                         return RedirectToRoute(NopRouteNames.Standard.REGISTER_RESULT, new { resultId = (int)UserRegistrationType.EmailValidation, returnUrl });
@@ -1064,8 +685,6 @@ public partial class CustomerController : BasePublicController
                         return RedirectToRoute(NopRouteNames.Standard.REGISTER_RESULT, new { resultId = (int)UserRegistrationType.AdminApproval, returnUrl });
 
                     case UserRegistrationType.Standard:
-                        //send customer welcome message
-                        await _workflowMessageService.SendCustomerWelcomeMessageAsync(customer, language.Id);
 
                         //raise event       
                         await _eventPublisher.PublishAsync(new CustomerActivatedEvent(customer));
@@ -1084,7 +703,7 @@ public partial class CustomerController : BasePublicController
         }
 
         //If we got this far, something failed, redisplay form
-        model = await _customerModelFactory.PrepareRegisterModelAsync(model, true, customerAttributesXml);
+        model = await _customerModelFactory.PrepareRegisterModelAsync(model, true);
 
         return View(model);
     }
@@ -1162,9 +781,6 @@ public partial class CustomerController : BasePublicController
         await _customerService.UpdateCustomerAsync(customer);
         await _genericAttributeService.SaveAttributeAsync(customer, NopCustomerDefaults.AccountActivationTokenAttribute, "");
 
-        //send welcome message
-        await _workflowMessageService.SendCustomerWelcomeMessageAsync(customer, (await _workContext.GetWorkingLanguageAsync()).Id);
-
         //raise event       
         await _eventPublisher.PublishAsync(new CustomerActivatedEvent(customer));
 
@@ -1211,28 +827,11 @@ public partial class CustomerController : BasePublicController
         if (!await _customerService.IsRegisteredAsync(customer))
             return Challenge();
 
-        var oldCustomerModel = new CustomerInfoModel();
-
-        //get customer info model before changes for gdpr log
-        if (_gdprSettings.GdprEnabled & _gdprSettings.LogUserProfileChanges)
-            oldCustomerModel = await _customerModelFactory.PrepareCustomerInfoModelAsync(oldCustomerModel, customer, false);
-
-        //custom customer attributes
-        var customerAttributesXml = await ParseCustomCustomerAttributesAsync(form);
-        var customerAttributeWarnings = await _customerAttributeParser.GetAttributeWarningsAsync(customerAttributesXml);
-        foreach (var error in customerAttributeWarnings)
-        {
-            ModelState.AddModelError("", error);
-        }
-
-        //GDPR
-        if (_gdprSettings.GdprEnabled)
-        {
-            var consents = (await _gdprService
-                .GetAllConsentsAsync()).Where(consent => consent.DisplayOnCustomerInfoPage && consent.IsRequired).ToList();
-
-            ValidateRequiredConsents(consents, form);
-        }
+        //COMMERCE/ADDITIONAL FEATURES REMOVED - Phase C
+        //Removed: GDPR log preparation
+        //Removed: Custom customer attributes parsing
+        //Removed: GDPR consents validation
+        var customerAttributesXml = ""; // Empty since attributes feature is removed
 
         try
         {
@@ -1273,23 +872,8 @@ public partial class CustomerController : BasePublicController
                 //properties
                 if (_dateTimeSettings.AllowCustomersToSetTimeZone)
                     customer.TimeZoneId = model.TimeZoneId;
-                //VAT number
-                if (_taxSettings.EuVatEnabled)
-                {
-                    var prevVatNumber = customer.VatNumber;
-                    customer.VatNumber = model.VatNumber;
-
-                    if (prevVatNumber != model.VatNumber)
-                    {
-                        var (vatNumberStatus, _, vatAddress) = await _taxService.GetVatNumberStatusAsync(model.VatNumber);
-                        customer.VatNumberStatusId = (int)vatNumberStatus;
-
-                        //send VAT number admin notification
-                        if (!string.IsNullOrEmpty(model.VatNumber) && _taxSettings.EuVatEmailAdminWhenNewVatSubmitted)
-                            await _workflowMessageService.SendNewVatSubmittedStoreOwnerNotificationAsync(customer,
-                                model.VatNumber, vatAddress, _localizationSettings.DefaultAdminLanguageId);
-                    }
-                }
+                //COMMERCE/ADDITIONAL FEATURES REMOVED - Phase C
+                //Removed: VAT number handling (tax feature)
 
                 //form fields
                 if (_customerSettings.GenderEnabled)
@@ -1377,12 +961,9 @@ public partial class CustomerController : BasePublicController
                     }
                 }
 
-                if (_forumSettings.ForumsEnabled && _forumSettings.SignaturesEnabled)
-                    await _genericAttributeService.SaveAttributeAsync(customer, NopCustomerDefaults.SignatureAttribute, model.Signature);
-
-                //GDPR
-                if (_gdprSettings.GdprEnabled)
-                    await LogGdprAsync(customer, oldCustomerModel, model, form);
+                //COMMERCE/ADDITIONAL FEATURES REMOVED - Phase C
+                //Removed: Forum signature handling
+                //Removed: GDPR logging
 
                 _notificationService.SuccessNotification(await _localizationService.GetResourceAsync("Account.CustomerInfo.Updated"));
 
@@ -1395,35 +976,14 @@ public partial class CustomerController : BasePublicController
         }
 
         //If we got this far, something failed, redisplay form
-        model = await _customerModelFactory.PrepareCustomerInfoModelAsync(model, customer, true, customerAttributesXml);
+        model = await _customerModelFactory.PrepareCustomerInfoModelAsync(model, customer, true);
 
         return View(model);
     }
 
     [HttpPost]
-    public virtual async Task<IActionResult> RemoveExternalAssociation(int id)
-    {
-        if (!await _customerService.IsRegisteredAsync(await _workContext.GetCurrentCustomerAsync()))
-            return Challenge();
-
-        //ensure it's our record
-        var ear = await _externalAuthenticationService.GetExternalAuthenticationRecordByIdAsync(id);
-
-        if (ear == null)
-        {
-            return Json(new
-            {
-                redirect = Url.RouteUrl(NopRouteNames.General.CUSTOMER_INFO),
-            });
-        }
-
-        await _externalAuthenticationService.DeleteExternalAuthenticationRecordAsync(ear);
-
-        return Json(new
-        {
-            redirect = Url.RouteUrl(NopRouteNames.General.CUSTOMER_INFO),
-        });
-    }
+    //COMMERCE/ADDITIONAL FEATURES REMOVED - Phase C
+    //Removed: RemoveExternalAssociation (external authentication feature)
 
     //available even when navigation is not allowed
     [CheckAccessPublicStore(ignore: true)]
@@ -1535,18 +1095,9 @@ public partial class CustomerController : BasePublicController
         if (!await _customerService.IsRegisteredAsync(customer))
             return Challenge();
 
-        //custom address attributes
-        var customAttributes = await _addressAttributeParser.ParseCustomAttributesAsync(form, NopCommonDefaults.AddressAttributeControlName);
-        var customAttributeWarnings = await _addressAttributeParser.GetAttributeWarningsAsync(customAttributes);
-        foreach (var error in customAttributeWarnings)
-        {
-            ModelState.AddModelError("", error);
-        }
-
         if (ModelState.IsValid)
         {
             var address = model.Address.ToEntity();
-            address.CustomAttributes = customAttributes;
             address.CreatedOnUtc = DateTime.UtcNow;
             //some validation
             if (address.CountryId == 0)
@@ -1570,7 +1121,7 @@ public partial class CustomerController : BasePublicController
             excludeProperties: true,
             addressSettings: _addressSettings,
             loadCountries: async () => await _countryService.GetAllCountriesAsync((await _workContext.GetWorkingLanguageAsync()).Id),
-            overrideAttributesXml: customAttributes);
+            overrideAttributesXml: ""); // Attributes feature removed
 
         return View(model);
     }
@@ -1610,18 +1161,14 @@ public partial class CustomerController : BasePublicController
             //address is not found
             return RedirectToRoute(NopRouteNames.General.CUSTOMER_ADDRESSES);
 
-        //custom address attributes
-        var customAttributes = await _addressAttributeParser.ParseCustomAttributesAsync(form, NopCommonDefaults.AddressAttributeControlName);
-        var customAttributeWarnings = await _addressAttributeParser.GetAttributeWarningsAsync(customAttributes);
-        foreach (var error in customAttributeWarnings)
-        {
-            ModelState.AddModelError("", error);
-        }
+        //COMMERCE/ADDITIONAL FEATURES REMOVED - Phase C
+        //Removed: Custom address attributes parsing
+        var customAttributes = ""; // Empty since attributes feature is removed
 
         if (ModelState.IsValid)
         {
             address = model.Address.ToEntity(address);
-            address.CustomAttributes = customAttributes;
+            //Removed: address.CustomAttributes = customAttributes;
             await _addressService.UpdateAddressAsync(address);
 
             _notificationService.SuccessNotification(await _localizationService.GetResourceAsync("Account.CustomerAddresses.Updated"));
@@ -1635,42 +1182,7 @@ public partial class CustomerController : BasePublicController
             excludeProperties: true,
             addressSettings: _addressSettings,
             loadCountries: async () => await _countryService.GetAllCountriesAsync((await _workContext.GetWorkingLanguageAsync()).Id),
-            overrideAttributesXml: customAttributes);
-
-        return View(model);
-    }
-
-    #endregion
-
-    #region My account / Downloadable products
-
-    public virtual async Task<IActionResult> DownloadableProducts()
-    {
-        if (!await _customerService.IsRegisteredAsync(await _workContext.GetCurrentCustomerAsync()))
-            return Challenge();
-
-        if (_customerSettings.HideDownloadableProductsTab)
-            return RedirectToRoute(NopRouteNames.General.CUSTOMER_INFO);
-
-        var model = await _customerModelFactory.PrepareCustomerDownloadableProductsModelAsync();
-
-        return View(model);
-    }
-
-    //ignore SEO friendly URLs checks
-    [CheckLanguageSeoCode(ignore: true)]
-    public virtual async Task<IActionResult> UserAgreement(Guid orderItemId)
-    {
-        var orderItem = await _orderService.GetOrderItemByGuidAsync(orderItemId);
-        if (orderItem == null)
-            return RedirectToRoute(NopRouteNames.General.HOMEPAGE);
-
-        var product = await _productService.GetProductByIdAsync(orderItem.ProductId);
-
-        if (product == null || !product.HasUserAgreement)
-            return RedirectToRoute(NopRouteNames.General.HOMEPAGE);
-
-        var model = await _customerModelFactory.PrepareUserAgreementModelAsync(orderItem, product);
+            overrideAttributesXml: ""); // Attributes feature removed
 
         return View(model);
     }
@@ -1826,212 +1338,6 @@ public partial class CustomerController : BasePublicController
         await _genericAttributeService.SaveAttributeAsync(customer, NopCustomerDefaults.AvatarPictureIdAttribute, 0);
 
         return RedirectToRoute(NopRouteNames.Standard.CUSTOMER_AVATAR);
-    }
-
-    #endregion
-
-    #region GDPR tools
-
-    public virtual async Task<IActionResult> GdprTools()
-    {
-        if (!await _customerService.IsRegisteredAsync(await _workContext.GetCurrentCustomerAsync()))
-            return Challenge();
-
-        if (!_gdprSettings.GdprEnabled)
-            return RedirectToRoute(NopRouteNames.General.CUSTOMER_INFO);
-
-        var model = await _customerModelFactory.PrepareGdprToolsModelAsync();
-
-        return View(model);
-    }
-
-    [HttpPost, ActionName("GdprTools")]
-    [FormValueRequired("export-data")]
-    public virtual async Task<IActionResult> GdprToolsExport()
-    {
-        var customer = await _workContext.GetCurrentCustomerAsync();
-        if (!await _customerService.IsRegisteredAsync(customer))
-            return Challenge();
-
-        if (!_gdprSettings.GdprEnabled)
-            return RedirectToRoute(NopRouteNames.General.CUSTOMER_INFO);
-
-        //log
-        await _gdprService.InsertLogAsync(customer, 0, GdprRequestType.ExportData, await _localizationService.GetResourceAsync("Gdpr.Exported"));
-
-        var store = await _storeContext.GetCurrentStoreAsync();
-
-        //export
-        var bytes = await _exportManager.ExportCustomerGdprInfoToXlsxAsync(customer, store.Id);
-
-        return File(bytes, MimeTypes.TextXlsx, "customerdata.xlsx");
-    }
-
-    [HttpPost, ActionName("GdprTools")]
-    [FormValueRequired("delete-account")]
-    public virtual async Task<IActionResult> GdprToolsDelete()
-    {
-        var customer = await _workContext.GetCurrentCustomerAsync();
-        if (!await _customerService.IsRegisteredAsync(customer))
-            return Challenge();
-
-        if (!_gdprSettings.GdprEnabled)
-            return RedirectToRoute(NopRouteNames.General.CUSTOMER_INFO);
-
-        //log
-        await _gdprService.InsertLogAsync(customer, 0, GdprRequestType.DeleteCustomer, await _localizationService.GetResourceAsync("Gdpr.DeleteRequested"));
-
-        await _workflowMessageService.SendDeleteCustomerRequestStoreOwnerNotificationAsync(customer, _localizationSettings.DefaultAdminLanguageId);
-
-        var model = await _customerModelFactory.PrepareGdprToolsModelAsync();
-        model.Result = await _localizationService.GetResourceAsync("Gdpr.DeleteRequested.Success");
-
-        return View(model);
-    }
-
-    #endregion
-
-    #region Check gift card balance
-
-    //check gift card balance page
-    //available even when a store is closed
-    [CheckAccessClosedStore(ignore: true)]
-    public virtual async Task<IActionResult> CheckGiftCardBalance()
-    {
-        if (!_customerSettings.AllowCustomersToCheckGiftCardBalance)
-            return RedirectToRoute(NopRouteNames.General.CUSTOMER_INFO);
-
-        var model = await _customerModelFactory.PrepareCheckGiftCardBalanceModelAsync();
-
-        return View(model);
-    }
-
-    [HttpPost, ActionName("CheckGiftCardBalance")]
-    [FormValueRequired("checkbalancegiftcard")]
-    [ValidateCaptcha]
-    public virtual async Task<IActionResult> CheckBalance(CheckGiftCardBalanceModel model, bool captchaValid)
-    {
-        if (!_customerSettings.AllowCustomersToCheckGiftCardBalance)
-            return RedirectToRoute(NopRouteNames.General.CUSTOMER_INFO);
-
-        //validate CAPTCHA
-        if (_captchaSettings.Enabled && _captchaSettings.ShowOnCheckGiftCardBalance && !captchaValid)
-            ModelState.AddModelError("", await _localizationService.GetResourceAsync("Common.WrongCaptchaMessage"));
-
-        if (ModelState.IsValid)
-        {
-            var giftCard = (await _giftCardService.GetAllGiftCardsAsync(giftCardCouponCode: model.GiftCardCode)).FirstOrDefault();
-            if (giftCard != null && await _giftCardService.IsGiftCardValidAsync(giftCard))
-            {
-                var remainingAmount = await _currencyService.ConvertFromPrimaryStoreCurrencyAsync(await _giftCardService.GetGiftCardRemainingAmountAsync(giftCard), await _workContext.GetWorkingCurrencyAsync());
-                model.Result = await _priceFormatter.FormatPriceAsync(remainingAmount, true, false);
-            }
-            else
-            {
-                model.Message = await _localizationService.GetResourceAsync("CheckGiftCardBalance.GiftCardCouponCode.Invalid");
-            }
-        }
-
-        return View(model);
-    }
-
-    #endregion
-
-    #region Multi-factor Authentication
-
-    //available even when a store is closed
-    [CheckAccessClosedStore(ignore: true)]
-    public virtual async Task<IActionResult> MultiFactorAuthentication()
-    {
-        if (!await _multiFactorAuthenticationPluginManager.HasActivePluginsAsync())
-        {
-            return RedirectToRoute(NopRouteNames.General.CUSTOMER_INFO);
-        }
-
-        if (!await _permissionService.AuthorizeAsync(StandardPermission.Security.ENABLE_MULTI_FACTOR_AUTHENTICATION))
-            return RedirectToRoute(NopRouteNames.General.CUSTOMER_INFO);
-
-        var model = new MultiFactorAuthenticationModel();
-        model = await _customerModelFactory.PrepareMultiFactorAuthenticationModelAsync(model);
-        return View(model);
-    }
-
-    [HttpPost]
-    public virtual async Task<IActionResult> MultiFactorAuthentication(MultiFactorAuthenticationModel model, IFormCollection form)
-    {
-        var customer = await _workContext.GetCurrentCustomerAsync();
-        if (!await _customerService.IsRegisteredAsync(customer))
-            return Challenge();
-
-        if (!await _permissionService.AuthorizeAsync(StandardPermission.Security.ENABLE_MULTI_FACTOR_AUTHENTICATION))
-            return RedirectToRoute(NopRouteNames.General.CUSTOMER_INFO);
-
-        try
-        {
-            if (ModelState.IsValid)
-            {
-                //save MultiFactorIsEnabledAttribute
-                if (!model.IsEnabled)
-                {
-                    if (!_multiFactorAuthenticationSettings.ForceMultifactorAuthentication)
-                    {
-                        await _genericAttributeService
-                            .SaveAttributeAsync(customer, NopCustomerDefaults.SelectedMultiFactorAuthenticationProviderAttribute, string.Empty);
-
-                        //raise change multi-factor authentication provider event       
-                        await _eventPublisher.PublishAsync(new CustomerChangeMultiFactorAuthenticationProviderEvent(customer));
-                    }
-                    else
-                    {
-                        model = await _customerModelFactory.PrepareMultiFactorAuthenticationModelAsync(model);
-                        model.Message = await _localizationService.GetResourceAsync("Account.MultiFactorAuthentication.Warning.ForceActivation");
-                        return View(model);
-                    }
-                }
-                else
-                {
-                    //save selected multi-factor authentication provider
-                    var selectedProvider = await ParseSelectedProviderAsync(form);
-                    var lastSavedProvider = await _genericAttributeService.GetAttributeAsync<string>(customer, NopCustomerDefaults.SelectedMultiFactorAuthenticationProviderAttribute);
-                    if (string.IsNullOrEmpty(selectedProvider) && !string.IsNullOrEmpty(lastSavedProvider))
-                    {
-                        selectedProvider = lastSavedProvider;
-                    }
-
-                    if (selectedProvider != lastSavedProvider)
-                    {
-                        await _genericAttributeService.SaveAttributeAsync(customer, NopCustomerDefaults.SelectedMultiFactorAuthenticationProviderAttribute, selectedProvider);
-
-                        //raise change multi-factor authentication provider event       
-                        await _eventPublisher.PublishAsync(new CustomerChangeMultiFactorAuthenticationProviderEvent(customer));
-                    }
-                }
-
-                return RedirectToRoute(NopRouteNames.Standard.MULTI_FACTOR_AUTHENTICATION_SETTINGS);
-            }
-        }
-        catch (Exception exc)
-        {
-            ModelState.AddModelError("", exc.Message);
-        }
-
-        //If we got this far, something failed, redisplay form
-        model = await _customerModelFactory.PrepareMultiFactorAuthenticationModelAsync(model);
-        return View(model);
-    }
-
-    public virtual async Task<IActionResult> ConfigureMultiFactorAuthenticationProvider(string providerSysName)
-    {
-        if (!await _customerService.IsRegisteredAsync(await _workContext.GetCurrentCustomerAsync()))
-            return Challenge();
-
-        if (!await _permissionService.AuthorizeAsync(StandardPermission.Security.ENABLE_MULTI_FACTOR_AUTHENTICATION))
-            return RedirectToRoute(NopRouteNames.General.CUSTOMER_INFO);
-
-        var model = new MultiFactorAuthenticationProviderModel();
-        model = await _customerModelFactory.PrepareMultiFactorAuthenticationProviderModelAsync(model, providerSysName);
-
-        return View(model);
     }
 
     #endregion

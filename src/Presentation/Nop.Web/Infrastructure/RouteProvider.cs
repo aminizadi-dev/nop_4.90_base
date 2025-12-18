@@ -1,5 +1,4 @@
 ﻿using Nop.Core.Http;
-using Nop.Services.Installation;
 using Nop.Web.Framework.Mvc.Routing;
 
 namespace Nop.Web.Infrastructure;
@@ -26,10 +25,10 @@ public partial class RouteProvider : BaseRouteProvider, IRouteProvider
         endpointRouteBuilder.MapControllerRoute(name: "areaRoute",
             pattern: $"{{area:exists}}/{{controller=Home}}/{{action=Index}}/{{id?}}");
 
-        //home page
+        //home page - redirect to admin
         endpointRouteBuilder.MapControllerRoute(name: NopRouteNames.General.HOMEPAGE,
             pattern: $"{lang}",
-            defaults: new { controller = "Home", action = "Index" });
+            defaults: new { controller = "Common", action = "RedirectToAdmin" });
 
         //login
         endpointRouteBuilder.MapControllerRoute(name: NopRouteNames.General.LOGIN,
@@ -51,6 +50,8 @@ public partial class RouteProvider : BaseRouteProvider, IRouteProvider
             pattern: $"{lang}/logout/",
             defaults: new { controller = "Customer", action = "Logout" });
 
+        //COMMERCE ROUTES DISABLED - Phase A
+        /*
         //shopping cart
         endpointRouteBuilder.MapControllerRoute(name: NopRouteNames.General.CART,
             pattern: $"{lang}/cart/",
@@ -75,6 +76,7 @@ public partial class RouteProvider : BaseRouteProvider, IRouteProvider
         endpointRouteBuilder.MapControllerRoute(name: NopRouteNames.Ajax.CHECKOUT_ATTRIBUTE_CHANGE,
             pattern: "shoppingcart/checkoutattributechange/{{isEditable}}",
             defaults: new { controller = "ShoppingCart", action = "CheckoutAttributeChange" });
+        */
 
         //customer account links
         endpointRouteBuilder.MapControllerRoute(name: NopRouteNames.General.CUSTOMER_INFO,
@@ -95,6 +97,8 @@ public partial class RouteProvider : BaseRouteProvider, IRouteProvider
             pattern: $"customer/removeexternalassociation",
             defaults: new { controller = "Customer", action = "RemoveExternalAssociation" });
 
+        //COMMERCE ROUTES DISABLED - Phase A
+        /*
         endpointRouteBuilder.MapControllerRoute(name: NopRouteNames.General.CUSTOMER_ORDERS,
             pattern: $"{lang}/order/history/{{limit?}}",
             defaults: new { controller = "Order", action = "CustomerOrders" });
@@ -106,12 +110,15 @@ public partial class RouteProvider : BaseRouteProvider, IRouteProvider
         endpointRouteBuilder.MapControllerRoute(name: NopRouteNames.Standard.CUSTOMER_RECURRING_PAYMENTS,
             pattern: $"{lang}/customer/recurringpayments",
             defaults: new { controller = "Order", action = "CustomerRecurringPayments" });
+        */
 
         //contact us
         endpointRouteBuilder.MapControllerRoute(name: NopRouteNames.General.CONTACT_US,
             pattern: $"{lang}/contactus",
             defaults: new { controller = "Common", action = "ContactUs" });
 
+        //COMMERCE ROUTES DISABLED - Phase A
+        /*
         //product search
         endpointRouteBuilder.MapControllerRoute(name: NopRouteNames.General.SEARCH,
             pattern: $"{lang}/search/",
@@ -126,6 +133,7 @@ public partial class RouteProvider : BaseRouteProvider, IRouteProvider
         endpointRouteBuilder.MapControllerRoute(name: NopRouteNames.Ajax.PRODUCT_SEARCH_AUTOCOMPLETE,
             pattern: $"catalog/searchtermautocomplete",
             defaults: new { controller = "Catalog", action = "SearchTermAutoComplete" });
+        */
 
         //change currency
         endpointRouteBuilder.MapControllerRoute(name: NopRouteNames.Standard.CHANGE_CURRENCY,
@@ -137,16 +145,21 @@ public partial class RouteProvider : BaseRouteProvider, IRouteProvider
             pattern: $"{lang}/changelanguage/{{langid:min(0)}}",
             defaults: new { controller = "Common", action = "SetLanguage" });
 
+        //COMMERCE ROUTES DISABLED - Phase A
+        /*
         //change tax
         endpointRouteBuilder.MapControllerRoute(name: NopRouteNames.Standard.CHANGE_TAX_TYPE,
             pattern: $"{lang}/changetaxtype/{{customertaxtype:min(0)}}",
             defaults: new { controller = "Common", action = "SetTaxType" });
+        */
 
         //set store theme
         endpointRouteBuilder.MapControllerRoute(name: NopRouteNames.Standard.SET_STORE_THEME,
             pattern: $"{lang}/setstoretheme/{{themeName}}/{{returnUrl}}",
             defaults: new { controller = "Common", action = "SetStoreTheme" });
 
+        //COMMERCE ROUTES DISABLED - Phase A
+        /*
         //recently viewed products
         endpointRouteBuilder.MapControllerRoute(name: NopRouteNames.General.RECENTLY_VIEWED_PRODUCTS,
             pattern: $"{lang}/recentlyviewedproducts/",
@@ -195,7 +208,10 @@ public partial class RouteProvider : BaseRouteProvider, IRouteProvider
         endpointRouteBuilder.MapControllerRoute(name: NopRouteNames.Standard.VENDOR_REVIEWS,
             pattern: $"{lang}/vendor/{{vendorId:min(0)}}/reviews",
             defaults: new { controller = "Catalog", action = "VendorReviews" });
+        */
 
+        //COMMERCE ROUTES DISABLED - Phase A
+        /*
         //add product to cart (without any attributes and options). used on catalog pages. (AJAX)
         endpointRouteBuilder.MapControllerRoute(name: NopRouteNames.Ajax.ADD_PRODUCT_TO_CART_CATALOG,
             pattern: $"addproducttocart/catalog/{{productId:min(0)}}/{{shoppingCartTypeId:min(0)}}/{{quantity:min(0)}}",
@@ -328,6 +344,7 @@ public partial class RouteProvider : BaseRouteProvider, IRouteProvider
         endpointRouteBuilder.MapControllerRoute(name: NopRouteNames.Standard.LOGIN_CHECKOUT_AS_GUEST,
             pattern: $"{lang}/login/checkoutasguest",
             defaults: new { controller = "Customer", action = "Login", checkoutAsGuest = true });
+        */
 
         //register result page
         endpointRouteBuilder.MapControllerRoute(name: NopRouteNames.Standard.REGISTER_RESULT,
@@ -349,6 +366,8 @@ public partial class RouteProvider : BaseRouteProvider, IRouteProvider
             pattern: $"{lang}/passwordrecovery/confirm",
             defaults: new { controller = "Customer", action = "PasswordRecoveryConfirm" });
 
+        //COMMERCE ROUTES DISABLED - Phase A
+        /*
         //topics (AJAX)
         endpointRouteBuilder.MapControllerRoute(name: NopRouteNames.Ajax.TOPIC_POPUP,
             pattern: $"t-popup/{{SystemName}}",
@@ -398,6 +417,7 @@ public partial class RouteProvider : BaseRouteProvider, IRouteProvider
         endpointRouteBuilder.MapControllerRoute(name: NopRouteNames.Standard.CUSTOMER_REWARD_POINTS_PAGED,
             pattern: $"{lang}/rewardpoints/history/page/{{pageNumber:min(0)}}",
             defaults: new { controller = "Order", action = "CustomerRewardPoints" });
+        */
 
         endpointRouteBuilder.MapControllerRoute(name: NopRouteNames.Standard.CUSTOMER_CHANGE_PASSWORD,
             pattern: $"{lang}/customer/changepassword",
@@ -415,9 +435,12 @@ public partial class RouteProvider : BaseRouteProvider, IRouteProvider
             pattern: $"{lang}/customer/revalidateemail",
             defaults: new { controller = "Customer", action = "EmailRevalidation" });
 
+        //COMMERCE ROUTES DISABLED - Phase A
+        /*
         endpointRouteBuilder.MapControllerRoute(name: NopRouteNames.Standard.CUSTOMER_FORUM_SUBSCRIPTIONS,
             pattern: $"{lang}/boards/forumsubscriptions/{{pageNumber:int?}}",
             defaults: new { controller = "Boards", action = "CustomerForumSubscriptions" });
+        */
 
         endpointRouteBuilder.MapControllerRoute(name: NopRouteNames.Standard.CUSTOMER_ADDRESS_EDIT,
             pattern: $"{lang}/customer/addressedit/{{addressId:min(0)}}",
@@ -431,15 +454,10 @@ public partial class RouteProvider : BaseRouteProvider, IRouteProvider
             pattern: $"{lang}/customer/providerconfig",
             defaults: new { controller = "Customer", action = "ConfigureMultiFactorAuthenticationProvider" });
 
-        //customer profile page
-        endpointRouteBuilder.MapControllerRoute(name: NopRouteNames.Standard.CUSTOMER_PROFILE,
-            pattern: $"{lang}/profile/{{id:min(0)}}",
-            defaults: new { controller = "Profile", action = "Index" });
+        //customer profile page - REMOVED (storefront feature)
 
-        endpointRouteBuilder.MapControllerRoute(name: NopRouteNames.Standard.CUSTOMER_PROFILE_PAGED,
-            pattern: $"{lang}/profile/{{id:min(0)}}/page/{{pageNumber:min(0)}}",
-            defaults: new { controller = "Profile", action = "Index" });
-
+        //COMMERCE ROUTES DISABLED - Phase A
+        /*
         //orders
         endpointRouteBuilder.MapControllerRoute(name: NopRouteNames.Standard.ORDER_DETAILS,
             pattern: $"{lang}/orderdetails/{{orderId:min(0)}}",
@@ -512,12 +530,15 @@ public partial class RouteProvider : BaseRouteProvider, IRouteProvider
         endpointRouteBuilder.MapControllerRoute(name: NopRouteNames.General.CHECK_GIFT_CARD_BALANCE,
             pattern: $"{lang}/customer/checkgiftcardbalance",
             defaults: new { controller = "Customer", action = "CheckGiftCardBalance" });
+        */
 
         //customer multi-factor authentication settings 
         endpointRouteBuilder.MapControllerRoute(name: NopRouteNames.Standard.MULTI_FACTOR_AUTHENTICATION_SETTINGS,
             pattern: $"{lang}/customer/multifactorauthentication",
             defaults: new { controller = "Customer", action = "MultiFactorAuthentication" });
 
+        //COMMERCE ROUTES DISABLED - Phase A
+        /*
         //poll vote (AJAX)
         endpointRouteBuilder.MapControllerRoute(name: NopRouteNames.Ajax.POLL_VOTE,
             pattern: $"poll/vote",
@@ -536,22 +557,28 @@ public partial class RouteProvider : BaseRouteProvider, IRouteProvider
         endpointRouteBuilder.MapControllerRoute(name: NopRouteNames.Standard.NEW_PRODUCTS_RSS,
             pattern: $"newproducts/rss",
             defaults: new { controller = "Catalog", action = "NewProductsRss" });
+        */
 
         //get state list by country ID (AJAX)
         endpointRouteBuilder.MapControllerRoute(name: NopRouteNames.Ajax.GET_STATES_BY_COUNTRY_ID,
             pattern: $"country/getstatesbycountryid/",
             defaults: new { controller = "Country", action = "GetStatesByCountryId" });
 
+        //COMMERCE ROUTES DISABLED - Phase A
+        /*
         //get filter level value list by parent ID (AJAX)
         endpointRouteBuilder.MapControllerRoute(name: NopRouteNames.Ajax.GET_FILTER_LEVEL_VALUES,
             pattern: $"catalog/getfilterlevelvalues/",
             defaults: new { controller = "Catalog", action = "GetFilterLevelValues" });
+        */
 
         //EU Cookie law accept button handler (AJAX)
         endpointRouteBuilder.MapControllerRoute(name: NopRouteNames.Ajax.EU_COOKIE_LAW_ACCEPT,
             pattern: $"eucookielawaccept",
             defaults: new { controller = "Common", action = "EuCookieLawAccept" });
 
+        //COMMERCE ROUTES DISABLED - Phase A
+        /*
         //authenticate topic (AJAX)
         endpointRouteBuilder.MapControllerRoute(name: NopRouteNames.Ajax.TOPIC_AUTHENTICATE,
             pattern: $"topic/authenticate",
@@ -733,6 +760,7 @@ public partial class RouteProvider : BaseRouteProvider, IRouteProvider
         endpointRouteBuilder.MapControllerRoute(name: NopRouteNames.Standard.DELETE_PM,
             pattern: $"{lang}/deletepm/{{privateMessageId:min(0)}}",
             defaults: new { controller = "PrivateMessages", action = "DeletePM" });
+        */
 
         //activate newsletters
         endpointRouteBuilder.MapControllerRoute(name: NopRouteNames.Standard.NEWSLETTER_ACTIVATION,
@@ -762,20 +790,6 @@ public partial class RouteProvider : BaseRouteProvider, IRouteProvider
         endpointRouteBuilder.MapControllerRoute(name: NopRouteNames.Standard.STORE_CLOSED,
             pattern: $"{lang}/storeclosed",
             defaults: new { controller = "Common", action = "StoreClosed" });
-
-        //install
-        endpointRouteBuilder.MapControllerRoute(name: NopRouteNames.Standard.INSTALLATION,
-            pattern: $"{NopInstallationDefaults.InstallPath}",
-            defaults: new { controller = "Install", action = "Index" });
-
-        endpointRouteBuilder.MapControllerRoute(name: NopRouteNames.Standard.INSTALLATION_CHANGE_LANGUAGE,
-            pattern: $"{NopInstallationDefaults.InstallPath}/ChangeLanguage/{{language}}",
-            defaults: new { controller = "Install", action = "ChangeLanguage" });
-
-        //restart application (AJAX)
-        endpointRouteBuilder.MapControllerRoute(name: NopRouteNames.Ajax.INSTALLATION_RESTART_APPLICATION,
-            pattern: $"{NopInstallationDefaults.InstallPath}/restartapplication",
-            defaults: new { controller = "Install", action = "RestartApplication" });
 
         //page not found
         endpointRouteBuilder.MapControllerRoute(name: NopRouteNames.Standard.PAGE_NOT_FOUND,

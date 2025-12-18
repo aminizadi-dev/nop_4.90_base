@@ -5,8 +5,9 @@ using Nop.Core.Domain.Common;
 using Nop.Core.Domain.Customers;
 using Nop.Core.Domain.Localization;
 using Nop.Core.Domain.Security;
-using Nop.Core.Domain.Tax;
-using Nop.Core.Domain.Vendors;
+//COMMERCE DOMAIN REMOVED - Phase A
+//Removed: using Nop.Core.Domain.Tax;
+//Removed: using Nop.Core.Domain.Vendors;
 using Nop.Core.Http;
 using Nop.Services.Common;
 using Nop.Services.Directory;
@@ -14,7 +15,8 @@ using Nop.Services.Html;
 using Nop.Services.Localization;
 using Nop.Services.Logging;
 using Nop.Services.Messages;
-using Nop.Services.Vendors;
+//COMMERCE SERVICE REMOVED - Phase A
+//Removed: using Nop.Services.Vendors;
 using Nop.Web.Factories;
 using Nop.Web.Framework.Mvc.Filters;
 using Nop.Web.Framework.Themes;
@@ -40,14 +42,15 @@ public partial class CommonController : BasePublicController
     protected readonly ISitemapModelFactory _sitemapModelFactory;
     protected readonly IStoreContext _storeContext;
     protected readonly IThemeContext _themeContext;
-    protected readonly IVendorService _vendorService;
+    //COMMERCE SERVICE REMOVED - Phase A
+    //Removed: protected readonly IVendorService _vendorService;
     protected readonly IWorkContext _workContext;
-    protected readonly IWorkflowMessageService _workflowMessageService;
     protected readonly LocalizationSettings _localizationSettings;
     protected readonly SitemapSettings _sitemapSettings;
     protected readonly SitemapXmlSettings _sitemapXmlSettings;
     protected readonly StoreInformationSettings _storeInformationSettings;
-    protected readonly VendorSettings _vendorSettings;
+    //COMMERCE SETTINGS REMOVED - Phase A
+    //Removed: protected readonly VendorSettings _vendorSettings;
 
     #endregion
 
@@ -65,14 +68,16 @@ public partial class CommonController : BasePublicController
         ISitemapModelFactory sitemapModelFactory,
         IStoreContext storeContext,
         IThemeContext themeContext,
-        IVendorService vendorService,
+        //COMMERCE SERVICE REMOVED - Phase A
+        //Removed: IVendorService vendorService,
         IWorkContext workContext,
-        IWorkflowMessageService workflowMessageService,
         LocalizationSettings localizationSettings,
         SitemapSettings sitemapSettings,
         SitemapXmlSettings sitemapXmlSettings,
-        StoreInformationSettings storeInformationSettings,
-        VendorSettings vendorSettings)
+        StoreInformationSettings storeInformationSettings
+        //COMMERCE SETTINGS REMOVED - Phase A
+        //Removed: VendorSettings vendorSettings
+        )
     {
         _captchaSettings = captchaSettings;
         _commonSettings = commonSettings;
@@ -86,14 +91,15 @@ public partial class CommonController : BasePublicController
         _sitemapModelFactory = sitemapModelFactory;
         _storeContext = storeContext;
         _themeContext = themeContext;
-        _vendorService = vendorService;
+        //COMMERCE SERVICE REMOVED - Phase A
+        //Removed: _vendorService = vendorService;
         _workContext = workContext;
-        _workflowMessageService = workflowMessageService;
         _localizationSettings = localizationSettings;
         _sitemapSettings = sitemapSettings;
         _sitemapXmlSettings = sitemapXmlSettings;
         _storeInformationSettings = storeInformationSettings;
-        _vendorSettings = vendorSettings;
+        //COMMERCE SETTINGS REMOVED - Phase A
+        //Removed: _vendorSettings = vendorSettings;
     }
 
     #endregion
@@ -158,23 +164,8 @@ public partial class CommonController : BasePublicController
         return Redirect(returnUrl);
     }
 
-    //available even when navigation is not allowed
-    [CheckAccessPublicStore(ignore: true)]
-    public virtual async Task<IActionResult> SetTaxType(int customerTaxType, string returnUrl = "")
-    {
-        var taxDisplayType = (TaxDisplayType)Enum.ToObject(typeof(TaxDisplayType), customerTaxType);
-        await _workContext.SetTaxDisplayTypeAsync(taxDisplayType);
-
-        //home page
-        if (string.IsNullOrEmpty(returnUrl))
-            returnUrl = Url.RouteUrl(NopRouteNames.General.HOMEPAGE);
-
-        //prevent open redirection attack
-        if (!Url.IsLocalUrl(returnUrl))
-            returnUrl = Url.RouteUrl(NopRouteNames.General.HOMEPAGE);
-
-        return Redirect(returnUrl);
-    }
+    //COMMERCE METHOD REMOVED - Phase A
+    //Removed: SetTaxType (tax display type selection - commerce feature)
 
     //contact us page
     //available even when a store is closed
@@ -206,9 +197,6 @@ public partial class CommonController : BasePublicController
             var subject = _commonSettings.SubjectFieldOnContactUsForm ? model.Subject : null;
             var body = _htmlFormatter.FormatText(model.Enquiry, false, true, false, false, false, false);
 
-            await _workflowMessageService.SendContactUsMessageAsync((await _workContext.GetWorkingLanguageAsync()).Id,
-                model.Email, model.FullName, subject, body);
-
             model.SuccessfullySent = true;
             model.Result = await _localizationService.GetResourceAsync("ContactUs.YourEnquiryHasBeenSent");
 
@@ -222,57 +210,8 @@ public partial class CommonController : BasePublicController
         return View(model);
     }
 
-    //contact vendor page
-    public virtual async Task<IActionResult> ContactVendor(int vendorId)
-    {
-        if (!_vendorSettings.AllowCustomersToContactVendors)
-            return RedirectToRoute(NopRouteNames.General.HOMEPAGE);
-
-        var vendor = await _vendorService.GetVendorByIdAsync(vendorId);
-        if (vendor == null || !vendor.Active || vendor.Deleted)
-            return RedirectToRoute(NopRouteNames.General.HOMEPAGE);
-
-        var model = new ContactVendorModel();
-        model = await _commonModelFactory.PrepareContactVendorModelAsync(model, vendor, false);
-
-        return View(model);
-    }
-
-    [HttpPost, ActionName("ContactVendor")]
-    [ValidateCaptcha]
-    public virtual async Task<IActionResult> ContactVendorSend(ContactVendorModel model, bool captchaValid)
-    {
-        if (!_vendorSettings.AllowCustomersToContactVendors)
-            return RedirectToRoute(NopRouteNames.General.HOMEPAGE);
-
-        var vendor = await _vendorService.GetVendorByIdAsync(model.VendorId);
-        if (vendor == null || !vendor.Active || vendor.Deleted)
-            return RedirectToRoute(NopRouteNames.General.HOMEPAGE);
-
-        //validate CAPTCHA
-        if (_captchaSettings.Enabled && _captchaSettings.ShowOnContactUsPage && !captchaValid)
-        {
-            ModelState.AddModelError("", await _localizationService.GetResourceAsync("Common.WrongCaptchaMessage"));
-        }
-
-        model = await _commonModelFactory.PrepareContactVendorModelAsync(model, vendor, true);
-
-        if (ModelState.IsValid)
-        {
-            var subject = _commonSettings.SubjectFieldOnContactUsForm ? model.Subject : null;
-            var body = _htmlFormatter.FormatText(model.Enquiry, false, true, false, false, false, false);
-
-            await _workflowMessageService.SendContactVendorMessageAsync(vendor, (await _workContext.GetWorkingLanguageAsync()).Id,
-                model.Email, model.FullName, subject, body);
-
-            model.SuccessfullySent = true;
-            model.Result = await _localizationService.GetResourceAsync("ContactVendor.YourEnquiryHasBeenSent");
-
-            return View(model);
-        }
-
-        return View(model);
-    }
+    //COMMERCE METHOD REMOVED - Phase A
+    //Removed: ContactVendor (vendor contact - commerce feature)
 
     //sitemap page
     public virtual async Task<IActionResult> Sitemap(SitemapPageModel pageModel)
@@ -410,6 +349,12 @@ public partial class CommonController : BasePublicController
     {
         //nothing was found
         return InvokeHttp404();
+    }
+
+    //redirect to admin area
+    public virtual IActionResult RedirectToAdmin()
+    {
+        return RedirectToAction("Index", "Home", new { area = "Admin" });
     }
 
     #endregion

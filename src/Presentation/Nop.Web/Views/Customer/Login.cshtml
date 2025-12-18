@@ -40,7 +40,7 @@
                         @T("Account.Login.CheckoutAsGuestOrRegister")
                     </h2>
                     <div class="text">
-                        @await Component.InvokeAsync(typeof(TopicBlockViewComponent), new { systemName = "CheckoutAsGuestOrRegister" })
+                        @* @await Component.InvokeAsync(typeof(TopicBlockViewComponent), new { systemName = "CheckoutAsGuestOrRegister" }) *@
                     </div>
                     <div class="buttons">
                         <button type="button" class="button-1 checkout-as-guest-button" onclick="location.href='@Url.RouteUrl(NopRouteNames.Standard.CHECKOUT)'">@T("Account.Login.CheckoutAsGuest")</button>
@@ -111,10 +111,10 @@
                 </form>
             </div>
         </div>
-        <div class="external-authentication">
-            @await Component.InvokeAsync(typeof(ExternalMethodsViewComponent), "ExternalAuthentication")
-        </div>
-        @await Component.InvokeAsync(typeof(TopicBlockViewComponent), new { systemName = "LoginRegistrationInfo" })
+        @*COMMERCE/ADDITIONAL FEATURES REMOVED - Phase C
+        //Removed: External authentication component
+        *@
+        @* @await Component.InvokeAsync(typeof(TopicBlockViewComponent), new { systemName = "LoginRegistrationInfo" }) *@
         @await Component.InvokeAsync(typeof(WidgetViewComponent), new { widgetZone = PublicWidgetZones.LoginBottom, additionalData = Model })
     </div>
 </div>

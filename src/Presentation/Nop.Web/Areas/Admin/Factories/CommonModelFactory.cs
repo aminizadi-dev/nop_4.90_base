@@ -9,20 +9,20 @@ using Newtonsoft.Json;
 using Nop.Core;
 using Nop.Core.Caching;
 using Nop.Core.Configuration;
-using Nop.Core.Domain.Catalog;
 using Nop.Core.Domain.Customers;
 using Nop.Core.Domain.Directory;
-using Nop.Core.Domain.Orders;
 using Nop.Core.Domain.Security;
 using Nop.Core.Domain.Seo;
 using Nop.Core.Events;
 using Nop.Core.Infrastructure;
 using Nop.Data;
-using Nop.Services.Authentication.External;
-using Nop.Services.Authentication.MultiFactor;
-using Nop.Services.Blogs;
-using Nop.Services.Catalog;
-using Nop.Services.Cms;
+//COMMERCE DOMAIN/SERVICES REMOVED - Phase B
+//Removed: using Nop.Core.Domain.Catalog;
+//Removed: using Nop.Core.Domain.Orders;
+//Removed: using Nop.Services.Blogs;
+//Removed: using Nop.Services.Catalog;
+//Removed: using Nop.Services.News;
+//Removed: using Nop.Services.Orders;
 using Nop.Services.Common;
 using Nop.Services.Customers;
 using Nop.Services.Directory;
@@ -30,23 +30,15 @@ using Nop.Services.Events;
 using Nop.Services.Helpers;
 using Nop.Services.Localization;
 using Nop.Services.Media;
-using Nop.Services.News;
-using Nop.Services.Orders;
-using Nop.Services.Payments;
-using Nop.Services.Plugins;
 using Nop.Services.Seo;
-using Nop.Services.Shipping;
-using Nop.Services.Shipping.Pickup;
 using Nop.Services.Stores;
-using Nop.Services.Tax;
-using Nop.Services.Topics;
 using Nop.Web.Areas.Admin.Infrastructure.Mapper.Extensions;
-using Nop.Web.Areas.Admin.Models.Blogs;
-using Nop.Web.Areas.Admin.Models.Catalog;
+//COMMERCE MODELS REMOVED - Phase B
+//Removed: using Nop.Web.Areas.Admin.Models.Blogs;
+//Removed: using Nop.Web.Areas.Admin.Models.Catalog;
 using Nop.Web.Areas.Admin.Models.Common;
 using Nop.Web.Areas.Admin.Models.Localization;
-using Nop.Web.Areas.Admin.Models.News;
-using Nop.Web.Areas.Admin.Models.Topics;
+//Removed: using Nop.Web.Areas.Admin.Models.News;
 using Nop.Web.Framework.Models;
 using Nop.Web.Framework.Models.Extensions;
 using Nop.Web.Framework.Mvc.Routing;
@@ -62,13 +54,13 @@ public partial class CommonModelFactory : ICommonModelFactory
     #region Fields
 
     protected readonly AppSettings _appSettings;
-    protected readonly CatalogSettings _catalogSettings;
+    //COMMERCE SETTINGS/SERVICES REMOVED - Phase B
+    //Removed: protected readonly CatalogSettings _catalogSettings;
     protected readonly CurrencySettings _currencySettings;
     protected readonly IActionContextAccessor _actionContextAccessor;
-    protected readonly IAuthenticationPluginManager _authenticationPluginManager;
     protected readonly IBaseAdminModelFactory _baseAdminModelFactory;
-    protected readonly IBlogService _blogService;
-    protected readonly ICategoryService _categoryService;
+    //Removed: protected readonly IBlogService _blogService;
+    //Removed: protected readonly ICategoryService _categoryService;
     protected readonly ICurrencyService _currencyService;
     protected readonly ICustomerService _customerService;
     protected readonly IDateTimeHelper _dateTimeHelper;
@@ -78,32 +70,25 @@ public partial class CommonModelFactory : ICommonModelFactory
     protected readonly ILanguageService _languageService;
     protected readonly ILocalizationService _localizationService;
     protected readonly IMaintenanceService _maintenanceService;
-    protected readonly IManufacturerService _manufacturerService;
+    //Removed: protected readonly IManufacturerService _manufacturerService;
     protected readonly IMeasureService _measureService;
-    protected readonly IMultiFactorAuthenticationPluginManager _multiFactorAuthenticationPluginManager;
-    protected readonly INewsService _newsService;
+    //Removed: protected readonly INewsService _newsService;
     protected readonly INopDataProvider _dataProvider;
     protected readonly INopFileProvider _fileProvider;
     protected readonly INopUrlHelper _nopUrlHelper;
-    protected readonly IOrderService _orderService;
-    protected readonly IPaymentPluginManager _paymentPluginManager;
-    protected readonly IPickupPluginManager _pickupPluginManager;
-    protected readonly IPluginService _pluginService;
-    protected readonly IProductService _productService;
-    protected readonly IReturnRequestService _returnRequestService;
+    //COMMERCE SERVICES REMOVED - Phase B
+    //Removed: protected readonly IOrderService _orderService;
+    //Removed: protected readonly IProductService _productService;
+    //Removed: protected readonly IReturnRequestService _returnRequestService;
     protected readonly ISearchTermService _searchTermService;
     protected readonly IServiceCollection _serviceCollection;
-    protected readonly IShippingPluginManager _shippingPluginManager;
     protected readonly IStaticCacheManager _staticCacheManager;
     protected readonly IStoreContext _storeContext;
     protected readonly IStoreService _storeService;
-    protected readonly ITaxPluginManager _taxPluginManager;
     protected readonly IThumbService _thumbService;
-    protected readonly ITopicService _topicService;
     protected readonly IUrlHelperFactory _urlHelperFactory;
     protected readonly IUrlRecordService _urlRecordService;
     protected readonly IWebHelper _webHelper;
-    protected readonly IWidgetPluginManager _widgetPluginManager;
     protected readonly IWorkContext _workContext;
     protected readonly MeasureSettings _measureSettings;
     protected readonly NopHttpClient _nopHttpClient;
@@ -114,13 +99,13 @@ public partial class CommonModelFactory : ICommonModelFactory
     #region Ctor
 
     public CommonModelFactory(AppSettings appSettings,
-        CatalogSettings catalogSettings,
+        //COMMERCE SETTINGS/SERVICES REMOVED - Phase B
+        //Removed: CatalogSettings catalogSettings,
         CurrencySettings currencySettings,
         IActionContextAccessor actionContextAccessor,
-        IAuthenticationPluginManager authenticationPluginManager,
         IBaseAdminModelFactory baseAdminModelFactory,
-        IBlogService blogService,
-        ICategoryService categoryService,
+        //Removed: IBlogService blogService,
+        //Removed: ICategoryService categoryService,
         ICurrencyService currencyService,
         ICustomerService customerService,
         IDateTimeHelper dateTimeHelper,
@@ -130,45 +115,38 @@ public partial class CommonModelFactory : ICommonModelFactory
         ILanguageService languageService,
         ILocalizationService localizationService,
         IMaintenanceService maintenanceService,
-        IManufacturerService manufacturerService,
+        //Removed: IManufacturerService manufacturerService,
         IMeasureService measureService,
-        IMultiFactorAuthenticationPluginManager multiFactorAuthenticationPluginManager,
-        INewsService newsService,
+        //Removed: INewsService newsService,
         INopDataProvider dataProvider,
         INopFileProvider fileProvider,
         INopUrlHelper nopUrlHelper,
-        IOrderService orderService,
-        IPaymentPluginManager paymentPluginManager,
-        IPickupPluginManager pickupPluginManager,
-        IPluginService pluginService,
-        IProductService productService,
-        IReturnRequestService returnRequestService,
+        //COMMERCE SERVICES REMOVED - Phase B
+        //Removed: IOrderService orderService,
+        //Removed: IProductService productService,
+        //Removed: IReturnRequestService returnRequestService,
         ISearchTermService searchTermService,
         IServiceCollection serviceCollection,
-        IShippingPluginManager shippingPluginManager,
         IStaticCacheManager staticCacheManager,
         IStoreContext storeContext,
         IStoreService storeService,
-        ITaxPluginManager taxPluginManager,
         IThumbService thumbService,
-        ITopicService topicService,
         IUrlHelperFactory urlHelperFactory,
         IUrlRecordService urlRecordService,
         IWebHelper webHelper,
-        IWidgetPluginManager widgetPluginManager,
         IWorkContext workContext,
         MeasureSettings measureSettings,
         NopHttpClient nopHttpClient,
         ProxySettings proxySettings)
     {
         _appSettings = appSettings;
-        _catalogSettings = catalogSettings;
+        //COMMERCE SETTINGS/SERVICES REMOVED - Phase B
+        //Removed: _catalogSettings = catalogSettings;
         _currencySettings = currencySettings;
         _actionContextAccessor = actionContextAccessor;
-        _authenticationPluginManager = authenticationPluginManager;
         _baseAdminModelFactory = baseAdminModelFactory;
-        _blogService = blogService;
-        _categoryService = categoryService;
+        //Removed: _blogService = blogService;
+        //Removed: _categoryService = categoryService;
         _currencyService = currencyService;
         _customerService = customerService;
         _eventPublisher = eventPublisher;
@@ -179,31 +157,24 @@ public partial class CommonModelFactory : ICommonModelFactory
         _languageService = languageService;
         _localizationService = localizationService;
         _maintenanceService = maintenanceService;
-        _manufacturerService = manufacturerService;
+        //Removed: _manufacturerService = manufacturerService;
         _measureService = measureService;
-        _multiFactorAuthenticationPluginManager = multiFactorAuthenticationPluginManager;
-        _newsService = newsService;
+        //Removed: _newsService = newsService;
         _fileProvider = fileProvider;
         _nopUrlHelper = nopUrlHelper;
-        _orderService = orderService;
-        _paymentPluginManager = paymentPluginManager;
-        _pickupPluginManager = pickupPluginManager;
-        _pluginService = pluginService;
-        _productService = productService;
-        _returnRequestService = returnRequestService;
+        //COMMERCE SERVICES REMOVED - Phase B
+        //Removed: _orderService = orderService;
+        //Removed: _productService = productService;
+        //Removed: _returnRequestService = returnRequestService;
         _searchTermService = searchTermService;
         _serviceCollection = serviceCollection;
-        _shippingPluginManager = shippingPluginManager;
         _staticCacheManager = staticCacheManager;
         _storeContext = storeContext;
         _storeService = storeService;
-        _taxPluginManager = taxPluginManager;
         _thumbService = thumbService;
-        _topicService = topicService;
         _urlHelperFactory = urlHelperFactory;
         _urlRecordService = urlRecordService;
         _webHelper = webHelper;
-        _widgetPluginManager = widgetPluginManager;
         _workContext = workContext;
         _measureSettings = measureSettings;
         _nopHttpClient = nopHttpClient;
@@ -417,33 +388,6 @@ public partial class CommonModelFactory : ICommonModelFactory
     }
 
     /// <summary>
-    /// Prepare payment methods warning model
-    /// </summary>
-    /// <param name="models">List of system warning models</param>
-    /// <returns>A task that represents the asynchronous operation</returns>
-    protected virtual async Task PreparePaymentMethodsWarningModelAsync(IList<SystemWarningModel> models)
-    {
-        ArgumentNullException.ThrowIfNull(models);
-
-        //check whether payment methods activated
-        if ((await _paymentPluginManager.LoadAllPluginsAsync()).Any())
-        {
-            models.Add(new SystemWarningModel
-            {
-                Level = SystemWarningLevel.Pass,
-                Text = await _localizationService.GetResourceAsync("Admin.System.Warnings.PaymentMethods.OK")
-            });
-            return;
-        }
-
-        models.Add(new SystemWarningModel
-        {
-            Level = SystemWarningLevel.Fail,
-            Text = await _localizationService.GetResourceAsync("Admin.System.Warnings.PaymentMethods.NoActive")
-        });
-    }
-
-    /// <summary>
     /// Prepare performance settings warning model
     /// </summary>
     /// <param name="models">List of system warning models</param>
@@ -452,25 +396,9 @@ public partial class CommonModelFactory : ICommonModelFactory
     {
         ArgumentNullException.ThrowIfNull(models);
 
-        //check whether "IgnoreStoreLimitations" setting disabled
-        if (!_catalogSettings.IgnoreStoreLimitations && (await _storeService.GetAllStoresAsync()).Count == 1)
-        {
-            models.Add(new SystemWarningModel
-            {
-                Level = SystemWarningLevel.Recommendation,
-                Text = await _localizationService.GetResourceAsync("Admin.System.Warnings.Performance.IgnoreStoreLimitations")
-            });
-        }
-
-        //check whether "IgnoreAcl" setting disabled
-        if (!_catalogSettings.IgnoreAcl)
-        {
-            models.Add(new SystemWarningModel
-            {
-                Level = SystemWarningLevel.Recommendation,
-                Text = await _localizationService.GetResourceAsync("Admin.System.Warnings.Performance.IgnoreAcl")
-            });
-        }
+        //COMMERCE SETTINGS CHECKS REMOVED - Phase B
+        //Removed: CatalogSettings.IgnoreStoreLimitations check
+        //Removed: CatalogSettings.IgnoreAcl check
     }
 
     /// <summary>
@@ -608,32 +536,10 @@ public partial class CommonModelFactory : ICommonModelFactory
     /// </summary>
     /// <param name="models">List of system warning models</param>
     /// <returns>A task that represents the asynchronous operation</returns>
-    protected virtual async Task PreparePluginsCollisionsWarningModelAsync(IList<SystemWarningModel> models)
+    protected virtual Task PreparePluginsCollisionsWarningModelAsync(IList<SystemWarningModel> models)
     {
-        var assemblyCollisions = _pluginService.GetAssemblyCollisions();
-
-        if (assemblyCollisions.Any())
-        {
-            var warningFormat = await _localizationService
-                .GetResourceAsync("Admin.System.Warnings.PluginRequiredAssembly");
-
-            //check whether there are any collision of loaded assembly
-            foreach (var assembly in _pluginService.GetAssemblyCollisions())
-            {
-                //get plugin references message
-                var message = assembly.Collisions
-                    .Select(item => string.Format(warningFormat, item.PluginName, item.AssemblyVersion))
-                    .Aggregate("", (current, all) => all + ", " + current).TrimEnd(',', ' ');
-
-                models.Add(new SystemWarningModel
-                {
-                    Level = SystemWarningLevel.Warning,
-                    Text = string.Format(
-                        await _localizationService.GetResourceAsync("Admin.System.Warnings.AssemblyHasCollision"),
-                        assembly.ShortName, assembly.AssemblyInMemory, message)
-                });
-            }
-        }
+        // Plugin functionality removed
+        return Task.CompletedTask;
     }
 
     /// <summary>
@@ -641,34 +547,10 @@ public partial class CommonModelFactory : ICommonModelFactory
     /// </summary>
     /// <param name="models">List of system warning models</param>
     /// <returns>A task that represents the asynchronous operation</returns>
-    protected virtual async Task PrepareIncompatibleWarningModelAsync(IList<SystemWarningModel> models)
+    protected virtual Task PrepareIncompatibleWarningModelAsync(IList<SystemWarningModel> models)
     {
-        foreach (var incompatiblePlugin in _pluginService.GetIncompatiblePlugins())
-        {
-            string warning;
-
-            switch (incompatiblePlugin.Value)
-            {
-                case PluginIncompatibleType.MainAssemblyNotFound:
-                    warning = string.Format(
-                        await _localizationService.GetResourceAsync("Admin.System.Warnings.PluginMainAssemblyNotFound"),
-                        incompatiblePlugin.Key);
-                    break;
-                case PluginIncompatibleType.NotCompatibleWithCurrentVersion:
-                    warning = string.Format(
-                        await _localizationService.GetResourceAsync("Admin.System.Warnings.PluginNotCompatibleWithCurrentVersion"),
-                        incompatiblePlugin.Key);
-                    break;
-                default:
-                    continue;
-            }
-
-            models.Add(new SystemWarningModel
-            {
-                Level = SystemWarningLevel.Warning,
-                Text = warning
-            });
-        }
+        // Plugin functionality removed
+        return Task.CompletedTask;
     }
 
     /// <summary>
@@ -676,21 +558,10 @@ public partial class CommonModelFactory : ICommonModelFactory
     /// </summary>
     /// <param name="models">List of system warning models</param>
     /// <returns>A task that represents the asynchronous operation</returns>
-    protected virtual async Task PreparePluginsInstalledWarningModelAsync(IList<SystemWarningModel> models)
+    protected virtual Task PreparePluginsInstalledWarningModelAsync(IList<SystemWarningModel> models)
     {
-        var plugins = await _pluginService.GetPluginDescriptorsAsync<IPlugin>(LoadPluginsMode.NotInstalledOnly);
-
-        var notInstalled = plugins.Select(p => p.FriendlyName).ToList();
-
-        if (!notInstalled.Any())
-            return;
-
-        models.Add(new SystemWarningModel
-        {
-            Level = SystemWarningLevel.Warning,
-            DontEncode = true,
-            Text = $"{await _localizationService.GetResourceAsync("Admin.System.Warnings.PluginNotInstalled")}: {string.Join(", ", notInstalled)}. {await _localizationService.GetResourceAsync("Admin.System.Warnings.PluginNotInstalled.HelpText")}"
-        });
+        // Plugin functionality removed
+        return Task.CompletedTask;
     }
 
     /// <summary>
@@ -698,72 +569,10 @@ public partial class CommonModelFactory : ICommonModelFactory
     /// </summary>
     /// <param name="models">List of system warning models</param>
     /// <returns>A task that represents the asynchronous operation</returns>
-    protected virtual async Task PreparePluginsEnabledWarningModelAsync(IList<SystemWarningModel> models)
+    protected virtual Task PreparePluginsEnabledWarningModelAsync(IList<SystemWarningModel> models)
     {
-        var plugins = await _pluginService.GetPluginsAsync<IPlugin>();
-
-        var notEnabled = new List<string>();
-        var notEnabledSystemNames = new List<string>();
-
-        foreach (var plugin in plugins)
-        {
-            var isEnabled = true;
-
-            switch (plugin)
-            {
-                case IPaymentMethod paymentMethod:
-                    isEnabled = _paymentPluginManager.IsPluginActive(paymentMethod);
-                    break;
-
-                case IShippingRateComputationMethod shippingRateComputationMethod:
-                    isEnabled = _shippingPluginManager.IsPluginActive(shippingRateComputationMethod);
-                    break;
-
-                case IPickupPointProvider pickupPointProvider:
-                    isEnabled = _pickupPluginManager.IsPluginActive(pickupPointProvider);
-                    break;
-
-                case ITaxProvider taxProvider:
-                    isEnabled = _taxPluginManager.IsPluginActive(taxProvider);
-                    break;
-
-                case IExternalAuthenticationMethod externalAuthenticationMethod:
-                    isEnabled = _authenticationPluginManager.IsPluginActive(externalAuthenticationMethod);
-                    break;
-
-                case IMultiFactorAuthenticationMethod multiFactorAuthenticationMethod:
-                    isEnabled = _multiFactorAuthenticationPluginManager.IsPluginActive(multiFactorAuthenticationMethod);
-                    break;
-
-                case IWidgetPlugin widgetPlugin:
-                    isEnabled = _widgetPluginManager.IsPluginActive(widgetPlugin);
-                    break;
-
-                case IExchangeRateProvider exchangeRateProvider:
-                    isEnabled = _exchangeRatePluginManager.IsPluginActive(exchangeRateProvider);
-                    break;
-            }
-
-            if (isEnabled)
-                continue;
-
-            notEnabled.Add(plugin.PluginDescriptor.FriendlyName);
-            notEnabledSystemNames.Add(plugin.PluginDescriptor.SystemName);
-        }
-
-        if (notEnabled.Any())
-        {
-            //get URL helper
-            var urlHelper = _urlHelperFactory.GetUrlHelper(_actionContextAccessor.ActionContext);
-
-            models.Add(new SystemWarningModel
-            {
-                Level = SystemWarningLevel.Warning,
-                DontEncode = true,
-
-                Text = $"{await _localizationService.GetResourceAsync("Admin.System.Warnings.PluginNotEnabled")}: {string.Join(", ", notEnabled)} (<a href=\"{urlHelper.Action("UninstallAndDeleteUnusedPlugins", "Plugin", new { names = notEnabledSystemNames.ToArray() })}\">{await _localizationService.GetResourceAsync("Admin.System.Warnings.PluginNotEnabled.AutoFixAndRestart")}</a>)"
-            });
-        }
+        // Plugin functionality removed
+        return Task.CompletedTask;
     }
 
     /// <summary>
@@ -917,31 +726,6 @@ public partial class CommonModelFactory : ICommonModelFactory
     }
 
     /// <summary>
-    /// Prepare plugins warning model
-    /// </summary>
-    /// <param name="models">List of system warning models</param>
-    /// <returns>A task that represents the asynchronous operation</returns>
-    public virtual async Task PreparePluginsWarningModelAsync(IList<SystemWarningModel> models)
-    {
-        ArgumentNullException.ThrowIfNull(models);
-
-        //incompatible plugins
-        await PrepareIncompatibleWarningModelAsync(models);
-
-        //collision of loaded assembly
-        await PreparePluginsCollisionsWarningModelAsync(models);
-
-        //override the same interface
-        await PreparePluginsOverrideSameInterfaceWarningModelAsync(models);
-
-        //not active plugins
-        await PreparePluginsEnabledWarningModelAsync(models);
-
-        //not install plugins
-        await PreparePluginsInstalledWarningModelAsync(models);
-    }
-
-    /// <summary>
     /// Prepare system warning models
     /// </summary>
     /// <returns>
@@ -970,17 +754,11 @@ public partial class CommonModelFactory : ICommonModelFactory
         //base dimension weight
         await PrepareBaseDimensionWarningModelAsync(models);
 
-        //payment methods
-        await PreparePaymentMethodsWarningModelAsync(models);
-
         //performance settings
         await PreparePerformanceSettingsWarningModelAsync(models);
 
         //validate write permissions (the same procedure like during installation)
         await PrepareFilePermissionsWarningModelAsync(models);
-
-        //plugins
-        await PreparePluginsWarningModelAsync(models);
 
         //proxy connection
         await PrepareProxyConnectionWarningModelAsync(models);
@@ -1140,26 +918,10 @@ public partial class CommonModelFactory : ICommonModelFactory
                 var entityName = urlRecord.EntityName?.ToLowerInvariant() ?? string.Empty;
                 switch (entityName)
                 {
-                    case "blogpost":
-                        detailsUrl = urlHelper.Action("BlogPostEdit", "Blog", new { id = urlRecord.EntityId });
-                        break;
-                    case "category":
-                        detailsUrl = urlHelper.Action("Edit", "Category", new { id = urlRecord.EntityId });
-                        break;
-                    case "manufacturer":
-                        detailsUrl = urlHelper.Action("Edit", "Manufacturer", new { id = urlRecord.EntityId });
-                        break;
-                    case "product":
-                        detailsUrl = urlHelper.Action("Edit", "Product", new { id = urlRecord.EntityId });
-                        break;
-                    case "newsitem":
-                        detailsUrl = urlHelper.Action("NewsItemEdit", "News", new { id = urlRecord.EntityId });
-                        break;
+                    //COMMERCE ENTITY TYPES REMOVED - Phase B
+                    //Removed: blogpost, category, manufacturer, product, newsitem, vendor
                     case "topic":
                         detailsUrl = urlHelper.Action("Edit", "Topic", new { id = urlRecord.EntityId });
-                        break;
-                    case "vendor":
-                        detailsUrl = urlHelper.Action("Edit", "Vendor", new { id = urlRecord.EntityId });
                         break;
                 }
 
@@ -1247,66 +1009,16 @@ public partial class CommonModelFactory : ICommonModelFactory
     /// </returns>
     public virtual async Task<CommonStatisticsModel> PrepareCommonStatisticsModelAsync()
     {
-        var model = new CommonStatisticsModel
-        {
-            NumberOfOrders = (await _orderService.SearchOrdersAsync(pageIndex: 0, pageSize: 1, getOnlyTotalCount: true)).TotalCount
-        };
+        var model = new CommonStatisticsModel();
+
+        //COMMERCE STATISTICS REMOVED - Phase B
+        //Removed: NumberOfOrders, NumberOfPendingReturnRequests, NumberOfLowStockProducts
 
         var customerRoleIds = new[] { (await _customerService.GetCustomerRoleBySystemNameAsync(NopCustomerDefaults.RegisteredRoleName)).Id };
         model.NumberOfCustomers = (await _customerService.GetAllCustomersAsync(customerRoleIds: customerRoleIds,
             pageIndex: 0, pageSize: 1, getOnlyTotalCount: true)).TotalCount;
 
-        var returnRequestStatus = ReturnRequestStatus.Pending;
-        model.NumberOfPendingReturnRequests = (await _returnRequestService.SearchReturnRequestsAsync(rs: returnRequestStatus,
-            pageIndex: 0, pageSize: 1, getOnlyTotalCount: true)).TotalCount;
-
-        model.NumberOfLowStockProducts =
-            (await _productService.GetLowStockProductsAsync(getOnlyTotalCount: true)).TotalCount +
-            (await _productService.GetLowStockProductCombinationsAsync(getOnlyTotalCount: true)).TotalCount;
-
         return model;
-    }
-
-    /// <summary>
-    /// Prepare multistore preview models
-    /// </summary>
-    /// <typeparam name="TModel">Model type</typeparam>
-    /// <param name="model">Entity model</param>
-    /// <returns>
-    /// A task that represents the asynchronous operation
-    /// The task result contains the list of multistore preview models
-    /// </returns>
-    public virtual async Task<IList<MultistorePreviewModel>> PrepareMultistorePreviewModelsAsync<TModel>(TModel model) where TModel : BaseNopEntityModel
-    {
-        switch (model)
-        {
-            case BlogPostModel blogPostModel:
-                var blogPost = await _blogService.GetBlogPostByIdAsync(blogPostModel.Id);
-                return await PrepareMultistorePreviewModelsForEntityAsync(blogPost);
-
-            case CategoryModel categoryModel:
-                var category = await _categoryService.GetCategoryByIdAsync(categoryModel.Id);
-                return await PrepareMultistorePreviewModelsForEntityAsync(category);
-
-            case ManufacturerModel manufacturerModel:
-                var manufacturerEntity = await _manufacturerService.GetManufacturerByIdAsync(manufacturerModel.Id);
-                return await PrepareMultistorePreviewModelsForEntityAsync(manufacturerEntity);
-
-            case NewsItemModel newsItemModel:
-                var newsItem = await _newsService.GetNewsByIdAsync(newsItemModel.Id);
-                return await PrepareMultistorePreviewModelsForEntityAsync(newsItem);
-
-            case ProductModel productModel:
-                var product = await _productService.GetProductByIdAsync(productModel.Id);
-                return await PrepareMultistorePreviewModelsForEntityAsync(product);
-
-            case TopicModel topicModel:
-                var topic = await _topicService.GetTopicByIdAsync(topicModel.Id);
-                return await PrepareMultistorePreviewModelsForEntityAsync(topic);
-
-            default:
-                throw new NotImplementedException("Unknown entity type");
-        }
     }
 
     #endregion

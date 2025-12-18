@@ -1,7 +1,6 @@
 ﻿using System.Drawing;
 using ClosedXML.Excel;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using Nop.Core.Domain.Catalog;
 using Nop.Core.Domain.Localization;
 
 namespace Nop.Services.ExportImport.Help;
@@ -23,11 +22,6 @@ public partial class PropertyManager<T>
     protected readonly Dictionary<string, PropertyByName<T>> _localizedProperties;
 
     /// <summary>
-    /// Catalog settings
-    /// </summary>
-    protected readonly CatalogSettings _catalogSettings;
-
-    /// <summary>
     /// Languages
     /// </summary>
     protected readonly IList<Language> _languages;
@@ -39,10 +33,9 @@ public partial class PropertyManager<T>
     /// <param name="catalogSettings">Catalog settings</param>
     /// <param name="localizedProperties">Localized access properties</param>
     /// <param name="languages">Languages</param>
-    public PropertyManager(IEnumerable<PropertyByName<T>> defaultProperties, CatalogSettings catalogSettings, IEnumerable<PropertyByName<T>> localizedProperties = null, IList<Language> languages = null)
+    public PropertyManager(IEnumerable<PropertyByName<T>> defaultProperties, IEnumerable<PropertyByName<T>> localizedProperties = null, IList<Language> languages = null)
     {
         _defaultProperties = new Dictionary<string, PropertyByName<T>>();
-        _catalogSettings = catalogSettings;
         _localizedProperties = new Dictionary<string, PropertyByName<T>>();
         _languages = new List<Language>();
 
@@ -205,7 +198,7 @@ public partial class PropertyManager<T>
         foreach (var prop in _defaultProperties.Values)
         {
             var cell = xlRrow.Cell(prop.PropertyOrderPosition + cellOffset);
-            if (prop.IsDropDownCell && _catalogSettings.ExportImportRelatedEntitiesByName)
+            if (prop.IsDropDownCell)
             {
                 var dropDownElements = prop.GetDropDownElements();
                 if (!dropDownElements.Any())
@@ -267,7 +260,7 @@ public partial class PropertyManager<T>
         foreach (var prop in _localizedProperties.Values)
         {
             var cell = xlRrow.Cell(prop.PropertyOrderPosition + cellOffset);
-            if (prop.IsDropDownCell && _catalogSettings.ExportImportRelatedEntitiesByName)
+            if (prop.IsDropDownCell)
             {
                 var dropDownElements = prop.GetDropDownElements();
                 if (!dropDownElements.Any())
@@ -445,5 +438,5 @@ public partial class PropertyManager<T>
     /// <summary>
     /// Gets a value indicating whether need create dropdown list for export
     /// </summary>
-    public bool UseDropdownLists => _catalogSettings.ExportImportUseDropdownlistsForAssociatedEntities && _catalogSettings.ExportImportRelatedEntitiesByName;
+    public bool UseDropdownLists => false;
 }

@@ -24,7 +24,6 @@ using Nop.Core.Infrastructure;
 using Nop.Data;
 using Nop.Services.Authentication;
 using Nop.Services.Common;
-using Nop.Services.Installation;
 using Nop.Services.Localization;
 using Nop.Services.Logging;
 using Nop.Services.Media;
@@ -381,15 +380,6 @@ public static class ApplicationBuilderExtensions
     public static void UseKeepAlive(this IApplicationBuilder application)
     {
         application.UseMiddleware<KeepAliveMiddleware>();
-    }
-
-    /// <summary>
-    /// Configure middleware checking whether database is installed
-    /// </summary>
-    /// <param name="application">Builder for configuring an application's request pipeline</param>
-    public static void UseInstallUrl(this IApplicationBuilder application)
-    {
-        application.UseMiddleware<InstallUrlMiddleware>();
     }
 
     /// <summary>

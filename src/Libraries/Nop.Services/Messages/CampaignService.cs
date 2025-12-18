@@ -14,7 +14,6 @@ public partial class CampaignService : ICampaignService
 
     protected readonly ICustomerService _customerService;
     protected readonly IEmailSender _emailSender;
-    protected readonly IMessageTokenProvider _messageTokenProvider;
     protected readonly IQueuedEmailService _queuedEmailService;
     protected readonly IRepository<Campaign> _campaignRepository;
     protected readonly IStoreContext _storeContext;
@@ -26,7 +25,6 @@ public partial class CampaignService : ICampaignService
 
     public CampaignService(ICustomerService customerService,
         IEmailSender emailSender,
-        IMessageTokenProvider messageTokenProvider,
         IQueuedEmailService queuedEmailService,
         IRepository<Campaign> campaignRepository,
         IStoreContext storeContext,
@@ -34,7 +32,6 @@ public partial class CampaignService : ICampaignService
     {
         _customerService = customerService;
         _emailSender = emailSender;
-        _messageTokenProvider = messageTokenProvider;
         _queuedEmailService = queuedEmailService;
         _campaignRepository = campaignRepository;
         _storeContext = storeContext;
@@ -168,10 +165,10 @@ public partial class CampaignService : ICampaignService
                 continue;
 
             var tokens = new List<Token>();
-            await _messageTokenProvider.AddStoreTokensAsync(tokens, await _storeContext.GetCurrentStoreAsync(), emailAccount, subscription.LanguageId);
-            await _messageTokenProvider.AddNewsLetterSubscriptionTokensAsync(tokens, subscription);
-            if (customer != null)
-                await _messageTokenProvider.AddCustomerTokensAsync(tokens, customer);
+            //await _messageTokenProvider.AddStoreTokensAsync(tokens, await _storeContext.GetCurrentStoreAsync(), emailAccount, subscription.LanguageId);
+            //await _messageTokenProvider.AddNewsLetterSubscriptionTokensAsync(tokens, subscription);
+            //if (customer != null)
+            //    await _messageTokenProvider.AddCustomerTokensAsync(tokens, customer);
 
             var subject = _tokenizer.Replace(campaign.Subject, tokens, false);
             var body = _tokenizer.Replace(campaign.Body, tokens, true);
@@ -210,11 +207,8 @@ public partial class CampaignService : ICampaignService
         ArgumentNullException.ThrowIfNull(emailAccount);
 
         var tokens = new List<Token>();
-        await _messageTokenProvider.AddStoreTokensAsync(tokens, await _storeContext.GetCurrentStoreAsync(), emailAccount, languageId);
         var customer = await _customerService.GetCustomerByEmailAsync(email);
-        if (customer != null)
-            await _messageTokenProvider.AddCustomerTokensAsync(tokens, customer);
-
+        
         var subject = _tokenizer.Replace(campaign.Subject, tokens, false);
         var body = _tokenizer.Replace(campaign.Body, tokens, true);
 

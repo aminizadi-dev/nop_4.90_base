@@ -1,7 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Nop.Core;
 using Nop.Core.Domain.Customers;
-using Nop.Services.Catalog;
+//COMMERCE SERVICES REMOVED - Phase B
+//Removed: using Nop.Services.Catalog;
 using Nop.Services.Customers;
 using Nop.Services.Localization;
 using Nop.Services.Logging;
@@ -25,7 +26,8 @@ public partial class CustomerRoleController : BaseAdminController
     protected readonly ILocalizationService _localizationService;
     protected readonly INotificationService _notificationService;
     protected readonly IPermissionService _permissionService;
-    protected readonly IProductService _productService;
+    //COMMERCE SERVICES REMOVED - Phase B
+    //Removed: IProductService _productService
     protected readonly IWorkContext _workContext;
 
     #endregion
@@ -38,7 +40,8 @@ public partial class CustomerRoleController : BaseAdminController
         ILocalizationService localizationService,
         INotificationService notificationService,
         IPermissionService permissionService,
-        IProductService productService,
+        //COMMERCE SERVICES REMOVED - Phase B
+        //Removed: IProductService productService
         IWorkContext workContext)
     {
         _customerActivityService = customerActivityService;
@@ -47,7 +50,8 @@ public partial class CustomerRoleController : BaseAdminController
         _localizationService = localizationService;
         _notificationService = notificationService;
         _permissionService = permissionService;
-        _productService = productService;
+        //COMMERCE ASSIGNMENTS REMOVED - Phase B
+        //Removed: _productService = productService;
         _workContext = workContext;
     }
 
@@ -150,9 +154,8 @@ public partial class CustomerRoleController : BaseAdminController
                 if (customerRole.IsSystemRole && !customerRole.SystemName.Equals(model.SystemName, StringComparison.InvariantCultureIgnoreCase))
                     throw new NopException(await _localizationService.GetResourceAsync("Admin.Customers.CustomerRoles.Fields.SystemName.CantEditSystem"));
 
-                if (NopCustomerDefaults.RegisteredRoleName.Equals(customerRole.SystemName, StringComparison.InvariantCultureIgnoreCase) &&
-                    model.PurchasedWithProductId > 0)
-                    throw new NopException(await _localizationService.GetResourceAsync("Admin.Customers.CustomerRoles.Fields.PurchasedWithProduct.Registered"));
+                //COMMERCE FEATURE REMOVED - Phase B
+                //Removed: PurchasedWithProductId validation (commerce feature)
 
                 customerRole = model.ToEntity(customerRole);
                 await _customerService.UpdateCustomerRoleAsync(customerRole);
@@ -208,49 +211,8 @@ public partial class CustomerRoleController : BaseAdminController
         }
     }
 
-    [CheckPermission(StandardPermission.Customers.CUSTOMER_ROLES_VIEW)]
-    [CheckPermission(StandardPermission.Configuration.MANAGE_ACL)]
-    public virtual async Task<IActionResult> AssociateProductToCustomerRolePopup()
-    {
-        //prepare model
-        var model = await _customerRoleModelFactory.PrepareCustomerRoleProductSearchModelAsync(new CustomerRoleProductSearchModel());
-
-        return View(model);
-    }
-
-    [HttpPost]
-    [CheckPermission(StandardPermission.Customers.CUSTOMER_ROLES_VIEW)]
-    [CheckPermission(StandardPermission.Configuration.MANAGE_ACL)]
-    public virtual async Task<IActionResult> AssociateProductToCustomerRolePopupList(CustomerRoleProductSearchModel searchModel)
-    {
-        //prepare model
-        var model = await _customerRoleModelFactory.PrepareCustomerRoleProductListModelAsync(searchModel);
-
-        return Json(model);
-    }
-
-    [HttpPost]
-    [FormValueRequired("save")]
-    [CheckPermission(StandardPermission.Customers.CUSTOMER_ROLES_CREATE_EDIT_DELETE)]
-    [CheckPermission(StandardPermission.Configuration.MANAGE_ACL)]
-    public virtual async Task<IActionResult> AssociateProductToCustomerRolePopup([Bind(Prefix = nameof(AddProductToCustomerRoleModel))] AddProductToCustomerRoleModel model)
-    {
-        //try to get a product with the specified id
-        var associatedProduct = await _productService.GetProductByIdAsync(model.AssociatedToProductId);
-        if (associatedProduct == null)
-            return Content("Cannot load a product");
-
-        //a vendor should have access only to his products
-        var currentVendor = await _workContext.GetCurrentVendorAsync();
-        if (currentVendor != null && associatedProduct.VendorId != currentVendor.Id)
-            return Content("This is not your product");
-
-        ViewBag.RefreshPage = true;
-        ViewBag.productId = associatedProduct.Id;
-        ViewBag.productName = associatedProduct.Name;
-
-        return View(new CustomerRoleProductSearchModel());
-    }
+    //COMMERCE PRODUCT ASSOCIATION REMOVED - Phase B
+    //Removed: AssociateProductToCustomerRolePopup methods (commerce feature)
 
     #endregion
 }

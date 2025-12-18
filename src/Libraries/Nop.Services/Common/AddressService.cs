@@ -2,7 +2,6 @@
 using System.Text.RegularExpressions;
 using Nop.Core.Domain.Common;
 using Nop.Data;
-using Nop.Services.Attributes;
 using Nop.Services.Directory;
 using Nop.Services.Localization;
 
@@ -16,8 +15,6 @@ public partial class AddressService : IAddressService
     #region Fields
 
     protected readonly AddressSettings _addressSettings;
-    protected readonly IAttributeParser<AddressAttribute, AddressAttributeValue> _addressAttributeParser;
-    protected readonly IAttributeService<AddressAttribute, AddressAttributeValue> _addressAttributeService;
     protected readonly ICountryService _countryService;
     protected readonly ILocalizationService _localizationService;
     protected readonly IRepository<Address> _addressRepository;
@@ -28,16 +25,12 @@ public partial class AddressService : IAddressService
     #region Ctor
 
     public AddressService(AddressSettings addressSettings,
-        IAttributeParser<AddressAttribute, AddressAttributeValue> addressAttributeParser,
-        IAttributeService<AddressAttribute, AddressAttributeValue> addressAttributeService,
         ICountryService countryService,
         ILocalizationService localizationService,
         IRepository<Address> addressRepository,
         IStateProvinceService stateProvinceService)
     {
         _addressSettings = addressSettings;
-        _addressAttributeParser = addressAttributeParser;
-        _addressAttributeService = addressAttributeService;
         _countryService = countryService;
         _localizationService = localizationService;
         _addressRepository = addressRepository;
@@ -231,15 +224,7 @@ public partial class AddressService : IAddressService
             string.IsNullOrWhiteSpace(address.FaxNumber))
             return false;
 
-        var requiredAttributes = (await _addressAttributeService.GetAllAttributesAsync()).Where(x => x.IsRequired);
 
-        foreach (var requiredAttribute in requiredAttributes)
-        {
-            var value = _addressAttributeParser.ParseValues(address.CustomAttributes, requiredAttribute.Id);
-
-            if (!value.Any() || string.IsNullOrEmpty(value[0]))
-                return false;
-        }
 
         return true;
     }

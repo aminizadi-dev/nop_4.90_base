@@ -1,5 +1,4 @@
 ﻿using Nop.Core.Domain.Common;
-using Nop.Core.Domain.Tax;
 
 namespace Nop.Core.Domain.Customers;
 
@@ -244,24 +243,6 @@ public partial class Customer : BaseEntity, ISoftDeletedEntity
     public int? ShippingAddressId { get; set; }
 
     #region Custom properties
-
-    /// <summary>
-    /// Gets or sets the vat number status
-    /// </summary>
-    public VatNumberStatus VatNumberStatus
-    {
-        get => (VatNumberStatus)VatNumberStatusId;
-        set => VatNumberStatusId = (int)value;
-    }
-
-    /// <summary>
-    /// Gets or sets the tax display type
-    /// </summary>
-    public TaxDisplayType? TaxDisplayType
-    {
-        get => TaxDisplayTypeId.HasValue ? (TaxDisplayType)TaxDisplayTypeId : null;
-        set => TaxDisplayTypeId = value.HasValue ? (int)value : null;
-    }
 
     #endregion
 }

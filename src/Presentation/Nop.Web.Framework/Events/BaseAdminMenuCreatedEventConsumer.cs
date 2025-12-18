@@ -1,32 +1,14 @@
 ﻿using Nop.Services.Events;
-using Nop.Services.Plugins;
 using Nop.Web.Framework.Menu;
 
 namespace Nop.Web.Framework.Events;
 
 /// <summary>
 /// Base admin menu created event consumer
+/// NOTE: Plugin infrastructure removed - this class simplified to remove plugin dependencies
 /// </summary>
 public abstract class BaseAdminMenuCreatedEventConsumer : IConsumer<AdminMenuCreatedEvent>
 {
-    #region Fields
-
-    protected readonly IPluginManager<IPlugin> _pluginManager;
-
-    #endregion
-
-    #region Ctor
-
-    /// <summary>
-    /// Ctor
-    /// </summary>
-    protected BaseAdminMenuCreatedEventConsumer(IPluginManager<IPlugin> pluginManager)
-    {
-        _pluginManager = pluginManager;
-    }
-
-    #endregion
-
     #region Utilities
 
     /// <summary>
@@ -43,18 +25,16 @@ public abstract class BaseAdminMenuCreatedEventConsumer : IConsumer<AdminMenuCre
     }
 
     /// <summary>
-    /// Gets the menu item
+    /// Gets the menu item to insert
+    /// Override this method in derived classes to provide custom menu items
     /// </summary>
-    /// <param name="plugin">The instance of <see cref="IPlugin"/> interface</param>
     /// <returns>
     /// A task that represents the asynchronous operation
-    /// The task result contains the instance of <see cref="AdminMenuItem"/>
+    /// The task result contains the instance of <see cref="AdminMenuItem"/> or null
     /// </returns>
-    protected virtual Task<AdminMenuItem> GetAdminMenuItemAsync(IPlugin plugin)
+    protected virtual Task<AdminMenuItem> GetAdminMenuItemAsync()
     {
-        var menuItem = plugin?.GetAdminMenuItem();
-
-        return Task.FromResult(menuItem);
+        return Task.FromResult<AdminMenuItem>(null);
     }
 
     #endregion
@@ -71,14 +51,7 @@ public abstract class BaseAdminMenuCreatedEventConsumer : IConsumer<AdminMenuCre
         if (!await CheckAccessAsync())
             return;
 
-        var plugin = await _pluginManager.LoadPluginBySystemNameAsync(PluginSystemName);
-
-        //the LoadPluginBySystemNameAsync method returns only plugins that are already fully installed,
-        //while the IConsumer<AdminMenuCreatedEvent> event can be called before the installation is complete
-        if (plugin == null)
-            return;
-
-        var newItem = await GetAdminMenuItemAsync(plugin);
+        var newItem = await GetAdminMenuItemAsync();
 
         if (newItem == null)
             return;
@@ -107,11 +80,6 @@ public abstract class BaseAdminMenuCreatedEventConsumer : IConsumer<AdminMenuCre
     #endregion
 
     #region Properties
-
-    /// <summary>
-    /// Gets the plugin system name
-    /// </summary>
-    protected abstract string PluginSystemName { get; }
 
     /// <summary>
     /// Menu item insertion type (by default: <see cref="MenuItemInsertType.Before"/>)

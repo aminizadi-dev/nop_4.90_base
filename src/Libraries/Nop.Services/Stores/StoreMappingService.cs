@@ -1,6 +1,5 @@
 ﻿using Nop.Core;
 using Nop.Core.Caching;
-using Nop.Core.Domain.Catalog;
 using Nop.Core.Domain.Stores;
 using Nop.Data;
 
@@ -13,7 +12,6 @@ public partial class StoreMappingService : IStoreMappingService
 {
     #region Fields
 
-    protected readonly CatalogSettings _catalogSettings;
     protected readonly INopDataProvider _dataProvider;
     protected readonly IRepository<StoreMapping> _storeMappingRepository;
     protected readonly IStaticCacheManager _staticCacheManager;
@@ -24,14 +22,13 @@ public partial class StoreMappingService : IStoreMappingService
 
     #region Ctor
 
-    public StoreMappingService(CatalogSettings catalogSettings,
+    public StoreMappingService(
         INopDataProvider dataProvider,
         IRepository<StoreMapping> storeMappingRepository,
         IStaticCacheManager staticCacheManager,
         IStoreContext storeContext,
         IStoreService storeService)
     {
-        _catalogSettings = catalogSettings;
         _dataProvider = dataProvider;
         _storeMappingRepository = storeMappingRepository;
         _staticCacheManager = staticCacheManager;
@@ -91,9 +88,6 @@ public partial class StoreMappingService : IStoreMappingService
         where TEntity : BaseEntity, IStoreMappingSupported
     {
         ArgumentNullException.ThrowIfNull(query);
-
-        if (storeId == 0 || _catalogSettings.IgnoreStoreLimitations || !await IsEntityMappingExistsAsync<TEntity>())
-            return query;
 
         return from entity in query
             where !entity.LimitedToStores || _storeMappingRepository.Table.Any(sm =>
@@ -252,9 +246,6 @@ public partial class StoreMappingService : IStoreMappingService
             //return true if no store specified/found
             return true;
 
-        if (_catalogSettings.IgnoreStoreLimitations)
-            return true;
-
         if (!entity.LimitedToStores)
             return true;
 
@@ -283,9 +274,6 @@ public partial class StoreMappingService : IStoreMappingService
 
         if (storeId == 0)
             //return true if no store specified/found
-            return true;
-
-        if (_catalogSettings.IgnoreStoreLimitations)
             return true;
 
         if (!entity.LimitedToStores)
