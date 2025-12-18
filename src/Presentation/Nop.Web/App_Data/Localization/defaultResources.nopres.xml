@@ -750,9 +750,6 @@
   <LocaleResource Name="ActivityLog.AddNewCountry">
     <Value>Added a new country (ID = {0})</Value>
   </LocaleResource>
-  <LocaleResource Name="ActivityLog.AddNewCurrency">
-    <Value>Added a new currency (ID = {0})</Value>
-  </LocaleResource>
   <LocaleResource Name="ActivityLog.AddNewCustomer">
     <Value>Added a new customer (ID = {0})</Value>
   </LocaleResource>
@@ -869,9 +866,6 @@
   </LocaleResource>
   <LocaleResource Name="ActivityLog.DeleteCountry">
     <Value>Deleted a country (ID = {0})</Value>
-  </LocaleResource>
-  <LocaleResource Name="ActivityLog.DeleteCurrency">
-    <Value>Deleted a currency (ID = {0})</Value>
   </LocaleResource>
   <LocaleResource Name="ActivityLog.DeleteCustomer">
     <Value>Deleted a customer (ID = {0})</Value>
@@ -1010,9 +1004,6 @@
   </LocaleResource>
   <LocaleResource Name="ActivityLog.EditCountry">
     <Value>Edited a country (ID = {0})</Value>
-  </LocaleResource>
-  <LocaleResource Name="ActivityLog.EditCurrency">
-    <Value>Edited a currency (ID = {0})</Value>
   </LocaleResource>
   <LocaleResource Name="ActivityLog.EditCustomer">
     <Value>Edited a customer (ID = {0})</Value>
@@ -3457,7 +3448,7 @@
     <Value>Price</Value>
   </LocaleResource>
   <LocaleResource Name="Admin.Catalog.Products.Fields.Price.Hint">
-    <Value>The price of the product. You can manage currency by selecting Configuration &gt; Currencies.</Value>
+    <Value>The price of the product.</Value>
   </LocaleResource>
   <LocaleResource Name="Admin.Catalog.Products.Fields.ProductAvailabilityRange">
     <Value>Product availability range</Value>
@@ -5205,162 +5196,6 @@
   <LocaleResource Name="Admin.Configuration.Countries.Updated">
     <Value>The country has been updated successfully.</Value>
   </LocaleResource>
-  <LocaleResource Name="Admin.Configuration.Currencies">
-    <Value>Currencies</Value>
-  </LocaleResource>
-  <LocaleResource Name="Admin.Configuration.Currencies.Added">
-    <Value>The new currency has been added successfully.</Value>
-  </LocaleResource>
-  <LocaleResource Name="Admin.Configuration.Currencies.AdditionalConfirm">
-    <Value><![CDATA[<p>WARNING. It is not recommended to do this on live sites because: </p><ol><li>Product prices, order totals, shipping rates, etc are not automatically converted to a new currency</li><li>Currency exhange rates are not automatically updated</li></ol>]]></Value>
-  </LocaleResource>
-  <LocaleResource Name="Admin.Configuration.Currencies.AddNew">
-    <Value>Add a new currency</Value>
-  </LocaleResource>
-  <LocaleResource Name="Admin.Configuration.Currencies.Alert.Error">
-    <Value>Failed to update currency.</Value>
-  </LocaleResource>
-  <LocaleResource Name="Admin.Configuration.Currencies.ApplyRate">
-    <Value>Apply rate</Value>
-  </LocaleResource>
-  <LocaleResource Name="Admin.Configuration.Currencies.ApplyRate.All">
-    <Value>Apply all</Value>
-  </LocaleResource>
-  <LocaleResource Name="Admin.Configuration.Currencies.BackToList">
-    <Value>back to currency list</Value>
-  </LocaleResource>
-  <LocaleResource Name="Admin.Configuration.Currencies.CantDeleteExchange">
-    <Value>The primary exchange rate currency can't be deleted.</Value>
-  </LocaleResource>
-  <LocaleResource Name="Admin.Configuration.Currencies.CantDeletePrimary">
-    <Value>The primary store currency can't be deleted.</Value>
-  </LocaleResource>
-  <LocaleResource Name="Admin.Configuration.Currencies.Deleted">
-    <Value>The currency has been deleted successfully.</Value>
-  </LocaleResource>
-  <LocaleResource Name="Admin.Configuration.Currencies.EditCurrencyDetails">
-    <Value>Edit currency details</Value>
-  </LocaleResource>
-  <LocaleResource Name="Admin.Configuration.Currencies.Fields.CreatedOn">
-    <Value>Created on</Value>
-  </LocaleResource>
-  <LocaleResource Name="Admin.Configuration.Currencies.Fields.CreatedOn.Hint">
-    <Value>The date/time the currency was created.</Value>
-  </LocaleResource>
-  <LocaleResource Name="Admin.Configuration.Currencies.Fields.CurrencyCode">
-    <Value>Currency code</Value>
-  </LocaleResource>
-  <LocaleResource Name="Admin.Configuration.Currencies.Fields.CurrencyCode.Hint">
-    <Value>The currency code. For a list of currency codes, go to: https://en.wikipedia.org/wiki/ISO_4217</Value>
-  </LocaleResource>
-  <LocaleResource Name="Admin.Configuration.Currencies.Fields.CurrencyCode.Range">
-    <Value>Currency code must be less than or equal to 5 characters.</Value>
-  </LocaleResource>
-  <LocaleResource Name="Admin.Configuration.Currencies.Fields.CurrencyCode.Required">
-    <Value>Please provide a currency code.</Value>
-  </LocaleResource>
-  <LocaleResource Name="Admin.Configuration.Currencies.Fields.CurrencyRateAutoUpdateEnabled">
-    <Value>Auto update enabled</Value>
-  </LocaleResource>
-  <LocaleResource Name="Admin.Configuration.Currencies.Fields.CurrencyRateAutoUpdateEnabled.Hint">
-    <Value>Determines whether exchange rates will be updated automatically.</Value>
-  </LocaleResource>
-  <LocaleResource Name="Admin.Configuration.Currencies.Fields.CustomFormatting">
-    <Value>Custom formatting</Value>
-  </LocaleResource>
-  <LocaleResource Name="Admin.Configuration.Currencies.Fields.CustomFormatting.Hint">
-    <Value>Custom formatting to be applied to the currency values.</Value>
-  </LocaleResource>
-  <LocaleResource Name="Admin.Configuration.Currencies.Fields.CustomFormatting.Validation">
-    <Value>Custom formatting must be less than or equal to 50 characters.</Value>
-  </LocaleResource>
-  <LocaleResource Name="Admin.Configuration.Currencies.Fields.DisplayLocale">
-    <Value>Display locale</Value>
-  </LocaleResource>
-  <LocaleResource Name="Admin.Configuration.Currencies.Fields.DisplayLocale.Hint">
-    <Value>The currency specific culture code.</Value>
-  </LocaleResource>
-  <LocaleResource Name="Admin.Configuration.Currencies.Fields.DisplayLocale.Select">
-    <Value>Select locale</Value>
-  </LocaleResource>
-  <LocaleResource Name="Admin.Configuration.Currencies.Fields.DisplayLocale.Validation">
-    <Value>Currency culture must be valid.</Value>
-  </LocaleResource>
-  <LocaleResource Name="Admin.Configuration.Currencies.Fields.DisplayOrder">
-    <Value>Display order</Value>
-  </LocaleResource>
-  <LocaleResource Name="Admin.Configuration.Currencies.Fields.DisplayOrder.Hint">
-    <Value>The display order of this currency. 1 represents the top of the list.</Value>
-  </LocaleResource>
-  <LocaleResource Name="Admin.Configuration.Currencies.Fields.ExchangeRateProvider">
-    <Value>Current exchange rate provider</Value>
-  </LocaleResource>
-  <LocaleResource Name="Admin.Configuration.Currencies.Fields.ExchangeRateProvider.Hint">
-    <Value>Select an exchange rate provider.</Value>
-  </LocaleResource>
-  <LocaleResource Name="Admin.Configuration.Currencies.Fields.IsPrimaryExchangeRateCurrency">
-    <Value>Is primary exchange rate currency</Value>
-  </LocaleResource>
-  <LocaleResource Name="Admin.Configuration.Currencies.Fields.IsPrimaryStoreCurrency">
-    <Value>Is primary store currency</Value>
-  </LocaleResource>
-  <LocaleResource Name="Admin.Configuration.Currencies.Fields.LimitedToStores">
-    <Value>Limited to stores</Value>
-  </LocaleResource>
-  <LocaleResource Name="Admin.Configuration.Currencies.Fields.LimitedToStores.Hint">
-    <Value>Option to limit this currency to a certain store. If you have multiple stores, choose one or several from the list. If you don't use this option just leave this field empty.</Value>
-  </LocaleResource>
-  <LocaleResource Name="Admin.Configuration.Currencies.Fields.MarkAsPrimaryExchangeRateCurrency">
-    <Value>Mark as primary exchange rate currency</Value>
-  </LocaleResource>
-  <LocaleResource Name="Admin.Configuration.Currencies.Fields.MarkAsPrimaryStoreCurrency">
-    <Value>Mark as primary store currency</Value>
-  </LocaleResource>
-  <LocaleResource Name="Admin.Configuration.Currencies.Fields.Name">
-    <Value>Name</Value>
-  </LocaleResource>
-  <LocaleResource Name="Admin.Configuration.Currencies.Fields.Name.Hint">
-    <Value>The name of the currency.</Value>
-  </LocaleResource>
-  <LocaleResource Name="Admin.Configuration.Currencies.Fields.Name.Range">
-    <Value>Name must be less than or equal to 50 characters.</Value>
-  </LocaleResource>
-  <LocaleResource Name="Admin.Configuration.Currencies.Fields.Name.Required">
-    <Value>Please provide a name.</Value>
-  </LocaleResource>
-  <LocaleResource Name="Admin.Configuration.Currencies.Fields.Published">
-    <Value>Published</Value>
-  </LocaleResource>
-  <LocaleResource Name="Admin.Configuration.Currencies.Fields.Published.Hint">
-    <Value>Determines whether the currency is published.</Value>
-  </LocaleResource>
-  <LocaleResource Name="Admin.Configuration.Currencies.Fields.Rate">
-    <Value>Rate</Value>
-  </LocaleResource>
-  <LocaleResource Name="Admin.Configuration.Currencies.Fields.Rate.Hint">
-    <Value>The exchange rate against the primary exchange rate currency.</Value>
-  </LocaleResource>
-  <LocaleResource Name="Admin.Configuration.Currencies.Fields.Rate.Range">
-    <Value>Exchange rate must be greater than 0.</Value>
-  </LocaleResource>
-  <LocaleResource Name="Admin.Configuration.Currencies.Fields.RoundingType">
-    <Value>Rounding type</Value>
-  </LocaleResource>
-  <LocaleResource Name="Admin.Configuration.Currencies.Fields.RoundingType.Hint">
-    <Value>The rounding type.</Value>
-  </LocaleResource>
-  <LocaleResource Name="Admin.Configuration.Currencies.GetLiveRates">
-    <Value>Get live rates</Value>
-  </LocaleResource>
-  <LocaleResource Name="Admin.Configuration.Currencies.LiveRates">
-    <Value>Live currency rates</Value>
-  </LocaleResource>
-  <LocaleResource Name="Admin.Configuration.Currencies.PublishedCurrencyRequired">
-    <Value>At least one published currency is required</Value>
-  </LocaleResource>
-  <LocaleResource Name="Admin.Configuration.Currencies.Updated">
-    <Value>The currency has been updated successfully.</Value>
-  </LocaleResource>
   <LocaleResource Name="Admin.Configuration.EmailAccounts">
     <Value>Email accounts</Value>
   </LocaleResource>
@@ -5537,12 +5372,6 @@
   </LocaleResource>
   <LocaleResource Name="Admin.Configuration.Languages.Export">
     <Value>Export resources</Value>
-  </LocaleResource>
-  <LocaleResource Name="Admin.Configuration.Languages.Fields.DefaultCurrency">
-    <Value>Default currency</Value>
-  </LocaleResource>
-  <LocaleResource Name="Admin.Configuration.Languages.Fields.DefaultCurrency.Hint">
-    <Value>This property allows a store owner to specify a default currency for a language. If not specified, then the default currency display order will be used.</Value>
   </LocaleResource>
   <LocaleResource Name="Admin.Configuration.Languages.Fields.DisplayOrder">
     <Value>Display order</Value>
@@ -10545,7 +10374,7 @@
     <Value>Product pictures</Value>
   </LocaleResource>
   <LocaleResource Name="Admin.ConfigurationSteps.Product.Price.Text">
-    <Value><![CDATA[Enter the product price in a predefined currency here. Read more on how to manage currencies <a href="{0}" target="_blank">here</a>.]]></Value>
+    <Value><![CDATA[Enter the product price here.]]></Value>
   </LocaleResource>
   <LocaleResource Name="Admin.ConfigurationSteps.Product.Price.Title">
     <Value>Product price</Value>
@@ -16979,15 +16808,6 @@
   <LocaleResource Name="Admin.System.Warnings.Errors">
     <Value><![CDATA[The store has some error(s) or warning(s). Please find more information on the <a href="{0}">Warnings</a> page]]></Value>
   </LocaleResource>
-  <LocaleResource Name="Admin.System.Warnings.ExchangeCurrency.NotSet">
-    <Value>Primary exchange rate currency is not set</Value>
-  </LocaleResource>
-  <LocaleResource Name="Admin.System.Warnings.ExchangeCurrency.Rate1">
-    <Value>Primary exchange rate currency. The rate should be set to 1.</Value>
-  </LocaleResource>
-  <LocaleResource Name="Admin.System.Warnings.ExchangeCurrency.Set">
-    <Value>Primary exchange rate currency is set</Value>
-  </LocaleResource>
   <LocaleResource Name="Admin.System.Warnings.FilePermission.OK">
     <Value>All file permissions are OK</Value>
   </LocaleResource>
@@ -17035,12 +16855,6 @@
   </LocaleResource>
   <LocaleResource Name="Admin.System.Warnings.PluginsOverrideSameService">
     <Value>The "{0}" interface/class has been overridden in those assemblies: {1}. This situation may cause errors because there is only one of them will be used (Please contact the assembly(ies) developers to solve this problem.)</Value>
-  </LocaleResource>
-  <LocaleResource Name="Admin.System.Warnings.PrimaryCurrency.NotSet">
-    <Value>Primary store currency is not set</Value>
-  </LocaleResource>
-  <LocaleResource Name="Admin.System.Warnings.PrimaryCurrency.Set">
-    <Value>Primary store currency is set</Value>
   </LocaleResource>
   <LocaleResource Name="Admin.System.Warnings.ProxyConnection.Failed">
     <Value>Proxy connection failed</Value>
@@ -17917,15 +17731,6 @@
   </LocaleResource>
   <LocaleResource Name="Content.CopyrightNotice">
     <Value>Copyright &amp;copy; {0} {1}. All rights reserved.</Value>
-  </LocaleResource>
-  <LocaleResource Name="Currencies">
-    <Value>Currencies</Value>
-  </LocaleResource>
-  <LocaleResource Name="Currency.Selector.Label">
-    <Value>Currency selector</Value>
-  </LocaleResource>
-  <LocaleResource Name="Currency.Selector.Text.Pattern">
-    <Value>{0}, {1}</Value>
   </LocaleResource>
   <LocaleResource Name="Customer.FullNameFormat">
     <Value>{0} {1}</Value>

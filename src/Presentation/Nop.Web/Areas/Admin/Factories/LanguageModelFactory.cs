@@ -151,10 +151,6 @@ public partial class LanguageModelFactory : ILanguageModelFactory
             Value = flagName
         });
 
-        //prepare available currencies
-        await _baseAdminModelFactory.PrepareCurrenciesAsync(model.AvailableCurrencies,
-            defaultItemText: await _localizationService.GetResourceAsync("Admin.Common.EmptyItemText"));
-
         //prepare available stores
         await _storeMappingSupportedModelFactory.PrepareModelStoresAsync(model, language, excludeProperties);
 

@@ -37,7 +37,6 @@ public partial class StandardPermission
         public const string MANAGE_SETTINGS = $"{nameof(Configuration)}.ManageSettings";
         public const string MANAGE_EXTERNAL_AUTHENTICATION_METHODS = $"{nameof(Configuration)}.ManageExternalAuthenticationMethods";
         public const string MANAGE_MULTIFACTOR_AUTHENTICATION_METHODS = $"{nameof(Configuration)}.ManageMultifactorAuthenticationMethods";
-        public const string MANAGE_CURRENCIES = $"{nameof(Configuration)}.ManageCurrencies";
         public const string MANAGE_ACL = $"{nameof(Configuration)}.ManageACL";
         public const string MANAGE_EMAIL_ACCOUNTS = $"{nameof(Configuration)}.ManageEmailAccounts";
         public const string MANAGE_STORES = $"{nameof(Configuration)}.ManageStores";

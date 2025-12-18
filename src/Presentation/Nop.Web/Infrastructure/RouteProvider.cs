@@ -135,11 +135,6 @@ public partial class RouteProvider : BaseRouteProvider, IRouteProvider
             defaults: new { controller = "Catalog", action = "SearchTermAutoComplete" });
         */
 
-        //change currency
-        endpointRouteBuilder.MapControllerRoute(name: NopRouteNames.Standard.CHANGE_CURRENCY,
-            pattern: $"{lang}/changecurrency/{{customercurrency:min(0)}}",
-            defaults: new { controller = "Common", action = "SetCurrency" });
-
         //change language
         endpointRouteBuilder.MapControllerRoute(name: NopRouteNames.Standard.CHANGE_LANGUAGE,
             pattern: $"{lang}/changelanguage/{{langid:min(0)}}",

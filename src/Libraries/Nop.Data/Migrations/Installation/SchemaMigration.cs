@@ -34,7 +34,6 @@ public class SchemaMigration : ForwardOnlyMigration
         Create.TableFor<GenericAttribute>();
         Create.TableFor<SearchTerm>();
         Create.TableFor<Country>();
-        Create.TableFor<Currency>();
         Create.TableFor<MeasureDimension>();
         Create.TableFor<MeasureWeight>();
         Create.TableFor<StateProvince>();

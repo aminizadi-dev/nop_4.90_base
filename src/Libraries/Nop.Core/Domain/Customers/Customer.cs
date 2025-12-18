@@ -118,11 +118,6 @@ public partial class Customer : BaseEntity, ISoftDeletedEntity
     public string CustomCustomerAttributesXML { get; set; }
 
     /// <summary>
-    /// Gets or sets the currency id
-    /// </summary>
-    public int? CurrencyId { get; set; }
-
-    /// <summary>
     /// Gets or sets the language id
     /// </summary>
     public int? LanguageId { get; set; }

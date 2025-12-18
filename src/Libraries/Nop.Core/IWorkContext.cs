@@ -1,5 +1,4 @@
 ﻿using Nop.Core.Domain.Customers;
-using Nop.Core.Domain.Directory;
 using Nop.Core.Domain.Localization;
 //COMMERCE DOMAIN REMOVED - Phase C
 //Removed: using Nop.Core.Domain.Tax; using Nop.Core.Domain.Vendors;
@@ -44,17 +43,4 @@ public partial interface IWorkContext
     /// <param name="language">Language</param>
     /// <returns>A task that represents the asynchronous operation</returns>
     Task SetWorkingLanguageAsync(Language language);
-
-    /// <summary>
-    /// Gets or sets current user working currency
-    /// </summary>
-    /// <returns>A task that represents the asynchronous operation</returns>
-    Task<Currency> GetWorkingCurrencyAsync();
-
-    /// <summary>
-    /// Sets current user working currency
-    /// </summary>
-    /// <param name="currency">Currency</param>
-    /// <returns>A task that represents the asynchronous operation</returns>
-    Task SetWorkingCurrencyAsync(Currency currency);
 }

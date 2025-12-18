@@ -207,11 +207,6 @@ public static partial class NopRouteNames
         public const string CUSTOMER_RECURRING_PAYMENTS = "CustomerRecurringPayments";
 
         /// <summary>
-        /// Gets the change currency route name
-        /// </summary>
-        public const string CHANGE_CURRENCY = "ChangeCurrency";
-
-        /// <summary>
         /// Gets the change language route name
         /// </summary>
         public const string CHANGE_LANGUAGE = "ChangeLanguage";

@@ -28,15 +28,6 @@ public partial interface ICommonModelFactory
     Task<LanguageSelectorModel> PrepareLanguageSelectorModelAsync();
 
     /// <summary>
-    /// Prepare the currency selector model
-    /// </summary>
-    /// <returns>
-    /// A task that represents the asynchronous operation
-    /// The task result contains the currency selector model
-    /// </returns>
-    Task<CurrencySelectorModel> PrepareCurrencySelectorModelAsync();
-
-    /// <summary>
     /// Prepare the header links model
     /// </summary>
     /// <returns>

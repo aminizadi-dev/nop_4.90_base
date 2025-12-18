@@ -246,15 +246,6 @@ public partial class AdminMenu : IAdminMenu
                         },
                         new()
                         {
-                            SystemName = "Currencies",
-                            Title = await _localizationService.GetResourceAsync("Admin.Configuration.Currencies"),
-                            PermissionNames = new List<string> { StandardPermission.Configuration.MANAGE_CURRENCIES },
-                            Url = GetMenuItemUrl("Currency",
-                            "List"),
-                            IconClass = "far fa-dot-circle"
-                        },
-                        new()
-                        {
                             SystemName = "Access control list",
                             Title = await _localizationService.GetResourceAsync("Admin.Configuration.ACL"),
                             PermissionNames = new List<string> { StandardPermission.Configuration.MANAGE_ACL },

@@ -56,16 +56,13 @@ public partial class CommonModelFactory : ICommonModelFactory
     protected readonly AppSettings _appSettings;
     //COMMERCE SETTINGS/SERVICES REMOVED - Phase B
     //Removed: protected readonly CatalogSettings _catalogSettings;
-    protected readonly CurrencySettings _currencySettings;
     protected readonly IActionContextAccessor _actionContextAccessor;
     protected readonly IBaseAdminModelFactory _baseAdminModelFactory;
     //Removed: protected readonly IBlogService _blogService;
     //Removed: protected readonly ICategoryService _categoryService;
-    protected readonly ICurrencyService _currencyService;
     protected readonly ICustomerService _customerService;
     protected readonly IDateTimeHelper _dateTimeHelper;
     protected readonly IEventPublisher _eventPublisher;
-    protected readonly IExchangeRatePluginManager _exchangeRatePluginManager;
     protected readonly IHttpContextAccessor _httpContextAccessor;
     protected readonly ILanguageService _languageService;
     protected readonly ILocalizationService _localizationService;
@@ -101,16 +98,13 @@ public partial class CommonModelFactory : ICommonModelFactory
     public CommonModelFactory(AppSettings appSettings,
         //COMMERCE SETTINGS/SERVICES REMOVED - Phase B
         //Removed: CatalogSettings catalogSettings,
-        CurrencySettings currencySettings,
         IActionContextAccessor actionContextAccessor,
         IBaseAdminModelFactory baseAdminModelFactory,
         //Removed: IBlogService blogService,
         //Removed: ICategoryService categoryService,
-        ICurrencyService currencyService,
         ICustomerService customerService,
         IDateTimeHelper dateTimeHelper,
         IEventPublisher eventPublisher,
-        IExchangeRatePluginManager exchangeRatePluginManager,
         IHttpContextAccessor httpContextAccessor,
         ILanguageService languageService,
         ILocalizationService localizationService,
@@ -142,12 +136,10 @@ public partial class CommonModelFactory : ICommonModelFactory
         _appSettings = appSettings;
         //COMMERCE SETTINGS/SERVICES REMOVED - Phase B
         //Removed: _catalogSettings = catalogSettings;
-        _currencySettings = currencySettings;
         _actionContextAccessor = actionContextAccessor;
         _baseAdminModelFactory = baseAdminModelFactory;
         //Removed: _blogService = blogService;
         //Removed: _categoryService = categoryService;
-        _currencyService = currencyService;
         _customerService = customerService;
         _eventPublisher = eventPublisher;
         _dataProvider = dataProvider;
@@ -243,72 +235,6 @@ public partial class CommonModelFactory : ICommonModelFactory
                 DontEncode = true
             });
         }
-    }
-
-    /// <summary>
-    /// Prepare primary exchange rate currency warning model
-    /// </summary>
-    /// <param name="models">List of system warning models</param>
-    /// <returns>A task that represents the asynchronous operation</returns>
-    protected virtual async Task PrepareExchangeRateCurrencyWarningModelAsync(IList<SystemWarningModel> models)
-    {
-        ArgumentNullException.ThrowIfNull(models);
-
-        //check whether primary exchange rate currency set
-        var primaryExchangeRateCurrency = await _currencyService.GetCurrencyByIdAsync(_currencySettings.PrimaryExchangeRateCurrencyId);
-        if (primaryExchangeRateCurrency == null)
-        {
-            models.Add(new SystemWarningModel
-            {
-                Level = SystemWarningLevel.Fail,
-                Text = await _localizationService.GetResourceAsync("Admin.System.Warnings.ExchangeCurrency.NotSet")
-            });
-            return;
-        }
-
-        models.Add(new SystemWarningModel
-        {
-            Level = SystemWarningLevel.Pass,
-            Text = await _localizationService.GetResourceAsync("Admin.System.Warnings.ExchangeCurrency.Set")
-        });
-
-        //check whether primary exchange rate currency rate configured
-        if (primaryExchangeRateCurrency.Rate != 1)
-        {
-            models.Add(new SystemWarningModel
-            {
-                Level = SystemWarningLevel.Fail,
-                Text = await _localizationService.GetResourceAsync("Admin.System.Warnings.ExchangeCurrency.Rate1")
-            });
-        }
-    }
-
-    /// <summary>
-    /// Prepare primary store currency warning model
-    /// </summary>
-    /// <param name="models">List of system warning models</param>
-    /// <returns>A task that represents the asynchronous operation</returns>
-    protected virtual async Task PreparePrimaryStoreCurrencyWarningModelAsync(IList<SystemWarningModel> models)
-    {
-        ArgumentNullException.ThrowIfNull(models);
-
-        //check whether primary store currency set
-        var primaryStoreCurrency = await _currencyService.GetCurrencyByIdAsync(_currencySettings.PrimaryStoreCurrencyId);
-        if (primaryStoreCurrency == null)
-        {
-            models.Add(new SystemWarningModel
-            {
-                Level = SystemWarningLevel.Fail,
-                Text = await _localizationService.GetResourceAsync("Admin.System.Warnings.PrimaryCurrency.NotSet")
-            });
-            return;
-        }
-
-        models.Add(new SystemWarningModel
-        {
-            Level = SystemWarningLevel.Pass,
-            Text = await _localizationService.GetResourceAsync("Admin.System.Warnings.PrimaryCurrency.Set")
-        });
     }
 
     /// <summary>
@@ -741,12 +667,6 @@ public partial class CommonModelFactory : ICommonModelFactory
 
         //recommendations
         await PrepareRecommendationsModelAsync(models);
-
-        //primary exchange rate currency
-        await PrepareExchangeRateCurrencyWarningModelAsync(models);
-
-        //primary store currency
-        await PreparePrimaryStoreCurrencyWarningModelAsync(models);
 
         //base measure weight
         await PrepareBaseWeightWarningModelAsync(models);

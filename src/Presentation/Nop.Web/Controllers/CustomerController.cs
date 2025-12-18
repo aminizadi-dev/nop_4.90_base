@@ -56,7 +56,6 @@ public partial class CustomerController : BasePublicController
     protected readonly IAddressService _addressService;
     protected readonly IAuthenticationService _authenticationService;
     protected readonly ICountryService _countryService;
-    protected readonly ICurrencyService _currencyService;
     protected readonly ICustomerActivityService _customerActivityService;
     protected readonly ICustomerModelFactory _customerModelFactory;
     protected readonly ICustomerRegistrationService _customerRegistrationService;
@@ -94,7 +93,6 @@ public partial class CustomerController : BasePublicController
         IAddressService addressService,
         IAuthenticationService authenticationService,
         ICountryService countryService,
-        ICurrencyService currencyService,
         ICustomerActivityService customerActivityService,
         ICustomerModelFactory customerModelFactory,
         ICustomerRegistrationService customerRegistrationService,
@@ -127,7 +125,6 @@ public partial class CustomerController : BasePublicController
         _addressService = addressService;
         _authenticationService = authenticationService;
         _countryService = countryService;
-        _currencyService = currencyService;
         _customerActivityService = customerActivityService;
         _customerModelFactory = customerModelFactory;
         _customerRegistrationService = customerRegistrationService;

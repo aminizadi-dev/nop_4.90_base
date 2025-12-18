@@ -325,7 +325,6 @@ public partial class AdminMapperConfiguration : Profile, IOrderedMapperProfile
             .ForMember(entity => entity.ShippingAddressId, options => options.Ignore())
             .ForMember(entity => entity.VatNumberStatusId, options => options.Ignore())
             .ForMember(entity => entity.CustomCustomerAttributesXML, options => options.Ignore())
-            .ForMember(entity => entity.CurrencyId, options => options.Ignore())
             .ForMember(entity => entity.LanguageId, options => options.Ignore())
             .ForMember(entity => entity.TaxDisplayTypeId, options => options.Ignore())
             .ForMember(entity => entity.RegisteredInStoreId, options => options.Ignore());
@@ -347,15 +346,6 @@ public partial class AdminMapperConfiguration : Profile, IOrderedMapperProfile
             .ForMember(model => model.NumberOfStates, options => options.Ignore())
             .ForMember(model => model.StateProvinceSearchModel, options => options.Ignore());
         CreateMap<CountryModel, Country>();
-
-        CreateMap<Currency, CurrencyModel>()
-            .ForMember(model => model.CreatedOn, options => options.Ignore())
-            .ForMember(model => model.IsPrimaryExchangeRateCurrency, options => options.Ignore())
-            .ForMember(model => model.IsPrimaryStoreCurrency, options => options.Ignore());
-        CreateMap<CurrencyModel, Currency>()
-            .ForMember(entity => entity.CreatedOnUtc, options => options.Ignore())
-            .ForMember(entity => entity.RoundingType, options => options.Ignore())
-            .ForMember(entity => entity.UpdatedOnUtc, options => options.Ignore());
 
         CreateMap<MeasureDimension, MeasureDimensionModel>()
             .ForMember(model => model.IsPrimaryDimension, options => options.Ignore());

@@ -120,7 +120,6 @@ public partial class NopStartup : INopStartup
         services.AddScoped<IAclService, AclService>();
         services.AddScoped<IGeoLookupService, GeoLookupService>();
         services.AddScoped<ICountryService, CountryService>();
-        services.AddScoped<ICurrencyService, CurrencyService>();
         services.AddScoped<IMeasureService, MeasureService>();
         services.AddScoped<IStateProvinceService, StateProvinceService>();
         services.AddScoped<IStoreService, StoreService>();

@@ -108,15 +108,6 @@ public partial interface IBaseAdminModelFactory
     //Removed: PrepareShoppingCartTypesAsync (commerce feature)
     //Removed: PrepareTaxDisplayTypesAsync (commerce feature)
 
-    /// <summary>
-    /// Prepare available currencies
-    /// </summary>
-    /// <param name="items">Currency items</param>
-    /// <param name="withSpecialDefaultItem">Whether to insert the first special item for the default value</param>
-    /// <param name="defaultItemText">Default item text; pass null to use default value of the default item text</param>
-    /// <returns>A task that represents the asynchronous operation</returns>
-    Task PrepareCurrenciesAsync(IList<SelectListItem> items, bool withSpecialDefaultItem = true, string defaultItemText = null);
-
     //COMMERCE METHODS REMOVED - Phase C
     //Removed: PrepareDiscountTypesAsync (commerce feature)
 

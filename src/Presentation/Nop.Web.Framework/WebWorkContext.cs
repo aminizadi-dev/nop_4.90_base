@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Localization;
 using Nop.Core;
 using Nop.Core.Domain.Customers;
-using Nop.Core.Domain.Directory;
 using Nop.Core.Domain.Localization;
 //COMMERCE DOMAIN REMOVED - Phase C
 //Removed: using Nop.Core.Domain.Tax; using Nop.Core.Domain.Vendors;
@@ -12,7 +11,6 @@ using Nop.Core.Security;
 using Nop.Services.Authentication;
 using Nop.Services.Common;
 using Nop.Services.Customers;
-using Nop.Services.Directory;
 using Nop.Services.Helpers;
 using Nop.Services.Localization;
 using Nop.Services.ScheduleTasks;
@@ -30,9 +28,7 @@ public partial class WebWorkContext : IWorkContext
     #region Fields
 
     protected readonly CookieSettings _cookieSettings;
-    protected readonly CurrencySettings _currencySettings;
     protected readonly IAuthenticationService _authenticationService;
-    protected readonly ICurrencyService _currencyService;
     protected readonly ICustomerService _customerService;
     protected readonly IEventPublisher _eventPublisher;
     protected readonly IGenericAttributeService _genericAttributeService;
@@ -52,16 +48,13 @@ public partial class WebWorkContext : IWorkContext
     //COMMERCE CACHED VALUES REMOVED - Phase C
     //Removed: protected Vendor _cachedVendor; protected TaxDisplayType? _cachedTaxDisplayType;
     protected Language _cachedLanguage;
-    protected Currency _cachedCurrency;
 
     #endregion
 
     #region Ctor
 
     public WebWorkContext(CookieSettings cookieSettings,
-        CurrencySettings currencySettings,
         IAuthenticationService authenticationService,
-        ICurrencyService currencyService,
         ICustomerService customerService,
         IEventPublisher eventPublisher,
         IGenericAttributeService genericAttributeService,
@@ -75,9 +68,7 @@ public partial class WebWorkContext : IWorkContext
         LocalizationSettings localizationSettings)
     {
         _cookieSettings = cookieSettings;
-        _currencySettings = currencySettings;
         _authenticationService = authenticationService;
-        _currencyService = currencyService;
         _customerService = customerService;
         _eventPublisher = eventPublisher;
         _genericAttributeService = genericAttributeService;
@@ -370,83 +361,6 @@ public partial class WebWorkContext : IWorkContext
         _cachedLanguage = detectedLanguage;
 
         return _cachedLanguage;
-    }
-
-    /// <summary>
-    /// Gets current user working currency
-    /// </summary>
-    /// <returns>A task that represents the asynchronous operation</returns>
-    public virtual async Task<Currency> GetWorkingCurrencyAsync()
-    {
-        //whether there is a cached value
-        if (_cachedCurrency != null)
-            return _cachedCurrency;
-
-        var adminAreaUrl = $"{_webHelper.GetStoreLocation()}admin";
-
-        //return primary store currency when we're in admin area/mode
-        if (_webHelper.GetThisPageUrl(false).StartsWith(adminAreaUrl, StringComparison.InvariantCultureIgnoreCase))
-        {
-            var primaryStoreCurrency = await _currencyService.GetCurrencyByIdAsync(_currencySettings.PrimaryStoreCurrencyId);
-            if (primaryStoreCurrency != null)
-            {
-                _cachedCurrency = primaryStoreCurrency;
-                return primaryStoreCurrency;
-            }
-        }
-
-        var customer = await GetCurrentCustomerAsync();
-        var store = await _storeContext.GetCurrentStoreAsync();
-
-        if (customer.IsSearchEngineAccount())
-        {
-            _cachedCurrency = await _currencyService.GetCurrencyByIdAsync(_currencySettings.PrimaryStoreCurrencyId)
-                              ?? (await _currencyService.GetAllCurrenciesAsync(storeId: store.Id)).FirstOrDefault();
-
-            return _cachedCurrency;
-        }
-
-        var allStoreCurrencies = await _currencyService.GetAllCurrenciesAsync(storeId: store.Id);
-
-        //check customer currency availability
-        var customerCurrency = allStoreCurrencies.FirstOrDefault(currency => currency.Id == customer.CurrencyId);
-        if (customerCurrency == null)
-        {
-            //it not found, then try to get the default currency for the current language (if specified)
-            var language = await GetWorkingLanguageAsync();
-            customerCurrency = allStoreCurrencies
-                .FirstOrDefault(currency => currency.Id == language.DefaultCurrencyId);
-        }
-
-        //if the default currency for the current store not found, then try to get the first one
-        customerCurrency ??= allStoreCurrencies.FirstOrDefault();
-
-        //if there are no currencies for the current store try to get the first one regardless of the store
-        customerCurrency ??= (await _currencyService.GetAllCurrenciesAsync()).FirstOrDefault();
-
-        //cache the found currency
-        _cachedCurrency = customerCurrency;
-
-        return _cachedCurrency;
-    }
-
-    /// <summary>
-    /// Sets current user working currency
-    /// </summary>
-    /// <param name="currency">Currency</param>
-    /// <returns>A task that represents the asynchronous operation</returns>
-    public virtual async Task SetWorkingCurrencyAsync(Currency currency)
-    {
-        //save passed currency identifier
-        var customer = await GetCurrentCustomerAsync();
-        if (customer.IsSearchEngineAccount())
-            return;
-
-        customer.CurrencyId = currency?.Id;
-        await _customerService.UpdateCustomerAsync(customer);
-
-        //then reset the cached value
-        _cachedCurrency = null;
     }
 
     //COMMERCE FEATURES REMOVED - Phase C

@@ -10,7 +10,6 @@ using Nop.Core.Domain.Security;
 //Removed: using Nop.Core.Domain.Vendors;
 using Nop.Core.Http;
 using Nop.Services.Common;
-using Nop.Services.Directory;
 using Nop.Services.Html;
 using Nop.Services.Localization;
 using Nop.Services.Logging;
@@ -33,7 +32,6 @@ public partial class CommonController : BasePublicController
     protected readonly CaptchaSettings _captchaSettings;
     protected readonly CommonSettings _commonSettings;
     protected readonly ICommonModelFactory _commonModelFactory;
-    protected readonly ICurrencyService _currencyService;
     protected readonly ICustomerActivityService _customerActivityService;
     protected readonly IGenericAttributeService _genericAttributeService;
     protected readonly IHtmlFormatter _htmlFormatter;
@@ -59,7 +57,6 @@ public partial class CommonController : BasePublicController
     public CommonController(CaptchaSettings captchaSettings,
         CommonSettings commonSettings,
         ICommonModelFactory commonModelFactory,
-        ICurrencyService currencyService,
         ICustomerActivityService customerActivityService,
         IGenericAttributeService genericAttributeService,
         IHtmlFormatter htmlFormatter,
@@ -82,7 +79,6 @@ public partial class CommonController : BasePublicController
         _captchaSettings = captchaSettings;
         _commonSettings = commonSettings;
         _commonModelFactory = commonModelFactory;
-        _currencyService = currencyService;
         _customerActivityService = customerActivityService;
         _genericAttributeService = genericAttributeService;
         _htmlFormatter = htmlFormatter;
@@ -137,25 +133,6 @@ public partial class CommonController : BasePublicController
         }
 
         await _workContext.SetWorkingLanguageAsync(language);
-
-        //prevent open redirection attack
-        if (!Url.IsLocalUrl(returnUrl))
-            returnUrl = Url.RouteUrl(NopRouteNames.General.HOMEPAGE);
-
-        return Redirect(returnUrl);
-    }
-
-    //available even when navigation is not allowed
-    [CheckAccessPublicStore(ignore: true)]
-    public virtual async Task<IActionResult> SetCurrency(int customerCurrency, string returnUrl = "")
-    {
-        var currency = await _currencyService.GetCurrencyByIdAsync(customerCurrency);
-        if (currency != null)
-            await _workContext.SetWorkingCurrencyAsync(currency);
-
-        //home page
-        if (string.IsNullOrEmpty(returnUrl))
-            returnUrl = Url.RouteUrl(NopRouteNames.General.HOMEPAGE);
 
         //prevent open redirection attack
         if (!Url.IsLocalUrl(returnUrl))

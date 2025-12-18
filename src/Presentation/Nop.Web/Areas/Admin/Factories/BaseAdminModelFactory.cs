@@ -23,7 +23,6 @@ public partial class BaseAdminModelFactory : IBaseAdminModelFactory
     #region Fields
 
     protected readonly ICountryService _countryService;
-    protected readonly ICurrencyService _currencyService;
     protected readonly ICustomerActivityService _customerActivityService;
     protected readonly ICustomerService _customerService;
     protected readonly IDateTimeHelper _dateTimeHelper;
@@ -42,7 +41,6 @@ public partial class BaseAdminModelFactory : IBaseAdminModelFactory
 
     public BaseAdminModelFactory(
         ICountryService countryService,
-        ICurrencyService currencyService,
         ICustomerActivityService customerActivityService,
         ICustomerService customerService,
         IDateTimeHelper dateTimeHelper,
@@ -57,7 +55,6 @@ public partial class BaseAdminModelFactory : IBaseAdminModelFactory
     {
 
         _countryService = countryService;
-        _currencyService = currencyService;
         _customerActivityService = customerActivityService;
         _customerService = customerService;
         _dateTimeHelper = dateTimeHelper;
@@ -337,21 +334,6 @@ public partial class BaseAdminModelFactory : IBaseAdminModelFactory
     /// <param name="withSpecialDefaultItem">Whether to insert the first special item for the default value</param>
     /// <param name="defaultItemText">Default item text; pass null to use default value of the default item text</param>
     /// <returns>A task that represents the asynchronous operation</returns>
-    public virtual async Task PrepareCurrenciesAsync(IList<SelectListItem> items, bool withSpecialDefaultItem = true, string defaultItemText = null)
-    {
-        ArgumentNullException.ThrowIfNull(items);
-
-        //prepare available currencies
-        var availableCurrencies = await _currencyService.GetAllCurrenciesAsync(true);
-        foreach (var currency in availableCurrencies)
-        {
-            items.Add(new SelectListItem { Value = currency.Id.ToString(), Text = currency.Name });
-        }
-
-        //insert special item for the default value
-        await PrepareDefaultItemAsync(items, withSpecialDefaultItem, defaultItemText);
-    }
-
     //COMMERCE METHODS REMOVED - Phase C
     //Removed: PrepareDiscountTypesAsync (commerce feature)
 

@@ -94,10 +94,6 @@ public class Indexes : ForwardOnlyMigration
             .OnColumn(nameof(Customer.CreatedOnUtc)).Descending()
             .WithOptions().NonClustered();
 
-        Create.Index("IX_Currency_DisplayOrder").OnTable(nameof(Currency))
-            .OnColumn(nameof(Currency.DisplayOrder)).Ascending()
-            .WithOptions().NonClustered();
-
         Create.Index("IX_Country_DisplayOrder").OnTable(nameof(Country))
             .OnColumn(nameof(Country.DisplayOrder)).Ascending()
             .WithOptions().NonClustered();

@@ -3,7 +3,6 @@
     @await Component.InvokeAsync(typeof(WidgetViewComponent), new { widgetZone = PublicWidgetZones.HeaderBefore })
     <div class="header-upper">
         <div class="header-selectors-wrapper">
-            @await Component.InvokeAsync(typeof(CurrencySelectorViewComponent))
             @await Component.InvokeAsync(typeof(LanguageSelectorViewComponent))
             @await Component.InvokeAsync(typeof(WidgetViewComponent), new { widgetZone = PublicWidgetZones.HeaderSelectors })
         </div>

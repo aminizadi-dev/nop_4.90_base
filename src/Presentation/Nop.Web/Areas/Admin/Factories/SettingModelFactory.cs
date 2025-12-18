@@ -38,11 +38,9 @@ public partial class SettingModelFactory : ISettingModelFactory
     #region Fields
 
     protected readonly AppSettings _appSettings;
-    protected readonly CurrencySettings _currencySettings;
     protected readonly IAddressModelFactory _addressModelFactory;
     protected readonly IAddressService _addressService;
     protected readonly IBaseAdminModelFactory _baseAdminModelFactory;
-    protected readonly ICurrencyService _currencyService;
     protected readonly INopDataProvider _dataProvider;
     protected readonly INopFileProvider _fileProvider;
     protected readonly IDateTimeHelper _dateTimeHelper;
@@ -62,11 +60,9 @@ public partial class SettingModelFactory : ISettingModelFactory
     #region Ctor
 
     public SettingModelFactory(AppSettings appSettings,
-        CurrencySettings currencySettings,
         IAddressModelFactory addressModelFactory,
         IAddressService addressService,
         IBaseAdminModelFactory baseAdminModelFactory,
-        ICurrencyService currencyService,
         INopDataProvider dataProvider,
         INopFileProvider fileProvider,
         IDateTimeHelper dateTimeHelper,
@@ -82,11 +78,9 @@ public partial class SettingModelFactory : ISettingModelFactory
         IWorkContext workContext)
     {
         _appSettings = appSettings;
-        _currencySettings = currencySettings;
         _addressModelFactory = addressModelFactory;
         _addressService = addressService;
         _baseAdminModelFactory = baseAdminModelFactory;
-        _currencyService = currencyService;
         _dataProvider = dataProvider;
         _fileProvider = fileProvider;
         _dateTimeHelper = dateTimeHelper;

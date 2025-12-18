@@ -46,11 +46,9 @@ public partial class CommonModelFactory : ICommonModelFactory
     //COMMERCE SETTINGS/SERVICES REMOVED - Phase B
     //Removed: protected readonly CatalogSettings _catalogSettings;
     protected readonly CommonSettings _commonSettings;
-    protected readonly CurrencySettings _currencySettings;
     protected readonly CustomerSettings _customerSettings;
     //COMMERCE SETTINGS REMOVED - Compile Fix
     //Removed: protected readonly ForumSettings _forumSettings;
-    protected readonly ICurrencyService _currencyService;
     protected readonly ICustomerService _customerService;
     //Removed: protected readonly IForumService _forumService;
     protected readonly IGenericAttributeService _genericAttributeService;
@@ -85,11 +83,9 @@ public partial class CommonModelFactory : ICommonModelFactory
         //COMMERCE SETTINGS/SERVICES REMOVED - Phase B
         //Removed: CatalogSettings catalogSettings,
         CommonSettings commonSettings,
-        CurrencySettings currencySettings,
         CustomerSettings customerSettings,
         //COMMERCE SETTINGS REMOVED - Compile Fix
         //Removed: ForumSettings forumSettings,
-        ICurrencyService currencyService,
         ICustomerService customerService,
         //Removed: IForumService forumService,
         IGenericAttributeService genericAttributeService,
@@ -120,11 +116,9 @@ public partial class CommonModelFactory : ICommonModelFactory
         //COMMERCE SETTINGS/SERVICES REMOVED - Phase B
         //Removed: _catalogSettings = catalogSettings;
         _commonSettings = commonSettings;
-        _currencySettings = currencySettings;
         _customerSettings = customerSettings;
         //COMMERCE SETTINGS REMOVED - Compile Fix
         //Removed: _forumSettings = forumSettings;
-        _currencyService = currencyService;
         _customerService = customerService;
         //Removed: _forumService = forumService;
         _genericAttributeService = genericAttributeService;
@@ -250,46 +244,6 @@ public partial class CommonModelFactory : ICommonModelFactory
             CurrentLanguageId = (await _workContext.GetWorkingLanguageAsync()).Id,
             AvailableLanguages = availableLanguages,
             UseImages = _localizationSettings.UseImagesForLanguageSelection
-        };
-
-        return model;
-    }
-
-    /// <summary>
-    /// Prepare the currency selector model
-    /// </summary>
-    /// <returns>
-    /// A task that represents the asynchronous operation
-    /// The task result contains the currency selector model
-    /// </returns>
-    public virtual async Task<CurrencySelectorModel> PrepareCurrencySelectorModelAsync()
-    {
-        var store = await _storeContext.GetCurrentStoreAsync();
-        var availableCurrencies = await (await _currencyService
-                .GetAllCurrenciesAsync(storeId: store.Id))
-            .SelectAwait(async x =>
-            {
-                //currency char
-                var currencySymbol = !string.IsNullOrEmpty(x.DisplayLocale)
-                    ? new RegionInfo(x.DisplayLocale).CurrencySymbol
-                    : x.CurrencyCode;
-
-                //model
-                var currencyModel = new CurrencyModel
-                {
-                    Id = x.Id,
-                    Name = await _localizationService.GetLocalizedAsync(x, y => y.Name),
-                    CurrencySymbol = currencySymbol
-                };
-
-                return currencyModel;
-            }).ToListAsync();
-
-        var model = new CurrencySelectorModel
-        {
-            CurrentCurrencyId = (await _workContext.GetWorkingCurrencyAsync()).Id,
-            AvailableCurrencies = availableCurrencies,
-            DisplayCurrencySymbol = _currencySettings.DisplayCurrencySymbolInCurrencySelector,
         };
 
         return model;
