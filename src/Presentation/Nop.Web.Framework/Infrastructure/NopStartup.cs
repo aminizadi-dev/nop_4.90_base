@@ -16,12 +16,14 @@ using Nop.Services.Configuration;
 using Nop.Services.Customers;
 using Nop.Services.Directory;
 using Nop.Services.Events;
+using Nop.Services.ExportImport;
 using Nop.Services.Helpers;
 using Nop.Services.Html;
 using Nop.Services.Localization;
 using Nop.Services.Logging;
 using Nop.Services.Media;
 using Nop.Services.Media.RoxyFileman;
+using Nop.Services.Menus;
 using Nop.Services.Messages;
 using Nop.Services.Plugins;
 using Nop.Services.ScheduleTasks;
@@ -136,6 +138,7 @@ public partial class NopStartup : INopStartup
         services.AddScoped<IMessageTemplateService, MessageTemplateService>();
         services.AddScoped<IQueuedEmailService, QueuedEmailService>();
         services.AddScoped<ITopicService, TopicService>();
+        services.AddScoped<IMenuService, MenuService>();
         services.AddScoped<INewsLetterSubscriptionService, NewsLetterSubscriptionService>();
         services.AddScoped<INewsLetterSubscriptionTypeService, NewsLetterSubscriptionTypeService>();
         services.AddScoped<INotificationService, NotificationService>();
@@ -162,6 +165,9 @@ public partial class NopStartup : INopStartup
         services.AddScoped<IVideoService, VideoService>();
         services.AddScoped<INopUrlHelper, NopUrlHelper>();
         services.AddScoped<IWidgetModelFactory, WidgetModelFactory>();
+        services.AddScoped<IImportManager, ImportManager>();
+        services.AddScoped<IExportManager, ExportManager>();
+
 
         //COMMERCE SERVICES REMOVED - Phase B
         //Removed: Catalog services, Order services, Discount services, Shipping services, Tax services, Payment services, Vendor services, Affiliate services, etc.

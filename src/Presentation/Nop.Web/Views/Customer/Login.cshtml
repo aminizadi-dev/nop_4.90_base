@@ -18,7 +18,6 @@
     <div class="page-title">
         <h1>@T("Account.Login.Welcome")</h1>
     </div>
-    @await Html.PartialAsync("_ExternalAuthentication.Errors")
     <div class="page-body">
         @await Component.InvokeAsync(typeof(WidgetViewComponent), new { widgetZone = PublicWidgetZones.LoginTop, additionalData = Model })
         <div class="customer-blocks">
