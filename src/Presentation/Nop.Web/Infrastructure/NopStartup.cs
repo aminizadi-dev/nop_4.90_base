@@ -39,7 +39,6 @@ public partial class NopStartup : INopStartup
         services.AddScoped<ILanguageModelFactory, LanguageModelFactory>();
         services.AddScoped<ILogModelFactory, LogModelFactory>();
         services.AddScoped<IMeasureModelFactory, MeasureModelFactory>();
-        //services.AddScoped<IPluginModelFactory, PluginModelFactory>(); // REMOVED - Plugin functionality removed
         services.AddScoped<IQueuedEmailModelFactory, QueuedEmailModelFactory>();
         services.AddScoped<IScheduleTaskModelFactory, ScheduleTaskModelFactory>();
         services.AddScoped<ISecurityModelFactory, SecurityModelFactory>();
@@ -55,6 +54,7 @@ public partial class NopStartup : INopStartup
         services.AddScoped<Factories.ICommonModelFactory, Factories.CommonModelFactory>();
         services.AddScoped<Factories.ICountryModelFactory, Factories.CountryModelFactory>();
         services.AddScoped<Factories.ICustomerModelFactory, Factories.CustomerModelFactory>();
+        services.AddScoped<Factories.IMenuModelFactory, Factories.MenuModelFactory>();
         //COMMERCE/ADDITIONAL FEATURES REMOVED - Phase C
         //Removed: services.AddScoped<Factories.IExternalAuthenticationModelFactory, Factories.ExternalAuthenticationModelFactory>();
         services.AddScoped<Factories.IJsonLdModelFactory, Factories.JsonLdModelFactory>();

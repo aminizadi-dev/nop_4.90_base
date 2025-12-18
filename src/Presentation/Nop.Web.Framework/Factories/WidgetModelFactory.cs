@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Routing;
 using Nop.Core;
 using Nop.Core.Caching;
+using Nop.Services.Cms;
 using Nop.Services.Customers;
 using Nop.Web.Framework.Models.Cms;
 using Nop.Web.Framework.Themes;
@@ -19,6 +20,7 @@ public partial class WidgetModelFactory : IWidgetModelFactory
     protected readonly IStaticCacheManager _staticCacheManager;
     protected readonly IStoreContext _storeContext;
     protected readonly IThemeContext _themeContext;
+    protected readonly IWidgetPluginManager _widgetPluginManager;
     protected readonly IWorkContext _workContext;
 
     #endregion
@@ -30,6 +32,7 @@ public partial class WidgetModelFactory : IWidgetModelFactory
         IStaticCacheManager staticCacheManager,
         IStoreContext storeContext,
         IThemeContext themeContext,
+        IWidgetPluginManager widgetPluginManager,
         IWorkContext workContext)
     {
         _customerService = customerService;
@@ -37,6 +40,7 @@ public partial class WidgetModelFactory : IWidgetModelFactory
         _staticCacheManager = staticCacheManager;
         _storeContext = storeContext;
         _themeContext = themeContext;
+        _widgetPluginManager = widgetPluginManager;
         _workContext = workContext;
     }
 
@@ -61,8 +65,31 @@ public partial class WidgetModelFactory : IWidgetModelFactory
         var customerRoleIds = await _customerService.GetCustomerRoleIdsAsync(customer);
         var store = await _storeContext.GetCurrentStoreAsync();
 
+        if (!useCache)
+            return (await _widgetPluginManager.LoadActivePluginsAsync(customer, store.Id, widgetZone))
+                .Select(widget => new RenderWidgetModel
+                {
+                    WidgetViewComponent = widget.GetWidgetViewComponent(widgetZone),
+                    WidgetViewComponentArguments = new RouteValueDictionary { ["widgetZone"] = widgetZone, ["additionalData"] = additionalData }
+                }).ToList();
 
-        return null;
+        var widgetModels = await _shortTermCacheManager.GetAsync(async () =>
+            (await _widgetPluginManager.LoadActivePluginsAsync(customer, store.Id, widgetZone))
+            .Select(widget => new RenderWidgetModel
+            {
+                WidgetViewComponent = widget.GetWidgetViewComponent(widgetZone),
+                WidgetViewComponentArguments = new RouteValueDictionary { ["widgetZone"] = widgetZone }
+            }), WidgetModelDefaults.WidgetModelKey, customerRoleIds, store, widgetZone, theme);
+
+        //"WidgetViewComponentArguments" property of widget models depends on "additionalData".
+        //We need to clone the cached model before modifications (the updated one should not be cached)
+        var models = widgetModels.Select(renderModel => new RenderWidgetModel
+        {
+            WidgetViewComponent = renderModel.WidgetViewComponent,
+            WidgetViewComponentArguments = new RouteValueDictionary { ["widgetZone"] = widgetZone, ["additionalData"] = additionalData }
+        }).ToList();
+
+        return models;
     }
 
     #endregion

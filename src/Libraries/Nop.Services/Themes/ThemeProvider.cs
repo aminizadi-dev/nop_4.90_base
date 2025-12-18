@@ -1,6 +1,7 @@
 ﻿using System.Text;
 using Newtonsoft.Json;
 using Nop.Core;
+using Nop.Services.Plugins;
 
 namespace Nop.Services.Themes;
 
@@ -30,6 +31,22 @@ public partial class ThemeProvider : IThemeProvider
         //load all theme descriptors
         _themeDescriptors = new Dictionary<string, ThemeDescriptor>(StringComparer.InvariantCultureIgnoreCase);
 
+        var themeDirectoryPath = fileProvider.MapPath(NopPluginDefaults.ThemesPath);
+        foreach (var descriptionFile in fileProvider.GetFiles(themeDirectoryPath, NopPluginDefaults.ThemeDescriptionFileName, false))
+        {
+            var text = await fileProvider.ReadAllTextAsync(descriptionFile, Encoding.UTF8);
+            if (string.IsNullOrEmpty(text))
+                continue;
+
+            //get theme descriptor
+            var themeDescriptor = GetThemeDescriptorFromText(text);
+
+            //some validation
+            if (string.IsNullOrEmpty(themeDescriptor?.SystemName))
+                throw new Exception($"A theme descriptor '{descriptionFile}' has no system name");
+
+            _themeDescriptors.TryAdd(themeDescriptor.SystemName, themeDescriptor);
+        }
     }
 
     /// <summary>

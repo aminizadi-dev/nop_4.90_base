@@ -10,6 +10,7 @@ using Nop.Core.Infrastructure;
 using Nop.Data;
 using Nop.Services.Authentication;
 using Nop.Services.Caching;
+using Nop.Services.Cms;
 using Nop.Services.Common;
 using Nop.Services.Configuration;
 using Nop.Services.Customers;
@@ -22,11 +23,14 @@ using Nop.Services.Logging;
 using Nop.Services.Media;
 using Nop.Services.Media.RoxyFileman;
 using Nop.Services.Messages;
+using Nop.Services.Plugins;
 using Nop.Services.ScheduleTasks;
 using Nop.Services.Security;
 using Nop.Services.Seo;
 using Nop.Services.Stores;
 using Nop.Services.Themes;
+using Nop.Services.Topics;
+using Nop.Web.Framework.Factories;
 using Nop.Web.Framework.Menu;
 using Nop.Web.Framework.Mvc.Routing;
 using Nop.Web.Framework.Themes;
@@ -56,7 +60,8 @@ public partial class NopStartup : INopStartup
         //user agent helper
         services.AddScoped<IUserAgentHelper, UserAgentHelper>();
 
-        //plugins - REMOVED
+        //plugins
+        services.AddScoped<IPluginService, PluginService>();
 
         //static cache manager
         var appSettings = Singleton<AppSettings>.Instance;
@@ -130,6 +135,7 @@ public partial class NopStartup : INopStartup
         services.AddScoped<IDownloadService, DownloadService>();
         services.AddScoped<IMessageTemplateService, MessageTemplateService>();
         services.AddScoped<IQueuedEmailService, QueuedEmailService>();
+        services.AddScoped<ITopicService, TopicService>();
         services.AddScoped<INewsLetterSubscriptionService, NewsLetterSubscriptionService>();
         services.AddScoped<INewsLetterSubscriptionTypeService, NewsLetterSubscriptionTypeService>();
         services.AddScoped<INotificationService, NotificationService>();
@@ -155,11 +161,14 @@ public partial class NopStartup : INopStartup
         services.AddScoped<IHtmlFormatter, HtmlFormatter>();
         services.AddScoped<IVideoService, VideoService>();
         services.AddScoped<INopUrlHelper, NopUrlHelper>();
+        services.AddScoped<IWidgetModelFactory, WidgetModelFactory>();
 
         //COMMERCE SERVICES REMOVED - Phase B
         //Removed: Catalog services, Order services, Discount services, Shipping services, Tax services, Payment services, Vendor services, Affiliate services, etc.
 
-        //plugin managers - REMOVED
+        //plugin managers
+        services.AddScoped(typeof(IPluginManager<>), typeof(PluginManager<>));
+        services.AddScoped<IWidgetPluginManager, WidgetPluginManager>();
 
         services.AddSingleton<IActionContextAccessor, ActionContextAccessor>();
 

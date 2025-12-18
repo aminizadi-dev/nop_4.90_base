@@ -105,8 +105,7 @@ public static class ServiceCollectionExtensions
         var mvcCoreBuilder = services.AddMvcCore();
         var pluginConfig = new PluginConfig();
         builder.Configuration.GetSection(nameof(PluginConfig)).Bind(pluginConfig, options => options.BindNonPublicProperties = true);
-        // Plugin functionality removed - InitializePlugins call removed
-        // mvcCoreBuilder.PartManager.InitializePlugins(pluginConfig);
+        mvcCoreBuilder.PartManager.InitializePlugins(pluginConfig);
 
         //bind plugins configurations
         services.BindApplicationSettings(builder);

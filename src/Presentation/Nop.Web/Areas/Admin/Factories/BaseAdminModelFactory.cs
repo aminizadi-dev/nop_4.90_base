@@ -8,6 +8,7 @@ using Nop.Services.Helpers;
 using Nop.Services.Localization;
 using Nop.Services.Logging;
 using Nop.Services.Messages;
+using Nop.Services.Plugins;
 using Nop.Services.Stores;
 using Nop.Web.Areas.Admin.Infrastructure.Cache;
 using Nop.Web.Framework.Models.Translation;
@@ -32,6 +33,7 @@ public partial class BaseAdminModelFactory : IBaseAdminModelFactory
     protected readonly INewsLetterSubscriptionTypeService _newsLetterSubscriptionTypeService;
     protected readonly IStateProvinceService _stateProvinceService;
     protected readonly IStaticCacheManager _staticCacheManager;
+    protected readonly IPluginService _pluginService;
     protected readonly IStoreService _storeService;
     protected readonly TranslationSettings _translationSettings;
 
@@ -50,6 +52,7 @@ public partial class BaseAdminModelFactory : IBaseAdminModelFactory
         INewsLetterSubscriptionTypeService newsLetterSubscriptionTypeService,
         IStateProvinceService stateProvinceService,
         IStaticCacheManager staticCacheManager,
+        IPluginService pluginService,
         IStoreService storeService,
         TranslationSettings translationSettings)
     {
@@ -64,6 +67,7 @@ public partial class BaseAdminModelFactory : IBaseAdminModelFactory
         _newsLetterSubscriptionTypeService = newsLetterSubscriptionTypeService;
         _stateProvinceService = stateProvinceService;
         _staticCacheManager = staticCacheManager;
+        _pluginService = pluginService;
         _storeService = storeService;
         _translationSettings = translationSettings;
     }
@@ -181,6 +185,49 @@ public partial class BaseAdminModelFactory : IBaseAdminModelFactory
         //insert special item for the default value
         if (!items.Any())
             await PrepareDefaultItemAsync(items, withSpecialDefaultItem, defaultItemText ?? await _localizationService.GetResourceAsync("Admin.Address.Other"));
+    }
+
+    /// <summary>
+    /// Prepare available load plugin modes
+    /// </summary>
+    /// <param name="items">Load plugin mode items</param>
+    /// <param name="withSpecialDefaultItem">Whether to insert the first special item for the default value</param>
+    /// <param name="defaultItemText">Default item text; pass null to use default value of the default item text</param>
+    /// <returns>A task that represents the asynchronous operation</returns>
+    public virtual async Task PrepareLoadPluginModesAsync(IList<SelectListItem> items, bool withSpecialDefaultItem = true, string defaultItemText = null)
+    {
+        ArgumentNullException.ThrowIfNull(items);
+
+        //prepare available load plugin modes
+        var availableLoadPluginModeItems = await LoadPluginsMode.All.ToSelectListAsync(false);
+        foreach (var loadPluginModeItem in availableLoadPluginModeItems)
+        {
+            items.Add(loadPluginModeItem);
+        }
+
+        //insert special item for the default value
+        await PrepareDefaultItemAsync(items, withSpecialDefaultItem, defaultItemText);
+    }
+
+    /// <summary>
+    /// Prepare available plugin groups
+    /// </summary>
+    /// <param name="items">Plugin group items</param>
+    /// <param name="withSpecialDefaultItem">Whether to insert the first special item for the default value</param>
+    /// <param name="defaultItemText">Default item text; pass null to use default value of the default item text</param>
+    /// <returns>A task that represents the asynchronous operation</returns>
+    public virtual async Task PreparePluginGroupsAsync(IList<SelectListItem> items, bool withSpecialDefaultItem = true, string defaultItemText = null)
+    {
+        ArgumentNullException.ThrowIfNull(items);
+
+        //prepare available plugin groups
+        var availablePluginGroups = (await _pluginService.GetPluginDescriptorsAsync<IPlugin>(LoadPluginsMode.All))
+            .Select(plugin => plugin.Group).Distinct().OrderBy(groupName => groupName).ToList();
+        foreach (var group in availablePluginGroups)
+            items.Add(new SelectListItem { Value = @group, Text = @group });
+
+        //insert special item for the default value
+        await PrepareDefaultItemAsync(items, withSpecialDefaultItem, defaultItemText);
     }
 
     /// <summary>
@@ -361,22 +408,6 @@ public partial class BaseAdminModelFactory : IBaseAdminModelFactory
 
     //COMMERCE METHODS REMOVED - Phase C
     //Removed: PrepareManufacturerTemplatesAsync (commerce feature)
-
-    /// <summary>
-    /// Prepare available plugin groups
-    /// </summary>
-    /// <param name="items">Plugin group items</param>
-    /// <param name="withSpecialDefaultItem">Whether to insert the first special item for the default value</param>
-    /// <param name="defaultItemText">Default item text; pass null to use default value of the default item text</param>
-    /// <returns>A task that represents the asynchronous operation</returns>
-    public virtual async Task PreparePluginGroupsAsync(IList<SelectListItem> items, bool withSpecialDefaultItem = true, string defaultItemText = null)
-    {
-        ArgumentNullException.ThrowIfNull(items);
-
-        // Plugin functionality removed - no plugin groups available
-        //insert special item for the default value
-        await PrepareDefaultItemAsync(items, withSpecialDefaultItem, defaultItemText);
-    }
 
     //COMMERCE METHODS REMOVED - Phase C
     //Removed: PrepareReturnRequestStatusesAsync (commerce feature)

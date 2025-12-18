@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc.Rendering;
 using Nop.Core;
 using Nop.Core.Configuration;
+using Nop.Core.Domain;
 using Nop.Core.Domain.Common;
 using Nop.Core.Domain.Customers;
 using Nop.Core.Domain.Directory;
@@ -99,6 +100,83 @@ public partial class SettingModelFactory : ISettingModelFactory
     #endregion
 
     #region Utilities
+
+    /// <summary>
+    /// Prepare store theme models
+    /// </summary>
+    /// <param name="models">List of store theme models</param>
+    /// <returns>A task that represents the asynchronous operation</returns>
+    protected virtual async Task PrepareStoreThemeModelsAsync(IList<StoreInformationSettingsModel.ThemeModel> models)
+    {
+        ArgumentNullException.ThrowIfNull(models);
+
+        //load settings for a chosen store scope
+        var storeId = await _storeContext.GetActiveStoreScopeConfigurationAsync();
+        var storeInformationSettings = await _settingService.LoadSettingAsync<StoreInformationSettings>(storeId);
+
+        //get available themes
+        var availableThemes = await _themeProvider.GetThemesAsync();
+        foreach (var theme in availableThemes)
+        {
+            models.Add(new StoreInformationSettingsModel.ThemeModel
+            {
+                FriendlyName = theme.FriendlyName,
+                SystemName = theme.SystemName,
+                PreviewImageUrl = theme.PreviewImageUrl,
+                PreviewText = theme.PreviewText,
+                SupportRtl = theme.SupportRtl,
+                Selected = theme.SystemName.Equals(storeInformationSettings.DefaultStoreTheme, StringComparison.InvariantCultureIgnoreCase)
+            });
+        }
+    }
+
+    protected virtual async Task<StoreInformationSettingsModel> PrepareStoreInformationSettingsModelAsync()
+    {
+        //load settings for a chosen store scope
+        var storeId = await _storeContext.GetActiveStoreScopeConfigurationAsync();
+        var storeInformationSettings = await _settingService.LoadSettingAsync<StoreInformationSettings>(storeId);
+        var commonSettings = await _settingService.LoadSettingAsync<CommonSettings>(storeId);
+
+        //fill in model values from the entity
+        var model = new StoreInformationSettingsModel
+        {
+            StoreClosed = storeInformationSettings.StoreClosed,
+            DefaultStoreTheme = storeInformationSettings.DefaultStoreTheme,
+            AllowCustomerToSelectTheme = storeInformationSettings.AllowCustomerToSelectTheme,
+            LogoPictureId = storeInformationSettings.LogoPictureId,
+            DisplayEuCookieLawWarning = storeInformationSettings.DisplayEuCookieLawWarning,
+            FacebookLink = storeInformationSettings.FacebookLink,
+            TwitterLink = storeInformationSettings.TwitterLink,
+            YoutubeLink = storeInformationSettings.YoutubeLink,
+            InstagramLink = storeInformationSettings.InstagramLink,
+            SubjectFieldOnContactUsForm = commonSettings.SubjectFieldOnContactUsForm,
+            UseSystemEmailForContactUsForm = commonSettings.UseSystemEmailForContactUsForm,
+            PopupForTermsOfServiceLinks = commonSettings.PopupForTermsOfServiceLinks
+        };
+
+        //prepare available themes
+        await PrepareStoreThemeModelsAsync(model.AvailableStoreThemes);
+
+        if (storeId <= 0)
+            return model;
+
+        //fill in overridden values
+        model.StoreClosed_OverrideForStore = await _settingService.SettingExistsAsync(storeInformationSettings, x => x.StoreClosed, storeId);
+        model.DefaultStoreTheme_OverrideForStore = await _settingService.SettingExistsAsync(storeInformationSettings, x => x.DefaultStoreTheme, storeId);
+        model.AllowCustomerToSelectTheme_OverrideForStore = await _settingService.SettingExistsAsync(storeInformationSettings, x => x.AllowCustomerToSelectTheme, storeId);
+        model.LogoPictureId_OverrideForStore = await _settingService.SettingExistsAsync(storeInformationSettings, x => x.LogoPictureId, storeId);
+        model.DisplayEuCookieLawWarning_OverrideForStore = await _settingService.SettingExistsAsync(storeInformationSettings, x => x.DisplayEuCookieLawWarning, storeId);
+        model.FacebookLink_OverrideForStore = await _settingService.SettingExistsAsync(storeInformationSettings, x => x.FacebookLink, storeId);
+        model.TwitterLink_OverrideForStore = await _settingService.SettingExistsAsync(storeInformationSettings, x => x.TwitterLink, storeId);
+        model.YoutubeLink_OverrideForStore = await _settingService.SettingExistsAsync(storeInformationSettings, x => x.YoutubeLink, storeId);
+        model.InstagramLink_OverrideForStore = await _settingService.SettingExistsAsync(storeInformationSettings, x => x.InstagramLink, storeId);
+        model.SubjectFieldOnContactUsForm_OverrideForStore = await _settingService.SettingExistsAsync(commonSettings, x => x.SubjectFieldOnContactUsForm, storeId);
+        model.UseSystemEmailForContactUsForm_OverrideForStore = await _settingService.SettingExistsAsync(commonSettings, x => x.UseSystemEmailForContactUsForm, storeId);
+        model.PopupForTermsOfServiceLinks_OverrideForStore = await _settingService.SettingExistsAsync(commonSettings, x => x.PopupForTermsOfServiceLinks, storeId);
+
+        return model;
+    }
+
 
     /// <summary>
     /// Prepare sort option search model
@@ -766,6 +844,8 @@ public partial class SettingModelFactory : ISettingModelFactory
             ActiveStoreScopeConfiguration = await _storeContext.GetActiveStoreScopeConfigurationAsync()
         };
 
+        //prepare store information settings model
+        model.StoreInformationSettings = await PrepareStoreInformationSettingsModelAsync();
 
         //prepare Sitemap settings model
         model.SitemapSettings = await PrepareSitemapSettingsModelAsync();

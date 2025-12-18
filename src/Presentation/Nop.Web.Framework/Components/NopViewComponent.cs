@@ -34,7 +34,7 @@ public abstract partial class NopViewComponent : ViewComponent
     public new ViewViewComponentResult View<TModel>(TModel model)
     {
         var eventPublisher = EngineContext.Current.Resolve<IEventPublisher>();
-        eventPublisher.ModelPrepared(model);
+        //eventPublisher.ModelPrepared(model);
 
         //invoke the base method
         return base.View(model);
